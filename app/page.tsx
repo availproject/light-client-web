@@ -118,6 +118,7 @@ export default function Home() {
         proofs.push(kate_Proof.slice(i * KATE_PROOF_SIZE, (i + 1) * KATE_PROOF_SIZE))
       }
 
+      //Indivisual cell verification
       let verifiedCount = 0
       let verifiedCells: any = []
       cells.forEach(async (cell, i) => {
