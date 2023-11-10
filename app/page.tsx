@@ -12,7 +12,8 @@ import Navbar from "@/components/header";
 const COMMITMENT_SIZE = 48;
 const KATE_PROOF_SIZE = 80;
 const EXTENSION_FACTOR = 2;
-const SAMPLE_SIZE = 10
+const SAMPLE_SIZE = 10;
+const BLOCK_LIST_SIZE = 5;
 
 
 export default function Home() {
@@ -145,6 +146,7 @@ export default function Home() {
         }
       })
     });
+
     setStop(() => unsubscribe)
   }
 
@@ -170,28 +172,37 @@ export default function Home() {
     })
 
     //@ts-ignore
-    setBlockList(blockList => [...blockList, newBlock])
+    setBlockList((list) => {
+      let newBlockList: any = []
+      for (let i = list.length - 1; i >= 0 && i > list.length - BLOCK_LIST_SIZE; i--) {
+        newBlockList.push(list[i])
+      }
+      newBlockList.reverse()
+      newBlockList.push(newBlock)
+      return newBlockList
+    })
+    //setBlockList(blockList => [...blockList, newBlock])
   }
 
 
 
   return (
     <>
-    <Navbar showButton button={<Button onClick={() => { running ? (stop(), setRunning(false)) : run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button> }/>
-    <main className="">
-      <div className="flex md:flex-row flex-col-reverse lg:h-screen w-screen">
-        <div className="lg:w-[60%] overflow-y-auto flex flex-col">
-          <div className="lg:h-[40%]">
-            <AvailChain blockList={blockList} />
+      <Navbar showButton button={<Button onClick={() => { running ? stop() : run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>} />
+      <main className="">
+        <div className="flex md:flex-row flex-col-reverse lg:h-screen w-screen">
+          <div className="lg:w-[60%] overflow-y-auto flex flex-col">
+            <div className="lg:h-[40%]">
+              <AvailChain blockList={blockList} />
+            </div>
+            <DsMatrix matrix={matrix} />
           </div>
-          <DsMatrix matrix={matrix} />
+          <div className="lg:w-[40%] flex items-start lg:mt-20">
+            <BlockData latestBlock={latestBlock} run={run} running={running} stop={stop} setRunning={setRunning} />
+          </div>
         </div>
-        <div className="lg:w-[40%] flex items-start lg:mt-20">
-          <BlockData latestBlock={latestBlock} run={run} running={running} stop={stop} setRunning={setRunning}  />
-        </div>
-      </div>
 
-    </main>
+      </main>
     </>
   );
 }
