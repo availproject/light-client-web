@@ -8,6 +8,10 @@ import { useEffect } from "react";
 export default function DsMatrix() {
   useEffect(() => {
     const cal: CalHeatmap = new CalHeatmap();
+    const dsMatrixDiv = document.getElementById('ds-matrix');
+      if (dsMatrixDiv) {
+        dsMatrixDiv.innerHTML = ''; // Clear the div
+      }
     cal.paint(
         {
          theme: 'dark',
@@ -35,7 +39,9 @@ export default function DsMatrix() {
           subDomain: { type: 'ghDay', radius: 2, width: 11, height: 11, gutter: 4 },
           itemSelector: '#ds-matrix',
         })
-  });
+  },[]);
+
+
 
   return (
     <div className="flex flex-col overflow-scroll p-10 space-y-4 ">
@@ -43,7 +49,6 @@ export default function DsMatrix() {
       <div className="rounded-xl p-4 overflow-hidden text-[#292E3A]">
       <div id="ds-matrix" className=""></div> 
       </div>
-        
     </div>
   );
 }

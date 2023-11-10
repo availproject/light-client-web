@@ -3,7 +3,7 @@ export default function Block(){
 
     return<>
     <div>
-    <img src="/images/block.png" className="w-100 h-100" alt=""></img>
+    <img src="/images/block.png" className="w-80 h-80" alt=""></img>
     </div>
     </>
 }
