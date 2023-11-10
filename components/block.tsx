@@ -22,6 +22,7 @@ export default function Block(props: any) {
     return (
         <div className="">
             <div className="flex flex-row">
+        
                 <Image
                     src="/images/block.png"
                     alt="block"
