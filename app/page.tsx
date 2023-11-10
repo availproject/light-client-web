@@ -20,7 +20,7 @@ export default function Home() {
 
 
   const [running, setRunning] = useState(false)
-  const [stop, setStop] = useState()
+  const [stop, setStop] = useState<any>(null)
 
   const [latestBlock, setLatestBlock] = useState({
     number: "",
@@ -36,8 +36,6 @@ export default function Home() {
       cells: []
     }
   )
-
-
   useEffect(() => {
     init()
   }, [])
@@ -180,7 +178,7 @@ export default function Home() {
 
   return (
     <>
-    <Navbar showButton button={<Button onClick={run} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold'>Start Running the LC</Button> }/>
+    <Navbar showButton button={<Button onClick={() => { running ? (stop(), setRunning(false)) : run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button> }/>
     <main className="">
       <div className="flex md:flex-row flex-col-reverse lg:h-screen w-screen">
         <div className="lg:w-[60%] overflow-y-auto flex flex-col">
@@ -190,7 +188,7 @@ export default function Home() {
           <DsMatrix matrix={matrix} />
         </div>
         <div className="lg:w-[40%] flex items-start lg:mt-20">
-          <BlockData latestBlock={latestBlock} run={run} />
+          <BlockData latestBlock={latestBlock} run={run} running={running} stop={stop} setRunning={setRunning}  />
         </div>
       </div>
 
