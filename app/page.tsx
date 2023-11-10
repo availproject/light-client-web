@@ -8,6 +8,7 @@ import { createApi } from '../utils/api'
 import init, { check } from "@/avail-light/pkg/wasm_avail_light"
 import { Header } from '@polkadot/types/interfaces/runtime'
 import { Button } from "@/components/ui/button";
+import Navbar from "@/components/header";
 
 const COMMITMENT_SIZE = 48;
 const KATE_PROOF_SIZE = 80;
@@ -172,20 +173,24 @@ export default function Home() {
 
 
   return (
+    <>
+    <Navbar showButton button={<Button onClick={run} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold'>Start Running the LC</Button> }/>
     <main className="">
-      <div className="flex md:flex-row flex-col-reverse  lg:h-screen w-screen">
-        <div className="lg:w-[60%] flex flex-col ">
-          <Button onClick={run} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold' >Start Running the LC</Button>
+      <div className="flex md:flex-row flex-col-reverse lg:h-screen w-screen">
+        <div className="lg:w-[60%] flex flex-col">
           <div className="lg:h-[40%]">
             <AvailChain blockList={blockList} />
           </div>
           <DsMatrix matrix={matrix} />
         </div>
         <div className="lg:w-[40%] flex items-start lg:mt-20">
-          <BlockData latestBlock={latestBlock} />
+          <BlockData latestBlock={latestBlock} run={run} />
         </div>
       </div>
 
     </main>
+    </>
   );
 }
+
+

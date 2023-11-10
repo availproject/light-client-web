@@ -1,7 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import Image from "next/image"
-import { Progress } from "@nextui-org/react";
+
 import { useState, useEffect } from "react";
+import { Progress } from "./ui/progress";
 export default function Block(props: any) {
 
     const block = props.block
@@ -19,26 +20,18 @@ export default function Block(props: any) {
 
     }, []);
     return (
-        <div className="block">
-            <div className="blockLinkImg">
-                {/* <Image
-                    src="/link.png"
-                    alt="link"
-                    width={40}
-                    height={20}
-                    className="linkImg"
-                /> */}
-
+        <div className="">
+            <div className="flex flex-row">
                 <Image
                     src="/images/block.png"
                     alt="block"
-                    width={70}
-                    height={70}
+                    width={150}
+                    height={150}
                     className="blockImg"
                 />
-                <Progress size="sm" aria-label="finalizing..." value={value} />
+                <Progress className="bg-black" aria-label="finalizing..." value={value} />
+                
             </div>
-            <h3 className="blockNumber">#{block.blockNumber}</h3>
         </div>
     )
 }

@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ReactNode } from "react";
 
-export default function Header({
+export default function Navbar({
   button,
   showButton = true,
 }: {
