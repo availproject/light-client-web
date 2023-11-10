@@ -1,8 +1,8 @@
 'use client'
+
 import AvailChain from "@/components/availchain";
 import BlockData from "@/components/blockdata";
 import DsMatrix from "@/components/dsmatrix";
-
 import { useState, useEffect } from "react";
 import { createApi } from '../utils/api'
 import init, { check } from "@/avail-light/pkg/wasm_avail_light"
@@ -13,7 +13,7 @@ const COMMITMENT_SIZE = 48;
 const KATE_PROOF_SIZE = 80;
 const EXTENSION_FACTOR = 2;
 const SAMPLE_SIZE = 10;
-const BLOCK_LIST_SIZE = 5;
+const BLOCK_LIST_SIZE = 4;
 
 
 export default function Home() {

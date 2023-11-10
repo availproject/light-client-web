@@ -24,9 +24,11 @@ export default function Block(props: any) {
                 <img
                     src="/images/block.png"
                     alt="block"
-                    className="!w-[200px] aspect-auto overflow-scroll overflow-y-auto"
+                    className="max-h-[400px] aspect-auto overflow-scroll overflow-y-auto"
                 />
-                <Progress className="!h-2 bg-[#20232B]" aria-label="finalizing..." value={value} />
+                <div className="">
+                <Progress className="bg-[#20232B]" aria-label="finalizing..." value={value} />
+                </div>
             </div>
         </div>
     )
