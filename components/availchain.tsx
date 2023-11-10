@@ -13,7 +13,6 @@ export default function AvailChain(props: any) {
         <Block key={index} progress={blockList.length > index + 1 ? 100 : 0} block={block} />
         </div>
       ))}
-
     </div>
   </>
 }

@@ -20,7 +20,7 @@ export default function Block(props: any) {
     }, []);
     return (
         <div className="">
-            <div className="flex flex-row w-full items-center justify-center">
+            <div className="flex flex-row items-center justify-center">
                 <img
                     src="/images/block.png"
                     alt="block"

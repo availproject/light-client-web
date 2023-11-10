@@ -124,9 +124,11 @@ export default function Home() {
         proofs.push(kate_Proof.slice(i * KATE_PROOF_SIZE, (i + 1) * KATE_PROOF_SIZE))
       }
 
+      //Indivisual cell verification
       let verifiedCount = 0
+      let verifiedCells: any = []
       cells.forEach(async (cell, i) => {
-        let verifiedCells = []
+
         //console.log(proofs[i], commitments[cell.row], c, cell.row, cell.col)
         const res = check(proofs[i], commitments[cell.row], c, cell.row, cell.col)
         //console.log(res)
@@ -135,7 +137,6 @@ export default function Home() {
           verifiedCells.push(cell)
           const confidence = 100 * (1 - (1 / (Math.pow(2, verifiedCount))))
           await sleep(i * 1000)
-          //console.log("run: ", confidence)
           //@ts-ignore
           setLatestBlock({ hash: blockHash, number: blockNumber, totalCellCount: (r * EXTENSION_FACTOR) * c, confidence: confidence })
           setMatrix({
