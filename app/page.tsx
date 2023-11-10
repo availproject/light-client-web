@@ -6,7 +6,6 @@ import DsMatrix from "@/components/dsmatrix";
 import { useState, useEffect } from "react";
 import { createApi } from '../utils/api'
 import init, { check } from "@/avail-light/pkg/wasm_avail_light"
-import { Header } from '@polkadot/types/interfaces/runtime'
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/header";
 
