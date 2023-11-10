@@ -131,12 +131,13 @@ export default function Home() {
         const res = check(proofs[i], commitments[cell.row], c, cell.row, cell.col)
         //console.log(res)
         if (res) {
-          verifiedCount++
-          verifiedCells.push(cell)
-          const confidence = 100 * (1 - (1 / (Math.pow(2, verifiedCount))))
           await sleep(i * 1000)
+          verifiedCount++
+          const confidence = 100 * (1 - (1 / (Math.pow(2, verifiedCount))))
+          verifiedCells.push(cell)
           //@ts-ignore
           setLatestBlock({ hash: blockHash, number: blockNumber, totalCellCount: (r * EXTENSION_FACTOR) * c, confidence: confidence })
+          //console.log(verifiedCells)
           setMatrix({
             row: r * EXTENSION_FACTOR,
             col: c,
@@ -188,7 +189,7 @@ export default function Home() {
 
   return (
     <>
-      <Navbar showButton button={<Button onClick={() => { running ? stop() : run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>} />
+      <Navbar showButton button={<Button onClick={() => { running ? (stop(), setRunning(false)) : run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>} />
       <main className="">
         <div className="flex md:flex-row flex-col-reverse lg:h-screen w-screen">
           <div className="lg:w-[60%] overflow-y-auto flex flex-col">
