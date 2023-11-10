@@ -13,7 +13,7 @@ import Navbar from "@/components/header";
 const COMMITMENT_SIZE = 48;
 const KATE_PROOF_SIZE = 80;
 const EXTENSION_FACTOR = 2;
-const SAMPLE_SIZE = 5
+const SAMPLE_SIZE = 10
 
 
 export default function Home() {
@@ -99,10 +99,15 @@ export default function Home() {
       console.log(`New Block with hash: ${blockHash}, Number: ${blockNumber} `)
 
       //Detaiils updated on UI
-      addBlock(blockNumber, blockHash, r, c, (r * EXTENSION_FACTOR) * c)
+      const totalCellCount = (r * EXTENSION_FACTOR) * c
+      addBlock(blockNumber, blockHash, r, c, totalCellCount)
 
-      //Generating 5 random cell for sampling
-      const cells = generateRandomCells(r, c, SAMPLE_SIZE)
+      //Generating SAMPLE_SIZE random cell for sampling
+      let sampleCount = SAMPLE_SIZE
+      if (sampleCount >= totalCellCount) {
+        sampleCount = 5
+      }
+      const cells = generateRandomCells(r, c, sampleCount)
 
       //Query data proof for sample 0,0
       const kateProof = await api.rpc.kate.queryProof(cells, blockHash);
