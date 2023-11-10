@@ -20,7 +20,6 @@ export default function RootLayout({
     <html lang="en">
       
       <body className={inter.className}>
-      <Header showButton button={<Button variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold' >Start Running the LC</Button> }/>
         {children}
         </body>
     </html>
