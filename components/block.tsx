@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import Image from "next/image"
 
 import { useState, useEffect } from "react";
 import { Progress } from "./ui/progress";
@@ -21,16 +20,13 @@ export default function Block(props: any) {
     }, []);
     return (
         <div className="">
-            <div className="flex flex-row">
-                <Image
+            <div className="flex flex-row w-full items-center justify-center">
+                <img
                     src="/images/block.png"
                     alt="block"
-                    width={150}
-                    height={150}
-                    className="blockImg"
+                    className="!w-[200px] aspect-auto overflow-scroll overflow-y-auto"
                 />
-                <Progress className="bg-black" aria-label="finalizing..." value={value} />
-                
+                <Progress className="!h-2 bg-[#20232B]" aria-label="finalizing..." value={value} />
             </div>
         </div>
     )

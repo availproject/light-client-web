@@ -182,7 +182,7 @@ export default function Home() {
     <Navbar showButton button={<Button onClick={run} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold'>Start Running the LC</Button> }/>
     <main className="">
       <div className="flex md:flex-row flex-col-reverse lg:h-screen w-screen">
-        <div className="lg:w-[60%] flex flex-col">
+        <div className="lg:w-[60%] overflow-y-auto flex flex-col">
           <div className="lg:h-[40%]">
             <AvailChain blockList={blockList} />
           </div>
