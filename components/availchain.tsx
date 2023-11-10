@@ -10,7 +10,6 @@ export default function AvailChain(props: any) {
       blockList.map((block: any, index: any) => (
         <Block key={index} progress={blockList.length > index + 1 ? 100 : 0} block={block} />
       ))}
-
     </div>
   </>
 }

@@ -21,14 +21,6 @@ export default function Block(props: any) {
     return (
         <div className="block">
             <div className="blockLinkImg">
-                {/* <Image
-                    src="/link.png"
-                    alt="link"
-                    width={40}
-                    height={20}
-                    className="linkImg"
-                /> */}
-
                 <Image
                     src="/images/block.png"
                     alt="block"
