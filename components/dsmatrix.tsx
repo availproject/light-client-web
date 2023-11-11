@@ -15,9 +15,20 @@ export default function DsMatrix(props: any) {
   let c = matrix.col
   let cells = matrix.verifiedCells
 
+  function getRowCount(): number {
+    let defaultRowCount = windowSize.width! < 1500 ? 15 : 20;
 
-  let row = new Array(parseInt(windowSize.width! < 760 ? '15' : windowSize.width! > 1500 ? '20' : '15')).fill(1)
-  let col = new Array(parseInt(windowSize.width! < 760 ? '20' : windowSize.width! > 1500 ? '60' : ' 40')).fill(1)
+    return (r as number > defaultRowCount ? r : defaultRowCount);
+  }
+
+  function getColumnCount(): number {
+    let defaultColumnCount = windowSize.width! < 760 ? 20 : windowSize.width! < 1500 ? 40 : 60;
+
+    return (c as number > defaultColumnCount ? c : defaultColumnCount);
+  }
+
+  let row = new Array(getRowCount()).fill(1)
+  let col = new Array(getColumnCount()).fill(1)
 
   const checkForSampleCell = (row: any, col: any) => {
     return cells?.some((cell: { row: any; col: any; }) => {
@@ -29,34 +40,10 @@ export default function DsMatrix(props: any) {
     let row = r
     let col = c
     if (checkForSampleCell(row, col)) {
-      return "#131215"
+      return "#2DCF2A"
     }
     return "#222630"
   }
-
-  const rows = () => {
-    let rows = [];
-    for (let i = 0; i < 10; i++) {
-      rows.push(
-        <div className="flex flex-row" key={i}>
-          {columns()}
-        </div>
-      );
-    }
-
-    return rows;
-  }
-
-  const columns = () => {
-    let rows = [];
-    for (let i = 0; i < 10; i++) {
-      rows.push(<Cell color={"#2DCF2A"} key={i} />)
-    }
-
-    return rows;
-  }
-
-
 
   return (
     <div className="flex flex-col p-10 space-y-4">
@@ -64,7 +51,15 @@ export default function DsMatrix(props: any) {
       <div className=" rounded-xl self-start p-4 bg-[#292E3A] max-h-[300px] lg:max-h-[600px] max-w-full">
         <div className="matrix self-start   max-h-[268px] lg:max-h-[568px] overflow-auto">
           {
-            rows()
+            row.map((ele, i) => (
+              <div className="flex flex-row" key={i}>
+                {col.map((ele, j) => (
+                  <div key={j} className="p-[1.6px]">
+                    <Cell color={colorCheck(i, j)} key={j} />
+                  </div>
+                ))}
+              </div>
+            ))
           }
         </div>
       </div>
