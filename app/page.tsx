@@ -26,7 +26,8 @@ export default function Home() {
     number: "",
     hash: "",
     totalCellCount: "",
-    confidence: ""
+    confidence: "",
+    sampleCount: ""
   })
   const [blockList, setBlockList] = useState([])
   const [matrix, setMatrix] = useState(
@@ -136,7 +137,7 @@ export default function Home() {
           const confidence = 100 * (1 - (1 / (Math.pow(2, verifiedCount))))
           verifiedCells.push(cell)
           //@ts-ignore
-          setLatestBlock({ hash: blockHash, number: blockNumber, totalCellCount: (r * EXTENSION_FACTOR) * c, confidence: confidence })
+          setLatestBlock({ hash: blockHash, number: blockNumber, totalCellCount: (r * EXTENSION_FACTOR) * c, confidence: confidence, sampleCount: sampleCount })
           //console.log(verifiedCells)
           setMatrix({
             row: r * EXTENSION_FACTOR,
@@ -184,8 +185,6 @@ export default function Home() {
     })
     //setBlockList(blockList => [...blockList, newBlock])
   }
-
-
 
   return (
     <>

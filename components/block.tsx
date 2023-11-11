@@ -8,6 +8,7 @@ export default function Block(props: any) {
 
     const [value, setValue] = useState(0);
 
+
     useEffect(() => {
         setValue(props.progress)
     }, [props.progress])
@@ -27,7 +28,6 @@ export default function Block(props: any) {
                     className="2xl:max-h-[350px] lg:max-h-[250px] max-h-[120px] aspect-auto overflow-scroll overflow-y-auto"
                 />
                 <div className="">
-                <Progress className="bg-[#20232B]" aria-label="finalizing..." value={value} />
                 </div>
             </div>
         </div>

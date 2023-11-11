@@ -34,6 +34,10 @@ export default function BlockData(props: any) {
                             <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">Total Cell Count</h3>
                             <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">{latestBlock.totalCellCount}</p>
                         </div>
+                        <div className="md:flex flex-col hidden">
+                            <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">Sample Cell Count</h3>
+                            <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">{latestBlock.sampleCount}</p>
+                        </div>
                     </div>
 
                 </div>
