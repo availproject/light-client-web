@@ -1,16 +1,23 @@
 
+import { Block as block_type } from "@/types/light-client";
 import Block from "./block";
 
 /* eslint-disable @next/next/no-img-element */
-export default function AvailChain(props: any) {
+
+type Props = {
+  blockList: block_type[]
+}
+
+
+export default function AvailChain(props: Props) {
 
   const blockList = props.blockList
   return <>
     <div className="flex flex-row  overflow-auto whitespace-nowrap ">{
       blockList.map((block: any, index: any) => (
         <div key={index} className="flex flex-col items-center justify-center">
-          <h3 className="z-50 text-md text-white text-opacity-70">#{block.blockNumber}</h3>
-          <Block key={index} progress={blockList.length > index + 1 ? 100 : 0} block={block} />
+          <h3 className="z-50 text-md text-white text-opacity-70">#{block.number}</h3>
+          <Block key={index} progress={blockList.length > index + 1 ? 100 : 0} />
         </div>
       ))}
     </div>
