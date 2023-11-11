@@ -17,8 +17,8 @@ export default function DsMatrix(props: any) {
   let cells = matrix.verifiedCells
 
 
-  let row = new Array(parseInt(windowSize.width! < 760 ? '15' : windowSize.width! > 1400 ? '20' :'15')).fill(1)
-  let col = new Array(parseInt(windowSize.width! < 760 ? '20': windowSize.width! > 1400 ? '65':' 40')).fill(1)
+  let row = new Array(parseInt(windowSize.width! < 760 ? '15' : windowSize.width! > 1500 ? '20' :'15')).fill(1)
+  let col = new Array(parseInt(windowSize.width! < 760 ? '20': windowSize.width! > 1500 ? '60':' 40')).fill(1)
 
   const checkForSampleCell = (row: any, col: any) => {
     return cells?.some((cell: { row: any; col: any; }) => {
