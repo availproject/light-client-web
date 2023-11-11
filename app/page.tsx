@@ -189,8 +189,7 @@ export default function Home() {
   return (
     <>
       <Navbar showButton button={<Button onClick={() => { running ? (stop(), setRunning(false)) : run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>} />
-      <main className="">
-        <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
+      <main className=""> <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
           <div className="lg:w-[60%] flex flex-col ">
             <div className="lg:h-[35%] 2xl:h-[40%] flex flex-col items-start justify-center mt-10">
               <AvailChain blockList={blockList} />
