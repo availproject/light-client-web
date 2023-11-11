@@ -192,11 +192,11 @@ export default function Home() {
       <Navbar showButton button={<Button onClick={() => { running ? (stop(), setRunning(false)) : run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>} />
       <main className="">
         <div className="flex md:flex-row flex-col-reverse lg:h-screen w-screen">
-          <div className="lg:w-[60%] overflow-y-auto flex flex-col items-start justify-start">
-            <div className="lg:h-[35%] 2xl:h-[40%]">
+          <div className="lg:w-[60%] overflow-y-auto flex flex-col ">
+            <div className="lg:h-[35%] 2xl:h-[40%] flex flex-col items-start justify-start">
               <AvailChain blockList={blockList} />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col lg:items-start lg:justify-start justify-center items-center">
             <DsMatrix matrix={matrix} />
             </div>
           </div>
