@@ -17,8 +17,8 @@ export default function DsMatrix(props: any) {
   let cells = matrix.verifiedCells
 
 
-  let row = new Array(parseInt(windowSize.width! < 760 ? '15' : windowSize.width! > 1500 ? '20' :'15')).fill(1)
-  let col = new Array(parseInt(windowSize.width! < 760 ? '20': windowSize.width! > 1500 ? '60':' 40')).fill(1)
+  let row = new Array(r).fill(1)
+  let col = new Array(c).fill(1)
 
   const checkForSampleCell = (row: any, col: any) => {
     return cells?.some((cell: { row: any; col: any; }) => {
@@ -35,7 +35,6 @@ export default function DsMatrix(props: any) {
     return "#222630"
   }
 
-  // useEffect(() => {
   //   const cal: CalHeatmap = new CalHeatmap();
   //   const dsMatrixDiv = document.getElementById('ds-matrix');
   //   if (dsMatrixDiv) {
@@ -74,8 +73,8 @@ export default function DsMatrix(props: any) {
 
   return (
     <div className="flex flex-col overflow-scroll lg:p-10 p-5 space-y-4 ">
-      <h1 className="subheading lg:!text-left !w-full 2xl:pb-2 pb-1 ">Data Sampling Matrix</h1>
-      <div className="rounded-xl p-2 bg-[#292E3A] ">
+      <h1 className="subheading lg:!text-left !w-full 2xl:pb-2 pb-1">Data Sampling Matrix</h1>
+      <div className="rounded-xl p-2 bg-[#292E3A] overflow-auto lg:w-[700px] lg:h-[250px]  ">
       <div className="matrix p-1 ">
 
         {
@@ -91,9 +90,6 @@ export default function DsMatrix(props: any) {
 
         }
       </div>
-      </div>
-      <div className="rounded-xl p-3 overflow-hidden text-[#292E3A]">
-        <div id="ds-matrix" className=""></div>
       </div>
     </div>
   );

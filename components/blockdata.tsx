@@ -18,7 +18,7 @@ export default function BlockData(props: any) {
             <div className="flex flex-row justify-between lg:mr-4 items-start ">
                 <div className="flex flex-col items-start">
                     <h3 className="text-[#F5F5F5] font-thicccboisemibold text-xl lg:text-2xl 2xl:text-4xl 2xl:mt-4">Confidence Factor</h3>
-                    <p className={`font-thicccboibold text-6xl xl:text-7xl 2xl:text-8xl 2xl:mt-2 ${parseInt(latestBlock.confidence.toString().slice(0, 2)) > 85 ? 'text-green-500' : parseInt(latestBlock.confidence.toString().slice(0, 2)) > 50 ? 'text-yellow-500':'text-red-500'}`}>{latestBlock.confidence.toString().slice(0, 4)}%</p>
+                    <p className={`font-thicccboibold text-6xl xl:text-7xl 2xl:text-8xl 2xl:mt-2 ${parseInt(latestBlock.confidence.toString().slice(0, 2)) > 90 ? 'text-green-500' : parseInt(latestBlock.confidence.toString().slice(0, 2)) > 50 ? 'text-yellow-500':'text-red-500'}`}>{latestBlock.confidence.toString().slice(0, 4)}%</p>
                 </div>
                 <div>
                     <div className="flex flex-col items-end space-y-4">
