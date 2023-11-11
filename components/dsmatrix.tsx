@@ -54,7 +54,7 @@ export default function DsMatrix(props: any) {
             row.map((ele, i) => (
               <div className="flex flex-row" key={i}>
                 {col.map((ele, j) => (
-                  <div key={j} className="p-[1.6px]">
+                  <div key={j} className="p-[1.5px]">
                     <Cell color={colorCheck(i, j)} key={j} />
                   </div>
                 ))}

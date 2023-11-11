@@ -196,9 +196,7 @@ export default function Home() {
             <div className="lg:h-[35%] 2xl:h-[40%] flex flex-col items-start justify-center mt-10">
               <AvailChain blockList={blockList} />
             </div>
-            <div className="flex flex-col lg:items-start lg:justify-start justify-center items-center">
-              <DsMatrix matrix={matrix} />
-            </div>
+            <DsMatrix matrix={matrix} />
           </div>
           <div className="lg:w-[40%] flex items-start lg:mt-20">
             <BlockData latestBlock={latestBlock} run={run} running={running} stop={stop} setRunning={setRunning} />
