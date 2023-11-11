@@ -5,32 +5,34 @@ import CalHeatmap from "cal-heatmap";
 import "cal-heatmap/cal-heatmap.css";
 import { useEffect } from "react";
 import Cell from "./cell";
+import { useWindowSize } from '@/hooks/use-window-size';
+
 
 export default function DsMatrix(props: any) {
 
-
+  const windowSize = useWindowSize();
   let matrix = props.matrix
   let r = matrix.row
   let c = matrix.col
   let cells = matrix.verifiedCells
 
-  let row = new Array(r).fill(1)
-  let col = new Array(c).fill(1)
+
+  let row = new Array(parseInt(windowSize.width! < 760 ? '15' : windowSize.width! > 1400 ? '20' :'15')).fill(1)
+  let col = new Array(parseInt(windowSize.width! < 760 ? '20': windowSize.width! > 1400 ? '65':' 40')).fill(1)
 
   const checkForSampleCell = (row: any, col: any) => {
-    return cells.some((cell: { row: any; col: any; }) => {
+    return cells?.some((cell: { row: any; col: any; }) => {
       return cell.row == row && cell.col == col
     })
   }
 
   const colorCheck = (r: any, c: any) => {
-    //console.log("Checking....")
     let row = r
     let col = c
     if (checkForSampleCell(row, col)) {
-      return "#3bff00"
+      return "#131215"
     }
-    return "#ff0000"
+    return "#222630"
   }
 
   // useEffect(() => {
@@ -71,24 +73,27 @@ export default function DsMatrix(props: any) {
 
 
   return (
-    <div className="flex flex-col overflow-scroll p-10 space-y-4 ">
-      <h1 className="heading !text-left">Data Sampling Matrix</h1>
-      <div className="matrix">
+    <div className="flex flex-col overflow-scroll lg:p-10 p-5 space-y-4 ">
+      <h1 className="subheading lg:!text-left !w-full 2xl:pb-2 pb-1 ">Data Sampling Matrix</h1>
+      <div className="rounded-xl p-2 bg-[#292E3A] ">
+      <div className="matrix p-1 ">
 
         {
           row.map((ele, i) => (
             <div className="flex flex-row" key={i}>
               {col.map((ele, j) => (
+                <div key={j} className="p-[1.6px]">
                 <Cell color={colorCheck(i, j)} key={j} />
+                </div>
               ))}
             </div>
           ))
 
         }
       </div>
-      <div className="rounded-xl p-4 overflow-hidden text-[#292E3A]">
+      </div>
+      <div className="rounded-xl p-3 overflow-hidden text-[#292E3A]">
         <div id="ds-matrix" className=""></div>
-
       </div>
     </div>
   );
