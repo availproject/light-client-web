@@ -15,7 +15,7 @@ export default function BlockData(props: Props) {
             <div className="flex flex-col space-y-2">
                 <h1 className="text-white lg:text-left text-center font-thicccboibold text-4xl md:text-5xl 2xl:text-7xl">Avail Light Client</h1>
                 <div className="lg:hidden flex-col">
-                    <p className="text-white text-opacity-75 text-center ">Born from the need for blockchain solutions that scale with modern demand.</p>
+                    <p className="text-white text-opacity-75 text-center px-6 ">Born from the need for blockchain solutions that scale with modern demand.</p>
                 </div>
 
                 <div className="md:hidden flex flex-col items-center justify-center py-8">
