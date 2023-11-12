@@ -180,6 +180,7 @@ export default function Home() {
               <Link
                 href={"https://github.com/availproject/light-client-web"}
                 className="text-[#3CBBF9] underline"
+                target={"_blank"}
               >
                 source code
               </Link>
@@ -187,6 +188,7 @@ export default function Home() {
               <Link
                 href={"https://availproject.org/"}
                 className="text-[#3CBBF9] underline"
+                target={"_blank"}
               >
                 availproject.org
               </Link>
@@ -196,10 +198,11 @@ export default function Home() {
               <Link
                 href={"https://twitter.com/intent/tweet?text=Check out @AvailProject's new Web Light Client at https://light.avail.tools/ !"}
                 className="text-[#3CBBF9] underline"
+                target={"_blank"}
               >
                 Tweet about it
               </Link>
-              {" "}and be sure to tag @AvailProject!
+              {" "}and be sure to tag <Link href={"https://twitter.com/AvailProject"} className="text-[#3CBBF9]" target={"_blank"}>@AvailProject!</Link>
             </p>
           </div>
         )}
