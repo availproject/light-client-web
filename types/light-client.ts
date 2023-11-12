@@ -7,14 +7,15 @@ export type Block = {
     number: number,
     hash: string,
     totalCellCount: number,
-    confidence: number,
+    confidence: number | null,
     sampleCount: number
 }
 
 export type Matrix = {
     maxRow: number,
     maxCol: number,
-    verifiedCells: Cell[]
+    verifiedCells: Cell[],
+    totalCellCount: number,
 }
 
 export type BlockHeader = {
