@@ -7,7 +7,8 @@ export type Block = {
     number: number,
     hash: string,
     totalCellCount: number,
-    confidence: number
+    confidence: number,
+    sampleCount: number
 }
 
 export type Matrix = {

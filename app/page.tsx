@@ -20,7 +20,8 @@ export default function Home() {
     number: 0,
     hash: "",
     totalCellCount: 0,
-    confidence: 0
+    confidence: 0,
+    sampleCount: 0
 
   })
   const [blockList, setBlockList] = useState<Array<Block>>([])
@@ -42,7 +43,8 @@ export default function Home() {
       number: 0,
       hash: "",
       totalCellCount: 0,
-      confidence: 0
+      confidence: 0,
+      sampleCount: 0
     })
   }
 
@@ -74,11 +76,6 @@ export default function Home() {
       }
     })
   }
-
-
-
-
-
 
   const run = () => {
     refreshApp()

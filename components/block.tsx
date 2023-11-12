@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { Progress } from "./ui/progress";
+import { Block } from "@/types/light-client";
 
 type Props = {
     progress: number
+    block: Block
 }
 
 
