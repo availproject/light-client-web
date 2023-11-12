@@ -21,7 +21,8 @@ export default function BlockData(props: Props) {
                 <div className="md:hidden flex flex-col items-center justify-center py-8">
                     <Button onClick={() => { props.running ? (props.stop(), props.setRunning(false)) : props.run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{props.running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
                 </div>
-                <h2 className="text-white text-3xl font-thicccboisemibold 2xl:text-6xl pt-6 lg:pt-0 2xl:pt-4 ">Block data</h2>
+                <h2 className="text-white text-3xl font-thicccboisemibold 2xl:text-6xl pt-6 lg:pt-0 2xl:pt-4 ">Block data <span className="text-opacity-80 text-white font-thicccboisemibold 2xl:text-xl lg:text-lg text-sm"
+                >(Latest Block)</span></h2>
             </div>
             <div className="flex flex-row justify-between lg:mr-4 items-start ">
                 <div className="flex flex-col items-start">
