@@ -53,8 +53,8 @@ export default function DsMatrix(props: Props) {
         <div className="matrix flex flex-wrap self-start max-h-[268px] lg:max-h-[568px] overflow-auto">
           <div className="grid grid-cols-16 lg:grid-cols-32 gap-2">
             {
-              displayCells().map(cell => {
-                return (<Cell color={colorCheck(cell.row, cell.col)} />)
+              displayCells().map((cell,index) => {
+                return (<Cell key={index} color={colorCheck(cell.row, cell.col)} />)
               })
             }
           </div>
