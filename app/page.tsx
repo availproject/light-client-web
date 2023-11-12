@@ -172,7 +172,7 @@ export default function Home() {
             <p className="text-xl font-ppmori  text-white !text-left lg:block text-opacity-80 ">
               This is an experimental light client for Avail. It runs <i>entirely
                 in your browser</i> to verify that block data is available, by
-              verifying Avail's KZG commitment proofs locally. Click
+              verifying Avail&#39;s KZG commitment proofs locally. Click
               the button above to see it in action!
             </p>
             <p className="text-xl  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
