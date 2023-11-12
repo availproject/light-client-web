@@ -14,22 +14,16 @@ import { runLC } from "@/repository/avail-light.repository";
 import Link from "next/link";
 
 export default function Home() {
-  const [latestBlock, setLatestBlock] = useState<Block>({
-    number: 0,
-    hash: "",
-    totalCellCount: 0,
-    confidence: 0,
-    sampleCount: 0,
-  });
+  const [latestBlock, setLatestBlock] = useState<Block | null>(null);
   const [blockList, setBlockList] = useState<Array<Block>>([]);
   const [matrix, setMatrix] = useState<Matrix>({
     maxRow: 0,
     maxCol: 0,
     verifiedCells: [],
+    totalCellCount: 0,
   });
-
   const [running, setRunning] = useState<Boolean>(false);
-  const [stop, setStop] = useState<any>(null);
+  const [stop, setStop] = useState<Function | null>(null);
 
   useEffect(() => {
     init();
@@ -38,17 +32,11 @@ export default function Home() {
   const refreshApp = () => {
     setRunning(true);
     setBlockList([]);
-    setMatrix({ maxRow: 0, maxCol: 0, verifiedCells: [] });
-    setLatestBlock({
-      number: 0,
-      hash: "",
-      totalCellCount: 0,
-      confidence: 0,
-      sampleCount: 0,
-    });
+    setMatrix({ maxRow: 0, maxCol: 0, verifiedCells: [], totalCellCount: 0 });
+    setLatestBlock(null);
   };
 
-  const processBlock = (
+  const processBlock = async (
     block: Block,
     matrix: Matrix,
     cells: Cell[],
@@ -60,8 +48,13 @@ export default function Home() {
     //Indivisual cell verification
     let verifiedCount = 0;
     let verifiedCells: Cell[] = [];
-    cells.forEach(async (cell, i) => {
-      //console.log(proofs[i], commitments[cell.row], c, cell.row, cell.col)
+
+    for (let i = 0; i < cells.length; i++) {
+      if (block.number < (latestBlock?.number || 0)) {
+        return;
+      }
+      let cell = cells[i];
+
       const res = check(
         proofs[i],
         commitments[cell.row],
@@ -71,11 +64,10 @@ export default function Home() {
       );
       //console.log(res)
       if (res) {
-        await sleep((i + 1) * 1000);
         verifiedCount++;
         const confidence = 100 * (1 - 1 / Math.pow(2, verifiedCount));
         verifiedCells.push(cell);
-        //@ts-ignore
+
         setLatestBlock({
           hash: block.hash,
           number: block.number,
@@ -83,19 +75,24 @@ export default function Home() {
           confidence: confidence,
           sampleCount: block.sampleCount,
         });
-        //console.log(verifiedCells)
+        console.log("Updating verified cells details.")
+
         setMatrix({
           maxRow: matrix.maxRow,
           maxCol: matrix.maxCol,
           //@ts-ignore
           verifiedCells,
+          totalCellCount: matrix.totalCellCount,
         });
+
+        await sleep(100);
       }
-    });
+    }
   };
 
-  const run = () => {
+  const run = async () => {
     refreshApp();
+
     runLC(processBlock, setStop);
   };
 
@@ -126,7 +123,7 @@ export default function Home() {
         button={
           <Button
             onClick={() => {
-              running ? (stop(), setRunning(false)) : run();
+              running ? (stop?.(), setRunning(false)) : run();
             }}
             variant={"outline"}
             className="text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold"

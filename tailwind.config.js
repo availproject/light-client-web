@@ -6,7 +6,7 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+  ],
   theme: {
     container: {
       center: true,
@@ -52,16 +52,23 @@ module.exports = {
         },
       },
       fontFamily: {
-        thicccboisemibold:["Thicccboi-semibold","sans-serif"],
-        thicccboibold:["Thicccboi-bold","sans-serif"],
-        thicccboiregular:["Thicccboi-regular","sans-serif"],
-        ppmori:["PP Mori","sans-serif"],
-        
+        thicccboisemibold: ["Thicccboi-semibold", "sans-serif"],
+        thicccboibold: ["Thicccboi-bold", "sans-serif"],
+        thicccboiregular: ["Thicccboi-regular", "sans-serif"],
+        ppmori: ["PP Mori", "sans-serif"],
+
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      gridTemplateColumns: {
+        // Simple 16 column grid
+        '16': 'repeat(16, minmax(0, 1fr))',
+
+        // Simple 16 column grid
+        '32': 'repeat(32, minmax(0, 1fr))',
       },
       keyframes: {
         "accordion-down": {

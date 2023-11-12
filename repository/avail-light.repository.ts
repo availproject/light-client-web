@@ -5,16 +5,12 @@ import { generateRandomCells } from '@/utils/helper';
 
 
 
-export async function runLC(processBlock: Function, setStop: any) {
+export async function runLC(onBlock: Function, registerUnsubscribe: Function): Promise<() => void> {
     const api: any = await createApi();
-
     const unsubscribe = await api.rpc.chain.subscribeFinalizedHeads(async (header: any) => {
-
         //Extracting the data out from header
         const blockNumber = header.number.toString()
         const extension = JSON.parse(header.extension)
-        console.log("Header Extension: ", extension)
-
         const commitment = extension.v1.commitment
         const kateCommitment = commitment.commitment.split('0x')[1]
         const r = commitment.rows
@@ -51,10 +47,10 @@ export async function runLC(processBlock: Function, setStop: any) {
 
         //Create required info for process block
         const block: Block = { number: blockNumber, hash: blockHash, totalCellCount: totalCellCount, confidence: 0, sampleCount: sampleCount }
-        const matrix: Matrix = { maxRow: r, maxCol: c, verifiedCells: [] }
-        processBlock(block, matrix, randomCells, proofs, commitments)
+        const matrix: Matrix = { maxRow: r, maxCol: c, verifiedCells: [], totalCellCount }
+        onBlock(block, matrix, randomCells, proofs, commitments)
 
     });
 
-    setStop(() => unsubscribe)
+    return registerUnsubscribe(() => unsubscribe);
 }
