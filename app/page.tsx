@@ -99,6 +99,13 @@ export default function Home() {
     runLC(processBlock, setStop);
   };
 
+  const scrollToBlocks = () => {
+    setTimeout(() => window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    }), 500);
+  }
+
   const addNewBlock = (newBlock: Block, matrix: Matrix) => {
     setLatestBlock(newBlock);
     setMatrix({
@@ -142,13 +149,13 @@ export default function Home() {
       />
       <main className="">
         <div className="md:hidden flex flex-col items-center justify-center py-8">
-          <Button onClick={() => { running ? (stop?.(), setRunning(false)) : run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
+          <Button onClick={() => { running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks()) }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
         </div>
         {running || (latestBlock != null) ? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
-            <div className="lg:w-[60%] flex flex-col ">
+            <div className="lg:w-[60%] flex flex-col " id="blocks-section">
               {running ? (
-                <div className="lg:h-[35%] 2xl:h-[40%] flex flex-col items-start justify-center mt-10">
+                <div className="lg:h-[35%] 2xl:h-[40%] min-h-[100px] flex flex-col items-start justify-center mt-10">
                   <AvailChain blockList={blockList} />
                 </div>
               ) : ("")}

@@ -15,14 +15,6 @@ type Props = {
 export default function AvailChain(props: Props) {
   const [progress, setProgress] = useState(0);
   const lastBlockHash = props.blockList[props.blockList.length - 1];
-
-  function onBlock() {
-    setProgress(0);
-    console.log("set to zero");
-    // if (timeout) {
-    //   clearInterval(timeout);
-    // }
-  }
   const blockList = props.blockList;
 
   useEffect(() => {
