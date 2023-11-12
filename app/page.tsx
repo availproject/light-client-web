@@ -161,13 +161,13 @@ export default function Home() {
             <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight text-white !text-left lg:block ">
               Avail Light Client (Web)
             </h2>
-            <p className="text-2xl  2xl:text-4xl  font-thicccboisemibold  text-white !text-left lg:block text-opacity-80 ">
+            <p className="text-2xl  2xl:text-4xl  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
               This is an experimental light client for Avail. It runs <i>entirely
                 in your browser</i> to verify that block data is available, by
                   verifying Avail's KZG commitment proofs locally. Click
                   the button above to see it in action!
             </p>
-            <p className="text-2xl  2xl:text-4xl  font-thicccboisemibold  text-white !text-left lg:block text-opacity-80 ">
+            <p className="text-2xl  2xl:text-4xl  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
               Check out the{" "}
               <Link
                 href={"https://github.com/availproject/light-client-web"}
@@ -182,6 +182,16 @@ export default function Home() {
               >
                 availproject.org
               </Link>
+            </p>
+            <p className="text-2xl  2xl:text-4xl  font-ppmori text-white !text-left lg:block text-opacity-80 ">
+              P.S. Do you want to share the awesomeness?{" "}
+              <Link
+                href={"https://twitter.com/intent/tweet?text=Check out @AvailProject's new Web Light Client at https://light.avail.tools/ !"}
+                className="text-[#3CBBF9] underline"
+              >
+                Tweet about it
+              </Link>
+                {" "}and be sure to tag @AvailProject!
             </p>
           </div>
         )}
