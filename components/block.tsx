@@ -6,7 +6,6 @@ import { Block } from "@/types/light-client";
 
 type Props = {
     progress: number
-    block: Block
 }
 
 

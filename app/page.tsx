@@ -82,8 +82,6 @@ export default function Home() {
     runLC(processBlock, setStop)
   }
 
-
-
   const addBlock = (newBlock: Block) => {
     setLatestBlock(newBlock)
 
