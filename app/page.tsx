@@ -133,41 +133,55 @@ export default function Home() {
         }
       />
       <main className="">
-        {" "}
-        <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
-          <div className="lg:w-[60%] flex flex-col ">
-            <div className="lg:h-[35%] 2xl:h-[40%] flex flex-col items-start justify-center mt-10">
+        { running || (latestBlock != null)? (
+          <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
+            <div className="lg:w-[60%] flex flex-col ">
               {running ? (
-                <AvailChain blockList={blockList} />
-              ) : (
-                <div className="flex flex-col p-16 2xl:p-20 space-y-10 2xl:space-y-14">
-                  <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight text-white !text-left hidden lg:block ">
-                    Get Started with Avail&apos;s LC documentation{" "}
-                    <Link
-                      href={"https://github.com/availproject/avail-light"}
-                      className="text-[#3CBBF9] underline"
-                    >
-                      here.
-                    </Link>
-                  </h2>
-                  <p className="text-2xl  2xl:text-4xl  font-thicccboisemibold  text-white !text-left  hidden lg:block text-opacity-80 ">
-                    Click the button above to see it in action ↗
-                  </p>
+                <div className="lg:h-[35%] 2xl:h-[40%] flex flex-col items-start justify-center mt-10">
+                  <AvailChain blockList={blockList} />
                 </div>
-              )}
+              ) : ( "" )}
+              <DsMatrix matrix={matrix} />
             </div>
-            <DsMatrix matrix={matrix} />
+            <div className="lg:w-[40%] flex items-start lg:mt-20">
+              <BlockData
+                latestBlock={latestBlock}
+                run={run}
+                running={running}
+                stop={stop}
+                setRunning={setRunning}
+              />
+            </div>
           </div>
-          <div className="lg:w-[40%] flex items-start lg:mt-20">
-            <BlockData
-              latestBlock={latestBlock}
-              run={run}
-              running={running}
-              stop={stop}
-              setRunning={setRunning}
-            />
+        ) : (
+          <div className="flex flex-col p-16 2xl:p-20 space-y-10 2xl:space-y-14 ">
+            <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight text-white !text-left lg:block ">
+              Avail Light Client (Web)
+            </h2>
+            <p className="text-2xl  2xl:text-4xl  font-thicccboisemibold  text-white !text-left lg:block text-opacity-80 ">
+              This is an experimental light client for Avail. It runs <i>entirely
+                in your browser</i> to verify that block data is available, by
+                  verifying Avail's KZG commitment proofs locally. Click
+                  the button above to see it in action ↗
+            </p>
+            <p className="text-2xl  2xl:text-4xl  font-thicccboisemibold  text-white !text-left lg:block text-opacity-80 ">
+              Check out the{" "}
+              <Link
+                href={"https://github.com/availproject/light-client-web"}
+                className="text-[#3CBBF9] underline"
+              >
+                source code
+              </Link>
+                , and learn more about Avail at{" "}
+              <Link
+                href={"https://availproject.org/"}
+                className="text-[#3CBBF9] underline"
+              >
+                availproject.org
+              </Link>
+            </p>
           </div>
-        </div>
+        )}
       </main>
     </>
   );
