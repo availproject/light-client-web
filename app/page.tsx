@@ -133,6 +133,9 @@ export default function Home() {
         }
       />
       <main className="">
+        <div className="md:hidden flex flex-col items-center justify-center py-8">
+          <Button onClick={() => { running ? (stop(), setRunning(false)) : run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
+        </div>
         { running || (latestBlock != null)? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
             <div className="lg:w-[60%] flex flex-col ">
@@ -162,7 +165,7 @@ export default function Home() {
               This is an experimental light client for Avail. It runs <i>entirely
                 in your browser</i> to verify that block data is available, by
                   verifying Avail's KZG commitment proofs locally. Click
-                  the button above to see it in action ↗
+                  the button above to see it in action!
             </p>
             <p className="text-2xl  2xl:text-4xl  font-thicccboisemibold  text-white !text-left lg:block text-opacity-80 ">
               Check out the{" "}
