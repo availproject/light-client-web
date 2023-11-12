@@ -15,7 +15,7 @@ export async function runLC(onBlock: Function, registerUnsubscribe: Function): P
         const kateCommitment = commitment.commitment.split('0x')[1]
         const r = commitment.rows
         const c = commitment.cols
-
+        const timestamp = Date.now();
 
         //fetching block hash from number 
         const blockHash = (await api.rpc.chain.getBlockHash(header.number)).toString();
@@ -46,10 +46,9 @@ export async function runLC(onBlock: Function, registerUnsubscribe: Function): P
 
 
         //Create required info for process block
-        const block: Block = { number: blockNumber, hash: blockHash, totalCellCount: totalCellCount, confidence: 0, sampleCount: sampleCount }
+        const block: Block = { number: blockNumber, hash: blockHash, totalCellCount: totalCellCount, confidence: 0, sampleCount: sampleCount, timestamp }
         const matrix: Matrix = { maxRow: r, maxCol: c, verifiedCells: [], totalCellCount }
         onBlock(block, matrix, randomCells, proofs, commitments)
-
     });
 
     return registerUnsubscribe(() => unsubscribe);
