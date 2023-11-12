@@ -22,7 +22,6 @@ export type BlockHeader = {
     blockNumber: number,
     matrixRows: number,
     matrixCols: number,
-
 }
 
 

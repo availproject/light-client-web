@@ -14,7 +14,6 @@ export default function Block(props: Props) {
 
     const [value, setValue] = useState(0);
 
-
     useEffect(() => {
         setValue(props.progress)
     }, [props.progress])

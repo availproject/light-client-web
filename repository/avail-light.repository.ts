@@ -50,7 +50,7 @@ export async function runLC(processBlock: Function, setStop: any) {
 
 
         //Create required info for process block
-        const block: Block = { number: blockNumber, hash: blockHash, totalCellCount: totalCellCount, confidence: 0 }
+        const block: Block = { number: blockNumber, hash: blockHash, totalCellCount: totalCellCount, confidence: 0, sampleCount: sampleCount }
         const matrix: Matrix = { maxRow: r, maxCol: c, verifiedCells: [] }
         processBlock(block, matrix, randomCells, proofs, commitments)
 

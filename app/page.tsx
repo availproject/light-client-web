@@ -65,7 +65,7 @@ export default function Home() {
         const confidence = 100 * (1 - (1 / (Math.pow(2, verifiedCount))))
         verifiedCells.push(cell)
         //@ts-ignore
-        setLatestBlock({ hash: block.hash, number: block.number, totalCellCount: block.totalCellCount, confidence: confidence })
+        setLatestBlock({ hash: block.hash, number: block.number, totalCellCount: block.totalCellCount, confidence: confidence, sampleCount: block.sampleCount })
         //console.log(verifiedCells)
         setMatrix({
           maxRow: matrix.maxRow,
