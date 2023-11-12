@@ -2,13 +2,17 @@
 
 import Cell from "./cell";
 import { useWindowSize } from '@/hooks/use-window-size';
+import { Matrix } from "@/types/light-client";
 
+type Props = {
+  matrix: Matrix
+}
 
-export default function DsMatrix(props: any) {
+export default function DsMatrix(props: Props) {
   const windowSize = useWindowSize();
-  let matrix = props.matrix
-  let r = matrix.row
-  let c = matrix.col
+  let matrix: Matrix = props.matrix
+  let r = matrix.maxRow
+  let c = matrix.maxCol
   let cells = matrix.verifiedCells
 
   function getRowCount(): number {
@@ -34,7 +38,7 @@ export default function DsMatrix(props: any) {
     let row = r
     let col = c
     if (checkForSampleCell(row, col)) {
-      return "#2DCF2A"
+      return "#3CBBF9"
     }
     return "#222630"
   }
