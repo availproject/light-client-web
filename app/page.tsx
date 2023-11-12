@@ -11,6 +11,7 @@ import config from "../utils/config"
 import { sleep } from "@/utils/helper";
 import { Block, Matrix, Cell } from "@/types/light-client";
 import { runLC } from "@/repository/avail-light.repository";
+import Link from "next/link";
 
 
 
@@ -104,7 +105,9 @@ export default function Home() {
       <main className=""> <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
           <div className="lg:w-[60%] flex flex-col ">
             <div className="lg:h-[35%] 2xl:h-[40%] flex flex-col items-start justify-center mt-10">
-              <AvailChain blockList={blockList} />
+              {running? <AvailChain blockList={blockList} /> : <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight 2xl:leading-snug  text-white !text-left p-16 2xl:p-20  hidden lg:block ">
+              Get Started with Avail&apos;s LC documentation <Link href={'https://github.com/availproject/avail-light'} className="text-[#3CBBF9] underline">here.</Link>
+                </h2>}
             </div>
             <DsMatrix matrix={matrix} />
           </div>

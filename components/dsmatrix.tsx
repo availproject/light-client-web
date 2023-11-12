@@ -38,7 +38,7 @@ export default function DsMatrix(props: Props) {
     let row = r
     let col = c
     if (checkForSampleCell(row, col)) {
-      return "#2DCF2A"
+      return "#3CBBF9"
     }
     return "#222630"
   }
