@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ReactNode } from "react";
 
-export default function Header({
+export default function Navbar({
   button,
   showButton = true,
 }: {
@@ -11,7 +11,7 @@ export default function Header({
   showButton?: boolean;
 }) {
   return (
-    <nav className="navbar bg-transparent px-4 py-8 md:px-16 flex flex-row">
+    <nav className="navbar bg-transparent px-4 pt-8 md:px-16 flex flex-row mb-10 lg:mb-0">
       <div className="flex-1">
         <Link
           href="/"

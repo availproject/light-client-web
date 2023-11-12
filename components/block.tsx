@@ -1,9 +1,35 @@
 /* eslint-disable @next/next/no-img-element */
-export default function Block(){
 
-    return<>
-    <div>
-    <img src="/images/block.png" className="w-80 h-80" alt=""></img>
-    </div>
-    </>
+import { useState, useEffect } from "react";
+import { Progress } from "./ui/progress";
+export default function Block(props: any) {
+
+    const block = props.block
+
+    const [value, setValue] = useState(0);
+
+
+    useEffect(() => {
+        setValue(props.progress)
+    }, [props.progress])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setValue((v) => (v >= 100 ? 100 : v + 10));
+        }, 5000);
+
+    }, []);
+    return (
+        <div className="">
+            <div className="flex flex-row items-center justify-center">
+                <img
+                    src="/images/block.png"
+                    alt="block"
+                    className="2xl:max-h-[350px] lg:max-h-[250px] max-h-[120px] aspect-auto overflow-scroll overflow-y-auto"
+                />
+                <div className="">
+                </div>
+            </div>
+        </div>
+    )
 }
