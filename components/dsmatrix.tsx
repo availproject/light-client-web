@@ -1,32 +1,35 @@
 "use client"
 
 import Cell from "./cell";
+import { Cell as CellType } from "@/types/light-client";
 import { useWindowSize } from '@/hooks/use-window-size';
 import { Matrix } from "@/types/light-client";
 
 type Props = {
-  matrix: Matrix
+  matrix: Matrix,
 }
 
 export default function DsMatrix(props: Props) {
-  const windowSize = useWindowSize();
   let matrix: Matrix = props.matrix
-  let r = matrix.maxRow
-  let c = matrix.maxCol
+  let columnCount = matrix.maxCol
   let cells = matrix.verifiedCells
+  let totalCellCount = matrix.totalCellCount === 0 ? 128 : matrix.totalCellCount;
 
-  function getRowCount(): number {
-    let defaultRowCount = windowSize.width! < 1500 ? 15 : 20;
-    return (r as number > defaultRowCount ? r : defaultRowCount);
+  function displayCells(): CellType[] {
+    let displayCells: CellType[] = [];
+    for (let i = 0; i < totalCellCount; i++) {
+      let index = i == 0 ? 1 : i;
+      let row = Math.floor(index / columnCount);
+      let col = index % columnCount;
+
+      displayCells.push({
+        row,
+        col,
+      });
+    }
+
+    return displayCells;
   }
-
-  function getColumnCount(): number {
-    let defaultColumnCount = windowSize.width! < 760 ? 20 : windowSize.width! < 1500 ? 40 : 60;
-    return (c as number > defaultColumnCount ? c : defaultColumnCount);
-  }
-
-  let row = new Array(getRowCount()).fill(1)
-  let col = new Array(getColumnCount()).fill(1)
 
   const checkForSampleCell = (row: any, col: any) => {
     return cells?.some((cell: { row: any; col: any; }) => {
@@ -47,18 +50,14 @@ export default function DsMatrix(props: Props) {
     <div className="flex flex-col p-10 space-y-4">
       <h1 className="subheading lg:!text-left !w-full 2xl:pb-2 pb-1">Data Sampling Matrix</h1>
       <div className=" rounded-xl self-start p-4 bg-[#292E3A] max-h-[300px] lg:max-h-[600px] max-w-full">
-        <div className="matrix self-start max-h-[268px] lg:max-h-[568px] overflow-auto">
-          {
-            row.map((ele, i) => (
-              <div className="flex flex-row" key={i}>
-                {col.map((ele, j) => (
-                  <div key={j} className="p-[1.5px]">
-                    <Cell color={colorCheck(i, j)} key={j} />
-                  </div>
-                ))}
-              </div>
-            ))
-          }
+        <div className="matrix flex flex-wrap self-start max-h-[268px] lg:max-h-[568px] overflow-auto">
+          <div className="grid grid-cols-16 lg:grid-cols-32 gap-2">
+            {
+              displayCells().map(cell => {
+                return (<Cell color={colorCheck(cell.row, cell.col)} />)
+              })
+            }
+          </div>
         </div>
       </div>
     </div>
