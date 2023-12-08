@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
-import Image from "next/image";
 import { ReactNode } from "react";
 
 export default function Navbar({
@@ -18,8 +17,8 @@ export default function Navbar({
           className="text-mono btn-ghost btn text-xl normal-case md:text-3xl"
         >
           <img
-            src="/images/availlogo.png"
-            alt=""
+            src="/images/avail.png"
+            alt="avail"
             className="max-h-[40px]"
           />
           <span className="text-mono hidden text-xl normal-case md:inline-flex md:text-2xl ml-2">
