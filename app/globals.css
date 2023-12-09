@@ -93,7 +93,7 @@ html {
     --radius: 0.5rem;
   }
  
-  [data-theme='dark'] {
+  .dark {
     --background: black;
     --foreground: white;
  
