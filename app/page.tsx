@@ -155,7 +155,7 @@ export default function Home() {
               variant={"outline"}
               className=" rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold"
               >
-              {currentTheme ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              Switch Theme Mode
             </Button>
           </div>
         } />
