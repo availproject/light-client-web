@@ -144,24 +144,43 @@ export default function Home() {
                 running ? (stop?.(), setRunning(false)) : run();
               }}
               variant={"outline"}
-              className=" rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold"
+              className="rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold"
             >
               {running ? "Stop Running the LC" : "Start Running the LC"}
             </Button>
             <Button
-              onClick={() => 
+              onClick={() =>
                 theme == "dark" ? setTheme('light') : setTheme("dark")
               }
-              variant={"outline"}
-              className=" rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold"
-              >
+              variant={"default"}
+              className="rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold"
+            >
               Switch Theme Mode
             </Button>
           </div>
         } />
       <main className="">
-        <div className="md:hidden flex flex-col items-center justify-center py-8">
-          <Button onClick={() => { running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks()) }} variant={'outline'} className=' rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
+        <div className="md:hidden flex flex-row items-center justify-center py-8">
+          <Button
+            onClick={() =>
+              theme == "dark" ? setTheme('light') : setTheme("dark")
+            }
+            variant={"default"}
+            className="rounded-full border-opacity-70 bg-opacity-50 lg:px-5 lg:py-6 px-6 py-4 font-thicccboibold"
+          >
+            Switch Theme
+          </Button>
+          <Button
+            onClick={() => {
+              running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks())
+            }}
+            variant={'outline'}
+            className='rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'
+          >
+            {
+              running ? 'Stop Running the LC' : 'Start Running the LC'
+            }
+          </Button>
         </div>
         {running || (latestBlock != null) ? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
