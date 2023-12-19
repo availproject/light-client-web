@@ -152,7 +152,7 @@ export default function Home() {
               onClick={() =>
                 theme == "dark" ? setTheme('light') : setTheme("dark")
               }
-              variant={"outline"}
+              variant={"ghost"}
               className="rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold">
               {theme === 'dark' ? (
                 <img src="/static/moon.png" alt="Sun icon" width={35} height={35} />
@@ -168,7 +168,7 @@ export default function Home() {
             onClick={() =>
               theme == "dark" ? setTheme('light') : setTheme("dark")
             }
-            variant={"outline"}
+            variant={"ghost"}
             className="rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold">
             {theme === 'dark' ? (
               <img src="/static/moon.png" alt="Sun icon" width={30} height={30} />
