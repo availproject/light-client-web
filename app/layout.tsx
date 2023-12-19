@@ -1,7 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { PHProvider, PostHogPageview } from './providers'
+import { PHProvider, PostHogPageview, Providers } from './providers'
 import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -23,7 +23,7 @@ export default function RootLayout({
       </Suspense>
       <PHProvider>
         <body className={inter.className}>
-          {children}
+        <Providers>{children}</Providers>
         </body>
       </PHProvider>
     </html>

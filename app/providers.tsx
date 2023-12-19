@@ -4,6 +4,7 @@ import posthog from 'posthog-js'
 import { PostHogProvider } from 'posthog-js/react'
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { ThemeProvider } from "next-themes"
 
 if (typeof window !== 'undefined') {
   if (process.env.NEXT_PUBLIC_POSTHOG_KEY) {
@@ -40,4 +41,10 @@ export function PHProvider({ children }: {
   children: React.ReactNode
 }) {
   return <PostHogProvider client={posthog}>{children}</PostHogProvider>
+}
+
+export function Providers({ children }: {
+  children: React.ReactNode
+}) {
+  return <ThemeProvider>{children}</ThemeProvider>
 }
