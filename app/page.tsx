@@ -152,10 +152,12 @@ export default function Home() {
               onClick={() =>
                 theme == "dark" ? setTheme('light') : setTheme("dark")
               }
-              variant={"default"}
-              className="rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold"
-            >
-              Switch Theme Mode
+              className="rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold">
+              {theme === 'dark' ? (
+                <img src="/static/moon.png" alt="Sun icon" width={35} height={35} />
+              ) : (
+                <img src="/static/sun.png" alt="Moon icon" width={35} height={35} />
+              )}
             </Button>
           </div>
         } />
@@ -165,10 +167,12 @@ export default function Home() {
             onClick={() =>
               theme == "dark" ? setTheme('light') : setTheme("dark")
             }
-            variant={"default"}
-            className="rounded-full border-opacity-70 bg-opacity-50 lg:px-5 lg:py-6 px-6 py-4 font-thicccboibold"
-          >
-            Switch Theme
+            className="rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold">
+            {theme === 'dark' ? (
+              <img src="/static/moon.png" alt="Sun icon" width={30} height={30} />
+            ) : (
+              <img src="/static/sun.png" alt="Moon icon" width={30} height={30} />
+            )}
           </Button>
           <Button
             onClick={() => {

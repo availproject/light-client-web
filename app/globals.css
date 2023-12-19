@@ -62,28 +62,28 @@ html {
  
 @layer base {
   :root {
-    --background: white;
+    --background: #efeded;
     --foreground: black;
 
-    --card: white;
+    --card: #efeded;
     --card-foreground: black;
  
-    --popover: white;
+    --popover: #efeded;
     --popover-foreground: black;
  
-    --primary: white;
+    --primary: #efeded;
     --primary-foreground: black;
  
-    --secondary: white;
+    --secondary: #efeded;
     --secondary-foreground: black;
  
-    --muted: white;
+    --muted: #efeded;
     --muted-foreground: black;
  
-    --accent: white;
+    --accent: #efeded;
     --accent-foreground: black;
  
-    --destructive:white;
+    --destructive:#efeded;
     --destructive-foreground: black;
 
     --border: 214.3 31.8% 91.4%;
@@ -94,28 +94,28 @@ html {
   }
  
   .dark {
-    --background: black;
+    --background: #1E2129;
     --foreground: white;
  
-    --card: black;
+    --card: #1E2129;
     --card-foreground: white;
  
-    --popover: black;
+    --popover: #1E2129;
     --popover-foreground: white;
  
-    --primary: black;
+    --primary: #1E2129;
     --primary-foreground: white;
  
-    --secondary: black;
+    --secondary: #1E2129;
     --secondary-foreground: white;
  
-    --muted: black;
+    --muted: #1E2129;
     --muted-foreground: white;
  
-    --accent: black;
+    --accent: #1E2129;
     --accent-foreground: white;
  
-    --destructive: black;
+    --destructive: #1E2129;
     --destructive-foreground: white;
  
     --border: 217.2 32.6% 17.5%;
