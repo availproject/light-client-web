@@ -62,9 +62,6 @@ html {
  
 @layer base {
   :root {
-    --background: #efeded;
-    --foreground: black;
-
     --card: #efeded;
     --card-foreground: black;
  
@@ -80,7 +77,7 @@ html {
     --muted: #efeded;
     --muted-foreground: black;
  
-    --accent: #efeded;
+    --accent: black;
     --accent-foreground: black;
  
     --destructive:#efeded;
@@ -94,9 +91,6 @@ html {
   }
  
   .dark {
-    --background: #1E2129;
-    --foreground: white;
- 
     --card: #1E2129;
     --card-foreground: white;
  
@@ -123,12 +117,24 @@ html {
     --ring: 212.7 26.8% 83.9%;
   }
 }
+
+:root {
+  --background: #efeded;
+  --foreground: black;
+}
+
+[data-theme='dark'] {
+  --background: #1E2129;
+  --foreground: white;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
  
 @layer base {
   * {
     @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }

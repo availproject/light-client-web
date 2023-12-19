@@ -16,7 +16,7 @@ import { useTheme } from "next-themes";
 
 export default function Home() {
   const { systemTheme, theme, setTheme } = useTheme();
-  const currentTheme = theme === 'system' ? systemTheme : theme;
+  const resolvedTheme  = theme === 'system' ? systemTheme : theme;
   const [latestBlock, setLatestBlock] = useState<Block | null>(null);
   const [blockList, setBlockList] = useState<Array<Block>>([]);
   const [matrix, setMatrix] = useState<Matrix>({
