@@ -22,12 +22,12 @@ export default function Navbar({
             alt=""
             className="max-h-[40px]"
           />
-          <span className="text-mono hidden text-xl normal-case md:inline-flex md:text-2xl ml-2">  
+          <span className="text-mono hidden text-xl normal-case md:inline-flex md:text-2xl ml-2">
           </span>
         </Link>
       </div>
       {showButton ? (
-        <div className="invisible flex-none sm:visible md:visible lg:visible xl:visible">
+        <div className="invisible flex-none md:visible lg:visible xl:visible">
           {button}
         </div>
       ) : (

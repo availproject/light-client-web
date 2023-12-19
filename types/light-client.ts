@@ -3,12 +3,13 @@ export type Cell = {
     col: number
 }
 
-export type Block = {
+export interface Block {
     number: number,
     hash: string,
     totalCellCount: number,
     confidence: number | null,
-    sampleCount: number
+    sampleCount: number,
+    timestamp: number,
 }
 
 export type Matrix = {

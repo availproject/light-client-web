@@ -7,6 +7,7 @@ import { Matrix } from "@/types/light-client";
 
 type Props = {
   matrix: Matrix,
+  processing: boolean
 }
 
 export default function DsMatrix(props: Props) {
@@ -14,6 +15,7 @@ export default function DsMatrix(props: Props) {
   let columnCount = matrix.maxCol
   let cells = matrix.verifiedCells
   let totalCellCount = matrix.totalCellCount === 0 ? 128 : matrix.totalCellCount;
+  let processing = props.processing;
 
   function displayCells(): CellType[] {
     let displayCells: CellType[] = [];
@@ -41,8 +43,9 @@ export default function DsMatrix(props: Props) {
     let row = r
     let col = c
     if (checkForSampleCell(row, col)) {
-      return "#3CBBF9"
+      return processing ? "#FFFF00" : "#3CBBF9"
     }
+
     return "#222630"
   }
 
@@ -53,7 +56,7 @@ export default function DsMatrix(props: Props) {
         <div className="matrix flex flex-wrap self-start max-h-[268px] lg:max-h-[568px] overflow-auto">
           <div className="grid grid-cols-16 lg:grid-cols-32 gap-2">
             {
-              displayCells().map((cell,index) => {
+              displayCells().map((cell, index) => {
                 return (<Cell key={index} color={colorCheck(cell.row, cell.col)} />)
               })
             }

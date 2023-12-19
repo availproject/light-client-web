@@ -24,6 +24,7 @@ export default function Home() {
   });
   const [running, setRunning] = useState<Boolean>(false);
   const [stop, setStop] = useState<Function | null>(null);
+  const [processingBlock, setProcessingBlock] = useState<boolean>(false);
 
   useEffect(() => {
     init();
@@ -43,8 +44,8 @@ export default function Home() {
     proofs: Uint8Array[],
     commitments: Uint8Array[]
   ) => {
-    addBlock(block);
-
+    addNewBlock(block, matrix);
+    setProcessingBlock(true);
     //Indivisual cell verification
     let verifiedCount = 0;
     let verifiedCells: Cell[] = [];
@@ -62,7 +63,7 @@ export default function Home() {
         cell.row,
         cell.col
       );
-      //console.log(res)
+
       if (res) {
         verifiedCount++;
         const confidence = 100 * (1 - 1 / Math.pow(2, verifiedCount));
@@ -74,8 +75,8 @@ export default function Home() {
           totalCellCount: block.totalCellCount,
           confidence: confidence,
           sampleCount: block.sampleCount,
+          timestamp: block.timestamp
         });
-        console.log("Updating verified cells details.")
 
         setMatrix({
           maxRow: matrix.maxRow,
@@ -88,6 +89,8 @@ export default function Home() {
         await sleep(100);
       }
     }
+
+    setProcessingBlock(false);
   };
 
   const run = async () => {
@@ -96,9 +99,21 @@ export default function Home() {
     runLC(processBlock, setStop);
   };
 
-  const addBlock = (newBlock: Block) => {
-    setLatestBlock(newBlock);
+  const scrollToBlocks = () => {
+    setTimeout(() => window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    }), 500);
+  }
 
+  const addNewBlock = (newBlock: Block, matrix: Matrix) => {
+    setLatestBlock(newBlock);
+    setMatrix({
+      maxRow: matrix.maxRow,
+      maxCol: matrix.maxCol,
+      verifiedCells: [],
+      totalCellCount: matrix.totalCellCount,
+    });
     //@ts-ignore
     setBlockList((list) => {
       let newBlockList: Block[] = [];
@@ -134,17 +149,17 @@ export default function Home() {
       />
       <main className="">
         <div className="md:hidden flex flex-col items-center justify-center py-8">
-          <Button onClick={() => { running ? (stop(), setRunning(false)) : run() }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
+          <Button onClick={() => { running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks()) }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
         </div>
-        { running || (latestBlock != null)? (
+        {running || (latestBlock != null) ? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
-            <div className="lg:w-[60%] flex flex-col ">
+            <div className="lg:w-[60%] flex flex-col " id="blocks-section">
               {running ? (
-                <div className="lg:h-[35%] 2xl:h-[40%] flex flex-col items-start justify-center mt-10">
+                <div className="lg:h-[35%] 2xl:h-[40%] min-h-[100px] flex flex-col items-start justify-center mt-10">
                   <AvailChain blockList={blockList} />
                 </div>
-              ) : ( "" )}
-              <DsMatrix matrix={matrix} />
+              ) : ("")}
+              <DsMatrix matrix={matrix} processing={processingBlock} />
             </div>
             <div className="lg:w-[40%] flex items-start lg:mt-20">
               <BlockData
@@ -161,37 +176,40 @@ export default function Home() {
             <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight text-white !text-left lg:block ">
               Avail Light Client (Web)
             </h2>
-            <p className="text-2xl  2xl:text-4xl  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
+            <p className="text-xl font-ppmori  text-white !text-left lg:block text-opacity-80 ">
               This is an experimental light client for Avail. It runs <i>entirely
                 in your browser</i> to verify that block data is available, by
-                  verifying Avail's KZG commitment proofs locally. Click
-                  the button above to see it in action!
+              verifying Avail&#39;s KZG commitment proofs locally. Click
+              the button above to see it in action!
             </p>
-            <p className="text-2xl  2xl:text-4xl  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
+            <p className="text-xl  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
               Check out the{" "}
               <Link
                 href={"https://github.com/availproject/light-client-web"}
                 className="text-[#3CBBF9] underline"
+                target={"_blank"}
               >
                 source code
               </Link>
-                , and learn more about Avail at{" "}
+              , and learn more about Avail at{" "}
               <Link
                 href={"https://availproject.org/"}
                 className="text-[#3CBBF9] underline"
+                target={"_blank"}
               >
                 availproject.org
               </Link>
             </p>
-            <p className="text-2xl  2xl:text-4xl  font-ppmori text-white !text-left lg:block text-opacity-80 ">
+            <p className="text-xl  2xl:text-4xl  font-ppmori text-white !text-left lg:block text-opacity-80 ">
               P.S. Do you want to share the awesomeness?{" "}
               <Link
                 href={"https://twitter.com/intent/tweet?text=Check out @AvailProject's new Web Light Client at https://light.avail.tools/ !"}
                 className="text-[#3CBBF9] underline"
+                target={"_blank"}
               >
                 Tweet about it
               </Link>
-                {" "}and be sure to tag @AvailProject!
+              {" "}and be sure to tag <Link href={"https://twitter.com/AvailProject"} className="text-[#3CBBF9]" target={"_blank"}>@AvailProject!</Link>
             </p>
           </div>
         )}
