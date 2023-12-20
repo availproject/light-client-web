@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.2.8",
     "@polkadot/api": "^10.10.1",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-progress": "^1.0.3",
