@@ -12,8 +12,11 @@ import { sleep } from "@/utils/helper";
 import { Block, Matrix, Cell } from "@/types/light-client";
 import { runLC } from "@/repository/avail-light.repository";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
 export default function Home() {
+  const { theme, setTheme } = useTheme();
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [latestBlock, setLatestBlock] = useState<Block | null>(null);
   const [blockList, setBlockList] = useState<Array<Block>>([]);
   const [matrix, setMatrix] = useState<Matrix>({
@@ -25,6 +28,18 @@ export default function Home() {
   const [running, setRunning] = useState<Boolean>(false);
   const [stop, setStop] = useState<Function | null>(null);
   const [processingBlock, setProcessingBlock] = useState<boolean>(false);
+
+
+  const handleThemeChange = () => {
+    setIsTransitioning(true);
+
+    setTimeout(() => {
+      const newTheme = theme === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+      setIsTransitioning(false);
+    }, 0);
+  };
+
 
   useEffect(() => {
     init();
@@ -133,23 +148,58 @@ export default function Home() {
 
   return (
     <>
-      <Navbar
-        showButton
+      <Navbar showButton
         button={
+          <div className="flex space-x-4">
+            <Button
+              onClick={() => {
+                running ? (stop?.(), setRunning(false)) : run();
+              }}
+              variant={"outline"}
+              className="rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold"
+            >
+              {running ? "Stop Running the LC" : "Start Running the LC"}
+            </Button>
+            <Button onClick={handleThemeChange} variant="ghost">
+              <img
+                src="/static/theme.png"
+                alt="theme"
+                width={40}
+                height={40}
+                style={{
+                  opacity: isTransitioning ? 0 : 1,
+                }}
+              />
+            </Button>
+          </div>
+        } />
+      <main className="">
+        <div className="md:hidden flex flex-row items-center justify-center py-8">
+          <button onClick={handleThemeChange}>
+            <img
+              src="/static/theme.png"
+              alt="theme"
+              width={40}
+              height={40}
+              style={{
+                opacity: isTransitioning ? 0 : 1,
+                position: 'absolute',
+                top: 30,
+                right: 10,
+              }}
+            />
+          </button>
           <Button
             onClick={() => {
-              running ? (stop?.(), setRunning(false)) : run();
+              running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks())
             }}
             variant={"outline"}
-            className="text-white rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold"
+            className='rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'
           >
-            {running ? "Stop Running the LC" : "Start Running the LC"}
+            {
+              running ? 'Stop Running the LC' : 'Start Running the LC'
+            }
           </Button>
-        }
-      />
-      <main className="">
-        <div className="md:hidden flex flex-col items-center justify-center py-8">
-          <Button onClick={() => { running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks()) }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
         </div>
         {running || (latestBlock != null) ? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
@@ -173,16 +223,16 @@ export default function Home() {
           </div>
         ) : (
           <div className="flex flex-col p-16 2xl:p-20 space-y-10 2xl:space-y-14 ">
-            <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight text-white !text-left lg:block ">
+            <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight  !text-left lg:block ">
               Avail Light Client (Web)
             </h2>
-            <p className="text-xl font-ppmori  text-white !text-left lg:block text-opacity-80 ">
+            <p className="text-xl font-ppmori   !text-left lg:block text-opacity-80 ">
               This is an experimental light client for Avail. It runs <i>entirely
                 in your browser</i> to verify that block data is available, by
               verifying Avail&#39;s KZG commitment proofs locally. Click
               the button above to see it in action!
             </p>
-            <p className="text-xl  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
+            <p className="text-xl  font-ppmori   !text-left lg:block text-opacity-80 ">
               Check out the{" "}
               <Link
                 href={"https://github.com/availproject/light-client-web"}
@@ -200,7 +250,7 @@ export default function Home() {
                 availproject.org
               </Link>
             </p>
-            <p className="text-xl  2xl:text-4xl  font-ppmori text-white !text-left lg:block text-opacity-80 ">
+            <p className="text-xl  2xl:text-4xl  font-ppmori  !text-left lg:block text-opacity-80 ">
               P.S. Do you want to share the awesomeness?{" "}
               <Link
                 href={"https://twitter.com/intent/tweet?text=Check out @AvailProject's new Web Light Client at https://light.avail.tools/ !"}

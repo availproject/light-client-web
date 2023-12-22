@@ -44,7 +44,6 @@ html {
   }
   line-height: 100%;
   letter-spacing: -0.03em;
-  color: #FFFFFF;
   text-align: center;
 }
 
@@ -57,36 +56,32 @@ html {
       font-size: 20px;
   }
   letter-spacing: -0.03em;
-  color: #FFFFFF;
   text-align: left;
   justify-content: flex-start;
 }
  
 @layer base {
   :root {
-    --background:223.6,15.5%,13.9%;
-    --foreground:229, 15%, 15%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: #efeded;
+    --card-foreground: black;
  
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: #efeded;
+    --popover-foreground: black;
  
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: #efeded;
+    --primary-foreground: black;
  
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: #efeded;
+    --secondary-foreground: black;
  
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: #efeded;
+    --muted-foreground: black;
  
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: #efeded;
+    --accent-foreground: black;
  
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive:#efeded;
+    --destructive-foreground: black;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
@@ -96,41 +91,50 @@ html {
   }
  
   .dark {
-    --background: 229, 15%, 15%;
-    --foreground:229, 15%, 15%;
+    --card: #1E2129;
+    --card-foreground: white;
  
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --popover: #1E2129;
+    --popover-foreground: white;
  
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --primary: #1E2129;
+    --primary-foreground: white;
  
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: #1E2129;
+    --secondary-foreground: white;
  
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --muted: #1E2129;
+    --muted-foreground: white;
  
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --accent: #1E2129;
+    --accent-foreground: white;
  
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: #1E2129;
+    --destructive-foreground: white;
  
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
   }
 }
+
+:root {
+  --background: #efeded;
+  --foreground: black;
+}
+
+[data-theme='dark'] {
+  --background: #1E2129;
+  --foreground: white;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
  
 @layer base {
   * {
     @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }
