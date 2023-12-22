@@ -16,6 +16,7 @@ import { useTheme } from "next-themes";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [latestBlock, setLatestBlock] = useState<Block | null>(null);
   const [blockList, setBlockList] = useState<Array<Block>>([]);
   const [matrix, setMatrix] = useState<Matrix>({
@@ -28,7 +29,7 @@ export default function Home() {
   const [stop, setStop] = useState<Function | null>(null);
   const [processingBlock, setProcessingBlock] = useState<boolean>(false);
 
-  const [isTransitioning, setIsTransitioning] = useState(false);
+
   const handleThemeChange = () => {
     setIsTransitioning(true);
 
@@ -36,8 +37,9 @@ export default function Home() {
       const newTheme = theme === 'dark' ? 'light' : 'dark';
       setTheme(newTheme);
       setIsTransitioning(false);
-    }, 400); // Waktu transisi, disesuaikan dengan durasi animasi CSS
+    }, 0);
   };
+
 
   useEffect(() => {
     init();
@@ -158,46 +160,35 @@ export default function Home() {
             >
               {running ? "Stop Running the LC" : "Start Running the LC"}
             </Button>
-
-            <Button
-              onClick={handleThemeChange}
-              style={{
-                background: "transparent",
-                transition: "opacity 0.5s ease-in-out",
-                opacity: isTransitioning ? 0 : 1,
-              }}
-            >
+            <Button onClick={handleThemeChange} variant="ghost">
               <img
                 src="/static/theme.png"
                 alt="theme"
                 width={40}
                 height={40}
+                style={{
+                  opacity: isTransitioning ? 0 : 1,
+                }}
               />
             </Button>
-
           </div>
         } />
       <main className="">
         <div className="md:hidden flex flex-row items-center justify-center py-8">
-          <Button
-            onClick={handleThemeChange}
-            style={{
-              background: "transparent",
-              transition: "opacity 0.5s ease-in-out",
-              opacity: isTransitioning ? 0 : 1,
-              position: 'absolute',
-              top: 30,
-              right: 10,
-            }}
-          >
+          <button onClick={handleThemeChange}>
             <img
               src="/static/theme.png"
               alt="theme"
-              width={35}
-              height={35}
+              width={40}
+              height={40}
+              style={{
+                opacity: isTransitioning ? 0 : 1,
+                position: 'absolute',
+                top: 30,
+                right: 10,
+              }}
             />
-          </Button>
-
+          </button>
           <Button
             onClick={() => {
               running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks())
