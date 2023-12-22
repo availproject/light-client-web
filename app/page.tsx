@@ -15,8 +15,7 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 
 export default function Home() {
-  const { systemTheme, theme, setTheme } = useTheme();
-  const resolvedTheme  = theme === 'system' ? systemTheme : theme;
+  const { theme, setTheme } = useTheme();
   const [latestBlock, setLatestBlock] = useState<Block | null>(null);
   const [blockList, setBlockList] = useState<Array<Block>>([]);
   const [matrix, setMatrix] = useState<Matrix>({
@@ -28,6 +27,17 @@ export default function Home() {
   const [running, setRunning] = useState<Boolean>(false);
   const [stop, setStop] = useState<Function | null>(null);
   const [processingBlock, setProcessingBlock] = useState<boolean>(false);
+
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const handleThemeChange = () => {
+    setIsTransitioning(true);
+
+    setTimeout(() => {
+      const newTheme = theme === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+      setIsTransitioning(false);
+    }, 400); // Waktu transisi, disesuaikan dengan durasi animasi CSS
+  };
 
   useEffect(() => {
     init();
@@ -148,39 +158,51 @@ export default function Home() {
             >
               {running ? "Stop Running the LC" : "Start Running the LC"}
             </Button>
+
             <Button
-              onClick={() =>
-                theme == "dark" ? setTheme('light') : setTheme("dark")
-              }
-              variant={"ghost"}
-              className="rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold">
-              {theme === 'dark' ? (
-                <img src="/static/moon.png" alt="Sun icon" width={35} height={35} />
-              ) : (
-                <img src="/static/sun.png" alt="Moon icon" width={35} height={35} />
-              )}
+              onClick={handleThemeChange}
+              style={{
+                background: "transparent",
+                transition: "opacity 0.5s ease-in-out",
+                opacity: isTransitioning ? 0 : 1,
+              }}
+            >
+              <img
+                src="/static/theme.png"
+                alt="theme"
+                width={40}
+                height={40}
+              />
             </Button>
+
           </div>
         } />
       <main className="">
         <div className="md:hidden flex flex-row items-center justify-center py-8">
           <Button
-            onClick={() =>
-              theme == "dark" ? setTheme('light') : setTheme("dark")
-            }
-            variant={"ghost"}
-            className="rounded-full border-opacity-70 bg-opacity-50 lg:px-8 lg:py-6 px-6 py-4 font-thicccboibold">
-            {theme === 'dark' ? (
-              <img src="/static/moon.png" alt="Sun icon" width={30} height={30} />
-            ) : (
-              <img src="/static/sun.png" alt="Moon icon" width={30} height={30} />
-            )}
+            onClick={handleThemeChange}
+            style={{
+              background: "transparent",
+              transition: "opacity 0.5s ease-in-out",
+              opacity: isTransitioning ? 0 : 1,
+              position: 'absolute',
+              top: 30,
+              right: 10,
+            }}
+          >
+            <img
+              src="/static/theme.png"
+              alt="theme"
+              width={35}
+              height={35}
+            />
           </Button>
+
           <Button
             onClick={() => {
               running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks())
             }}
-            variant={'outline'}
+            variant={"outline"}
             className='rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'
           >
             {
