@@ -22,6 +22,13 @@ Avail welcomes contributors from anywhere and from any kind of education or skil
 
 5. Once you started working on an issue and you have some work to share and discuss with us, please raise a draft PR early with incomplete changes. This way you can continue working on the same and we can track your progress and actively review and help.
 
+### Create a pull request
+
+Please create pull requests only for the branch `develop`. That code will be pushed to master only on a new release.
+
+Also remember to pull the most recent changes available in the develop branch before submitting your PR. If your PR has merge conflicts caused by this behavior, it won’t be accepted.
+
+
 
 
 ### Running the web-LC locally
