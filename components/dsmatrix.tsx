@@ -2,7 +2,6 @@
 
 import Cell from "./cell";
 import { Cell as CellType } from "@/types/light-client";
-import { useWindowSize } from '@/hooks/use-window-size';
 import { Matrix } from "@/types/light-client";
 
 type Props = {
@@ -53,7 +52,7 @@ export default function DsMatrix(props: Props) {
     <div className="flex flex-col p-10 space-y-4">
       <h1 className="subheading lg:!text-left !w-full 2xl:pb-2 pb-1">Data Sampling Matrix</h1>
       <div className=" rounded-xl self-start p-4 bg-[#292E3A] max-h-[300px] lg:max-h-[600px] max-w-full">
-        <div className="matrix flex flex-wrap self-start max-h-[268px] lg:max-h-[568px] overflow-auto">
+        <div className="matrix flex flex-wrap self-start max-h-[268px] overflow-auto">
           <div className="grid grid-cols-16 lg:grid-cols-32 gap-2">
             {
               displayCells().map((cell, index) => {
