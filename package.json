@@ -18,6 +18,8 @@
     "@types/react": "18.2.37",
     "@types/react-dom": "18.2.15",
     "autoprefixer": "10.4.16",
+    "avail-js": "^0.1.0",
+    "avail-js-sdk": "^0.1.15",
     "cal-heatmap": "^4.2.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",

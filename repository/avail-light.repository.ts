@@ -3,15 +3,13 @@ import { createApi } from '../utils/api'
 import config from "../utils/config"
 import { generateRandomCells } from '@/utils/helper';
 
-
-
 export async function runLC(onBlock: Function, registerUnsubscribe: Function): Promise<() => void> {
     const api: any = await createApi();
     const unsubscribe = await api.rpc.chain.subscribeFinalizedHeads(async (header: any) => {
         //Extracting the data out from header
         const blockNumber = header.number.toString()
         const extension = JSON.parse(header.extension)
-        const commitment = extension.v1.commitment
+        const commitment = extension.v2.commitment
         const kateCommitment = commitment.commitment.split('0x')[1]
         const r = commitment.rows
         const c = commitment.cols
