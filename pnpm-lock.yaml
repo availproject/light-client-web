@@ -32,6 +32,12 @@ dependencies:
   autoprefixer:
     specifier: 10.4.16
     version: 10.4.16(postcss@8.4.31)
+  avail-js:
+    specifier: ^0.1.0
+    version: 0.1.0
+  avail-js-sdk:
+    specifier: ^0.1.15
+    version: 0.1.15
   cal-heatmap:
     specifier: ^4.2.3
     version: 4.2.3
@@ -3507,6 +3513,22 @@ packages:
       postcss-value-parser: 4.2.0
     dev: false
 
+  /avail-js-sdk@0.1.15:
+    resolution: {integrity: sha512-tCTINqEA232VZ/nQCqqcR/gOP68YSzqcYoPDIrlqkgK+H4Cz3Hl6QPTrTzf5RWgs/UEMG5eYH9XQ00zmdDUpvA==}
+    dependencies:
+      '@polkadot/api': 10.10.1
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /avail-js@0.1.0:
+    resolution: {integrity: sha512-+W3A+1T9DymmeUaGE4ykfEAs7eHsD/TQN7y+UGxYj0kjguwKIrSKpI/P6mDOoHNuk1/pLtBxwl3L95whF/1/wQ==}
+    dependencies:
+      lodash: 4.17.21
+    dev: false
+
   /available-typed-arrays@1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -5144,6 +5166,10 @@ packages:
 
   /lodash.omit@4.5.0:
     resolution: {integrity: sha512-XeqSp49hNGmlkj2EJlfrQFIzQ6lXdNro9sddtQzcJY8QaoC2GO0DT7xaIokHeyM+mIT0mPMlPvkYzg2xCuHdZg==}
+    dev: false
+
+  /lodash@4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: false
 
   /loose-envify@1.4.0:
