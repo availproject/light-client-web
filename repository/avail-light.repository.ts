@@ -9,7 +9,7 @@ export async function runLC(onBlock: Function, registerUnsubscribe: Function): P
         //Extracting the data out from header
         const blockNumber = header.number.toString()
         const extension = JSON.parse(header.extension)
-        const commitment = extension.v2.commitment
+        const commitment = extension.v3.commitment
         const kateCommitment = commitment.commitment.split('0x')[1]
         const r = commitment.rows
         const c = commitment.cols
