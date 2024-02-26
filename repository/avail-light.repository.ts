@@ -2,6 +2,7 @@ import { Block, Matrix } from '@/types/light-client';
 import { createApi } from '../utils/api'
 import config from "../utils/config"
 import { generateRandomCells } from '@/utils/helper';
+import { BlockToProcess } from '@/types/light-client';
 
 export async function runLC(onBlock: Function, registerUnsubscribe: Function): Promise<() => void> {
     const api: any = await createApi();
@@ -46,7 +47,8 @@ export async function runLC(onBlock: Function, registerUnsubscribe: Function): P
         //Create required info for process block
         const block: Block = { number: blockNumber, hash: blockHash, totalCellCount: totalCellCount, confidence: 0, sampleCount: sampleCount, timestamp }
         const matrix: Matrix = { maxRow: r, maxCol: c, verifiedCells: [], totalCellCount }
-        onBlock(block, matrix, randomCells, proofs, commitments)
+        onBlock((list: BlockToProcess[]) => [...list, { block, matrix, randomCells, proofs, commitments }])
+        //onBlock(block, matrix, randomCells, proofs, commitments)
     });
 
     return registerUnsubscribe(() => unsubscribe);
