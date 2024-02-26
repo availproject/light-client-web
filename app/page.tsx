@@ -159,7 +159,7 @@ export default function Home() {
                   <AvailChain blockList={blockList} />
                 </div>
               ) : ("")}
-              {/* <DsMatrix matrix={matrix} processing={processingBlock} /> */}
+              <DsMatrix matrix={matrix} processing={processingBlock} />
             </div>
             <div className="lg:w-[40%] flex items-start lg:mt-20">
               <BlockData
