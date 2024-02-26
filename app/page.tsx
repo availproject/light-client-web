@@ -164,7 +164,7 @@ export default function Home() {
         <div className="md:hidden flex flex-col items-center justify-center py-8">
           <Button onClick={() => { running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks()) }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
         </div>
-        {running || (latestBlock != null) ? (
+        {running && (latestBlock != null) ? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
             <div className="lg:w-[60%] flex flex-col " id="blocks-section">
               {running ? (
