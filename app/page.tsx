@@ -9,11 +9,12 @@ import { useState, useEffect } from "react";
 import init, { check } from "@/avail-light/pkg/wasm_avail_light";
 import config from "../utils/config";
 import { sleep } from "@/utils/helper";
-import { Block, Matrix, Cell } from "@/types/light-client";
+import { Block, Matrix, Cell, BlockToProcess } from "@/types/light-client";
 import { runLC } from "@/repository/avail-light.repository";
 import Link from "next/link";
 
 export default function Home() {
+  const [blocksToProcess, setblocksToProcess] = useState<Array<BlockToProcess>>([])
   const [latestBlock, setLatestBlock] = useState<Block | null>(null);
   const [blockList, setBlockList] = useState<Array<Block>>([]);
   const [matrix, setMatrix] = useState<Matrix>({
@@ -36,6 +37,18 @@ export default function Home() {
     setMatrix({ maxRow: 0, maxCol: 0, verifiedCells: [], totalCellCount: 0 });
     setLatestBlock(null);
   };
+
+
+
+  useEffect(() => {
+    if (!processingBlock && blocksToProcess.length > 0) {
+      const blockToProcess: BlockToProcess = blocksToProcess[0]
+      processBlock(blockToProcess.block, blockToProcess.matrix, blockToProcess.randomCells, blockToProcess.proofs, blockToProcess.commitments)
+      setblocksToProcess((list: BlockToProcess[]) => list.slice(1, list.length))
+    }
+  }, [blocksToProcess, processingBlock])
+
+
 
   const processBlock = async (
     block: Block,
@@ -96,7 +109,7 @@ export default function Home() {
   const run = async () => {
     refreshApp();
 
-    runLC(processBlock, setStop);
+    runLC(setblocksToProcess, setStop);
   };
 
   const scrollToBlocks = () => {
@@ -151,7 +164,7 @@ export default function Home() {
         <div className="md:hidden flex flex-col items-center justify-center py-8">
           <Button onClick={() => { running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks()) }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
         </div>
-        {running || (latestBlock != null) ? (
+        {running && (latestBlock != null) ? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
             <div className="lg:w-[60%] flex flex-col " id="blocks-section">
               {running ? (
