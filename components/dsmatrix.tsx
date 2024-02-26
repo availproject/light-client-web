@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
 import Cell from "./cell";
 import { Cell as CellType } from "@/types/light-client";
 import { Matrix } from "@/types/light-client";
-import config from "../utils/config"
+import config from "../utils/config";
 
-import { useWindowSize } from '@/hooks/use-window-size';
+import { useWindowSize } from "@/hooks/use-window-size";
 
 type Props = {
-  matrix: Matrix,
-  processing: boolean
-}
+  matrix: Matrix;
+  processing: boolean;
+};
 
 export default function DsMatrix(props: Props) {
   // const matrix: Matrix = {
@@ -19,32 +19,35 @@ export default function DsMatrix(props: Props) {
   //   totalCellCount: 4096,
   //   verifiedCells: []
   // }
-  let matrix: Matrix = props.matrix
-  let columnCount = matrix.maxCol
-  let cells = matrix.verifiedCells
-  let totalCellCount = matrix.totalCellCount === 0 ? 128 : matrix.totalCellCount;
+  let matrix: Matrix = props.matrix;
+  let columnCount = matrix.maxCol;
+  let cells = matrix.verifiedCells;
+  let totalCellCount =
+    matrix.totalCellCount === 0 ? 128 : matrix.totalCellCount;
 
   let processing = props.processing;
 
   const windowSize = useWindowSize();
-  let r = matrix.maxRow
-  let c = matrix.maxCol
+  let r = matrix.maxRow;
+  let c = matrix.maxCol;
 
+  let _r = r*config.EXTENSION_FACTOR
 
   function getRowCount(): number {
     let defaultRowCount = windowSize.width! < 1500 ? 15 : 20;
-    return (r as number > defaultRowCount ? r : defaultRowCount);
+    return (r as number) > defaultRowCount ? r : defaultRowCount;
   }
 
   function getColumnCount(): number {
-    let defaultColumnCount = windowSize.width! < 760 ? 20 : windowSize.width! < 1500 ? 40 : 60;
-    return (c as number > defaultColumnCount ? c : defaultColumnCount);
+    let defaultColumnCount =
+      windowSize.width! < 760 ? 20 : windowSize.width! < 1500 ? 40 : 60;
+    return (c as number) > defaultColumnCount ? c : defaultColumnCount;
   }
 
-  let row = new Array(r * config.EXTENSION_FACTOR).fill(1)
-  let col = new Array(c).fill(1)
+  let row = new Array(r * config.EXTENSION_FACTOR).fill(1);
+  let col = new Array(c).fill(1);
 
-  let totalCells = new Array(totalCellCount).fill(1)
+  let totalCells = new Array(totalCellCount).fill(1);
 
   // function displayCells(): CellType[] {
   //   const timeNow = Date.now();
@@ -67,30 +70,37 @@ export default function DsMatrix(props: Props) {
   // }
 
   const checkForSampleCell = (row: any, col: any) => {
-    return cells?.some((cell: { row: any; col: any; }) => {
-      return cell.row == row && cell.col == col
-    })
-  }
+    return cells?.some((cell: { row: any; col: any }) => {
+      return cell.row == row && cell.col == col;
+    });
+  };
 
   const colorCheck = (r: any, c: any) => {
-    let row = r
-    let col = c
+    let row = r;
+    let col = c;
     if (checkForSampleCell(row, col)) {
-      return processing ? "#FFFF00" : "#3CBBF9"
+      return processing ? "#FFFF00" : "#3CBBF9";
     }
 
-    return "#222630"
-  }
+    return "#222630";
+  };
 
   return (
     <div className="flex flex-col p-10 space-y-4">
-      <h1 className="subheading lg:!text-left !w-full 2xl:pb-2 pb-1">Data Sampling Matrix</h1>
+      <div className="flex flex-col space-y-2">
+      <h1 className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1">
+        Data Sampling Matrix{" "}
+        <span className="!text-opacity-70 text-opacity !text-md text-[#22C55F] ">
+          {" "}
+          {`(${_r} X ${c})`}
+        </span>
+      </h1>
+      </div>
       <div className=" rounded-xl self-start p-4 bg-[#292E3A] max-h-[300px] lg:max-h-[600px] max-w-full">
         <div className="matrix flex flex-wrap self-start max-h-[268px] overflow-auto">
           {/* <div className="grid grid-cols-16 lg:grid-cols-32 gap-2"> */}
           {
-
-            row.map((ele, i) => (
+          row.map((ele, i) => (
               <div className="flex flex-row" key={i}>
                 {col.map((ele, j) => (
                   <div key={j} className="p-[1.5px]">
@@ -111,9 +121,11 @@ export default function DsMatrix(props: Props) {
             //   return (<Cell key={i} color={colorCheck(row, col)} />)
             // })
           }
+           <h2 className="">Loading...</h2>
           {/* </div> */}
         </div>
       </div>
-    </div >
+      <h2 className="text-[#D2D3D4] text-center ">{`(Scroll to see the cells getting sampled in realtime)`}</h2>
+    </div>
   );
 }
