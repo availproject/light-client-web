@@ -4,6 +4,8 @@ import Cell from "./cell";
 import { Cell as CellType } from "@/types/light-client";
 import { Matrix } from "@/types/light-client";
 
+import { useWindowSize } from '@/hooks/use-window-size';
+
 type Props = {
   matrix: Matrix,
   processing: boolean
@@ -16,21 +18,39 @@ export default function DsMatrix(props: Props) {
   let totalCellCount = matrix.totalCellCount === 0 ? 128 : matrix.totalCellCount;
   let processing = props.processing;
 
-  function displayCells(): CellType[] {
-    let displayCells: CellType[] = [];
-    for (let i = 0; i < totalCellCount; i++) {
-      let index = i == 0 ? 1 : i;
-      let row = Math.floor(index / columnCount);
-      let col = index % columnCount;
+  const windowSize = useWindowSize();
+  let r = matrix.maxRow
+  let c = matrix.maxCol
 
-      displayCells.push({
-        row,
-        col,
-      });
-    }
 
-    return displayCells;
+  function getRowCount(): number {
+    let defaultRowCount = windowSize.width! < 1500 ? 15 : 20;
+    return (r as number > defaultRowCount ? r : defaultRowCount);
   }
+
+  function getColumnCount(): number {
+    let defaultColumnCount = windowSize.width! < 760 ? 20 : windowSize.width! < 1500 ? 40 : 60;
+    return (c as number > defaultColumnCount ? c : defaultColumnCount);
+  }
+
+  let row = new Array(r).fill(1)
+  let col = new Array(c).fill(1)
+
+  // function displayCells(): CellType[] {
+  //   let displayCells: CellType[] = [];
+  //   for (let i = 0; i < totalCellCount; i++) {
+  //     let index = i == 0 ? 1 : i;
+  //     let row = Math.floor(index / columnCount);
+  //     let col = index % columnCount;
+
+  //     displayCells.push({
+  //       row,
+  //       col,
+  //     });
+  //   }
+
+  //   return displayCells;
+  // }
 
   const checkForSampleCell = (row: any, col: any) => {
     return cells?.some((cell: { row: any; col: any; }) => {
@@ -55,9 +75,20 @@ export default function DsMatrix(props: Props) {
         <div className="matrix flex flex-wrap self-start max-h-[268px] overflow-auto">
           <div className="grid grid-cols-16 lg:grid-cols-32 gap-2">
             {
-              displayCells().map((cell, index) => {
-                return (<Cell key={index} color={colorCheck(cell.row, cell.col)} />)
-              })
+
+              row.map((ele, i) => (
+                <div className="flex flex-row space-x-10" key={i}>
+                  {col.map((ele, j) => (
+                    <div key={j} className="p-[1.5px]">
+                      <Cell key={i * c + j} color={colorCheck(i, j)} />
+                      {/* <Cell key={i * c + j} color="#FFFF00" /> */}
+                    </div>
+                  ))}
+                </div>
+              ))
+              // displayCells().map((cell, index) => {
+              //   return (<Cell key={index} color={colorCheck(cell.row, cell.col)} />)
+              // })
             }
           </div>
         </div>
