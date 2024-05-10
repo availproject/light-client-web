@@ -14,7 +14,7 @@ import { runLC } from "@/repository/avail-light.repository";
 import Link from "next/link";
 
 export default function Home() {
-  const [blocksToProcess, setblocksToProcess] = useState<Array<BlockToProcess>>([])
+  const [blocksToProcess, setBlocksToProcess] = useState<Array<BlockToProcess>>([])
   const [latestBlock, setLatestBlock] = useState<Block | null>(null);
   const [blockList, setBlockList] = useState<Array<Block>>([]);
   const [matrix, setMatrix] = useState<Matrix>({
@@ -44,7 +44,7 @@ export default function Home() {
     if (!processingBlock && blocksToProcess.length > 0) {
       const blockToProcess: BlockToProcess = blocksToProcess[0]
       processBlock(blockToProcess.block, blockToProcess.matrix, blockToProcess.randomCells, blockToProcess.proofs, blockToProcess.commitments)
-      setblocksToProcess((list: BlockToProcess[]) => list.slice(1, list.length))
+      setBlocksToProcess((list: BlockToProcess[]) => list.slice(1, list.length))
     }
   }, [blocksToProcess, processingBlock])
 
@@ -109,7 +109,7 @@ export default function Home() {
   const run = async () => {
     refreshApp();
 
-    runLC(setblocksToProcess, setStop);
+    runLC(setBlocksToProcess, setStop);
   };
 
   const scrollToBlocks = () => {
