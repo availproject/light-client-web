@@ -33,7 +33,7 @@ export async function runLC(onBlock: Function, registerUnsubscribe: Function): P
         const kate_Proof = Uint8Array.from(kateProof)
         const kate_commitment = Uint8Array.from(kateCommitment.match(/.{1,2}/g).map((byte: string) => parseInt(byte, 16)))
 
-        //Creating commitement array based on rows and proof array based on cells
+        //Creating commitment array based on rows and proof array based on cells
         let commitments: Uint8Array[] = []
         for (let i = 0; i < (r * config.EXTENSION_FACTOR); i++) {
             commitments.push(kate_commitment.slice(i * config.COMMITMENT_SIZE, (i + 1) * config.COMMITMENT_SIZE))

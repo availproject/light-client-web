@@ -59,7 +59,7 @@ export default function Home() {
   ) => {
     addNewBlock(block, matrix);
     setProcessingBlock(true);
-    //Indivisual cell verification
+    //Individual cell verification
     let verifiedCount = 0;
     let verifiedCells: Cell[] = [];
 
