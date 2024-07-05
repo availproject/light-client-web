@@ -1,11 +1,11 @@
 import { Block, Matrix } from '@/types/light-client';
-import { createApi } from '../utils/api'
 import config from "../utils/config"
 import { generateRandomCells } from '@/utils/helper';
 import { BlockToProcess } from '@/types/light-client';
+import {ApiPromise, initialize} from 'avail-js-sdk'
 
 export async function runLC(onBlock: Function, registerUnsubscribe: Function): Promise<() => void> {
-    const api: any = await createApi();
+    const api: ApiPromise = await initialize('wss://turing-rpc.avail.so/ws');
     const unsubscribe = await api.rpc.chain.subscribeFinalizedHeads(async (header: any) => {
         //Extracting the data out from header
         const blockNumber = header.number.toString()
@@ -19,7 +19,7 @@ export async function runLC(onBlock: Function, registerUnsubscribe: Function): P
         //fetching block hash from number 
         const blockHash = (await api.rpc.chain.getBlockHash(header.number)).toString();
         console.log(`New Block with hash: ${blockHash}, Number: ${blockNumber} `)
-
+        console.log(commitment, "commitment")
         //Generating SAMPLE_SIZE random cell for sampling
         const totalCellCount = (r * config.EXTENSION_FACTOR) * c
         let sampleCount = config.SAMPLE_SIZE
@@ -27,9 +27,14 @@ export async function runLC(onBlock: Function, registerUnsubscribe: Function): P
             sampleCount = 5
         }
         const randomCells = generateRandomCells(r, c, sampleCount)
+        console.log(randomCells, "cells")
 
-        //Query data proof for sample 0,0
-        const kateProof = await api.rpc.kate.queryProof(randomCells, blockHash);
+        const rpc: any = api.rpc
+        const kateProof = await rpc.kate.queryProof(randomCells, blockHash);
+        console.log("kate proof", kateProof.toHuman())
+
+
+
         const kate_Proof = Uint8Array.from(kateProof)
         const kate_commitment = Uint8Array.from(kateCommitment.match(/.{1,2}/g).map((byte: string) => parseInt(byte, 16)))
 
