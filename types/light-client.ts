@@ -3,14 +3,15 @@ export type Cell = {
     col: number
 }
 
-export interface Block {
-    number: number,
-    hash: string,
-    totalCellCount: number,
-    confidence: number | null,
-    sampleCount: number,
-    timestamp: number,
-}
+export type Block = {
+    number: string;
+    hash: string;
+    totalCellCount: number;
+    confidence: number;
+    sampleCount: number;
+    timestamp: number;
+    hasDaSubmissions: boolean;
+};
 
 export type Matrix = {
     maxRow: number,

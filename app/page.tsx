@@ -52,54 +52,69 @@ export default function Home() {
 
   const processBlock = async (
     block: Block,
-    matrix: Matrix,
+    matrix: Matrix | null,
     cells: Cell[],
     proofs: Uint8Array[],
     commitments: Uint8Array[]
   ) => {
     addNewBlock(block, matrix);
     setProcessingBlock(true);
-    //Indivisual cell verification
-    let verifiedCount = 0;
-    let verifiedCells: Cell[] = [];
 
-    for (let i = 0; i < cells.length; i++) {
-      if (block.number < (latestBlock?.number || 0)) {
-        return;
-      }
-      let cell = cells[i];
+    if (matrix && cells.length > 0) {
+      let verifiedCount = 0;
+      let verifiedCells: Cell[] = [];
 
-      const res = check(
-        proofs[i],
-        commitments[cell.row],
-        matrix.maxCol,
-        cell.row,
-        cell.col
-      );
+      for (let i = 0; i < cells.length; i++) {
+        if (block.number < (latestBlock?.number || 0)) {
+          return;
+        }
+        let cell = cells[i];
 
-      if (res) {
-        verifiedCount++;
-        const confidence = 100 * (1 - 1 / Math.pow(2, verifiedCount));
-        verifiedCells.push(cell);
+        try {
+          console.log('Checking cell:', cell);
+          console.log('Proof:', proofs[i]);
+          console.log('Commitment:', commitments[cell.row]);
+          console.log('Matrix maxCol:', matrix.maxCol);
 
-        setLatestBlock({
-          hash: block.hash,
-          number: block.number,
-          totalCellCount: block.totalCellCount,
-          confidence: confidence,
-          sampleCount: block.sampleCount,
-          timestamp: block.timestamp
-        });
+          const res = check(
+            proofs[i],
+            commitments[cell.row],
+            matrix.maxCol,
+            cell.row,
+            cell.col
+          );
 
-        setMatrix({
-          maxRow: matrix.maxRow,
-          maxCol: matrix.maxCol,
-          //@ts-ignore
-          verifiedCells,
-          totalCellCount: matrix.totalCellCount,
-        });
+          console.log('Check result:', res);
 
-        await sleep(100);
+          if (res) {
+            verifiedCount++;
+            const confidence = 100 * (1 - 1 / Math.pow(2, verifiedCount));
+            verifiedCells.push(cell);
+
+            setLatestBlock({
+              ...block,
+              confidence: confidence,
+            });
+
+            setMatrix({
+              maxRow: matrix.maxRow,
+              maxCol: matrix.maxCol,
+              verifiedCells,
+              totalCellCount: matrix.totalCellCount,
+            });
+
+            await sleep(100);
+          }
+        } catch (error) {
+          console.error('Error in check function:', error);
+          console.error('Error details:', {
+            proofLength: proofs[i].length,
+            commitmentLength: commitments[cell.row].length,
+            maxCol: matrix.maxCol,
+            row: cell.row,
+            col: cell.col
+          });
+        }
       }
     }
 
@@ -119,14 +134,23 @@ export default function Home() {
     }), 500);
   }
 
-  const addNewBlock = (newBlock: Block, matrix: Matrix) => {
+  const addNewBlock = (newBlock: Block, matrix: Matrix | null) => {
     setLatestBlock(newBlock);
-    setMatrix({
-      maxRow: matrix.maxRow,
-      maxCol: matrix.maxCol,
-      verifiedCells: [],
-      totalCellCount: matrix.totalCellCount,
-    });
+    if (matrix) {
+      setMatrix({
+        maxRow: matrix.maxRow,
+        maxCol: matrix.maxCol,
+        verifiedCells: [],
+        totalCellCount: matrix.totalCellCount,
+      });
+    } else {
+      setMatrix({
+        maxRow: 0,
+        maxCol: 0,
+        verifiedCells: [],
+        totalCellCount: 0,
+      });
+    }
     //@ts-ignore
     setBlockList((list) => {
       let newBlockList: Block[] = [];
