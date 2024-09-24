@@ -123,7 +123,6 @@ export default function Home() {
 
   const run = async () => {
     refreshApp();
-
     runLC(setblocksToProcess, setStop);
   };
 
@@ -196,7 +195,7 @@ export default function Home() {
                   <AvailChain blockList={blockList} />
                 </div>
               ) : ("")}
-              <DsMatrix matrix={matrix} processing={processingBlock} />
+              <DsMatrix matrix={matrix} processing={processingBlock} hasDaSubmissions={latestBlock.hasDaSubmissions} blockNumber={latestBlock.number} />
             </div>
             <div className="lg:w-[40%] flex items-start lg:mt-20">
               <BlockData
@@ -209,7 +208,7 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col p-16 2xl:p-20 space-y-10 2xl:space-y-14 ">
+          <div className="flex flex-col lg:p-16 p-6 2xl:p-20 space-y-10 2xl:space-y-14 ">
             <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight text-white !text-left lg:block ">
               Avail Light Client (Web)
             </h2>
