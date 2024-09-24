@@ -83,7 +83,7 @@ export default function DsMatrix(props: Props) {
     <div className="absolute inset-0 flex items-center justify-center">
       <div className=" text-center flex flex-row items-center justify-center -rotate-[10px]">
   
-        <h2 className="text-[#D2D3D4] text-center text whitespace-nowrap">Block   <span className={`z-50 text-lg text-[#3CBBF9] text-opacity-70`}><a href={`https://avail.subscan.io/block/${props.blockNumber}`}>#{props.blockNumber}</a></span> has no DA submissions</h2>
+        <h2 className="text-[#D2D3D4] text-center text whitespace-nowrap">Block   <span className={`z-50 text-lg text-[#3CBBF9] text-opacity-70`}><a href={`https://avail-turing.subscan.io/block/${props.blockNumber}`}>#{props.blockNumber}</a></span> has no DA submissions</h2>
       </div>
     </div>
   </div>
