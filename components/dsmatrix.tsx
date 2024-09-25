@@ -5,69 +5,26 @@ import { Cell as CellType } from "@/types/light-client";
 import { Matrix } from "@/types/light-client";
 import config from "../utils/config";
 
-import { useWindowSize } from "@/hooks/use-window-size";
-
 type Props = {
   matrix: Matrix;
   processing: boolean;
+  hasDaSubmissions: boolean;
+  blockNumber: string;
 };
 
 export default function DsMatrix(props: Props) {
-  // const matrix: Matrix = {
-  //   maxRow: 64,
-  //   maxCol: 64,
-  //   totalCellCount: 4096,
-  //   verifiedCells: []
-  // }
+
   let matrix: Matrix = props.matrix;
-  let columnCount = matrix.maxCol;
   let cells = matrix.verifiedCells;
-  let totalCellCount =
-    matrix.totalCellCount === 0 ? 128 : matrix.totalCellCount;
 
   let processing = props.processing;
-
-  const windowSize = useWindowSize();
   let r = matrix.maxRow;
   let c = matrix.maxCol;
 
   let _r = r*config.EXTENSION_FACTOR
 
-  function getRowCount(): number {
-    let defaultRowCount = windowSize.width! < 1500 ? 15 : 20;
-    return (r as number) > defaultRowCount ? r : defaultRowCount;
-  }
-
-  function getColumnCount(): number {
-    let defaultColumnCount =
-      windowSize.width! < 760 ? 20 : windowSize.width! < 1500 ? 40 : 60;
-    return (c as number) > defaultColumnCount ? c : defaultColumnCount;
-  }
-
   let row = new Array(r * config.EXTENSION_FACTOR).fill(1);
   let col = new Array(c).fill(1);
-
-  let totalCells = new Array(totalCellCount).fill(1);
-
-  // function displayCells(): CellType[] {
-  //   const timeNow = Date.now();
-  //   let displayCells: CellType[] = [];
-  //   for (let i = 0; i < totalCellCount; i++) {
-  //     if (i == 1) console.log("Display cells is running")
-  //     let index = i == 0 ? 1 : i;
-
-  //     let row = Math.floor(index / columnCount);
-  //     let col = index % columnCount;
-
-  //     displayCells.push({
-  //       row,
-  //       col,
-  //     });
-  //   }
-
-  //   console.log(Date.now() - timeNow)
-  //   return displayCells;
-  // }
 
   const checkForSampleCell = (row: any, col: any) => {
     return cells?.some((cell: { row: any; col: any }) => {
@@ -90,42 +47,48 @@ export default function DsMatrix(props: Props) {
       <div className="flex flex-col space-y-2">
       <h1 className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1">
         Data Sampling Matrix{" "}
-        <span className="!text-opacity-70 text-opacity !text-md text-[#22C55F] ">
-          {" "}
+     {props.hasDaSubmissions &&  <span className={`!text-opacity-70 text-opacity !text-md text-[#22C55F]`}>
           {`(${_r} X ${c})`}
-        </span>
+        </span>}   
       </h1>
       </div>
-      <div className=" rounded-xl self-start p-4 bg-[#292E3A] max-h-[300px] lg:max-h-[600px] max-w-full">
-        <div className="matrix flex flex-wrap self-start max-h-[268px] overflow-auto">
-          {/* <div className="grid grid-cols-16 lg:grid-cols-32 gap-2"> */}
-          {
-          row.map((ele, i) => (
-              <div className="flex flex-row" key={i}>
-                {col.map((ele, j) => (
-                  <div key={j} className="p-[1.5px]">
-                    <Cell key={i * c + j} color={colorCheck(i, j)} />
-                    {/* <Cell key={i * c + j} color="#FFFF00" /> */}
-                  </div>
-                ))}
-              </div>
-            ))
-            // displayCells().map((cell, index) => {
-            //   return (<Cell key={index} color={colorCheck(cell.row, cell.col)} />)
-            // })
-            // totalCells.map((ele, i) => {
-            //   let index = i == 0 ? 1 : i;
-
-            //   let row = Math.floor(index / columnCount);
-            //   let col = index % columnCount;
-            //   return (<Cell key={i} color={colorCheck(row, col)} />)
-            // })
-          }
-           <h2 className="">Loading...</h2>
-          {/* </div> */}
+      {props.hasDaSubmissions ? (
+  <div className="rounded-xl self-start p-4 bg-[#292E3A] max-h-[300px] lg:max-h-[600px] max-w-full">
+    <div className="matrix flex flex-wrap self-start max-h-[268px] overflow-auto">
+      {row.map((ele, i) => (
+        <div className="flex flex-row" key={i}>
+          {col.map((ele, j) => (
+            <div key={j} className="p-[1.5px]">
+              <Cell key={i * c + j} color={colorCheck(i, j)} />
+            </div>
+          ))}
         </div>
+      ))}
+      {/* <h2 className="">Loading...</h2> */}
+    </div>
+  </div>
+) : (
+  <div className="rounded-xl self-start p-4 bg-[#292E3A] max-h-[200px] lg:max-h-[300px] max-w-full relative">
+    <div className="matrix flex flex-wrap self-start max-h-[268px] overflow-auto">
+      {[...Array(10)].map((_, i) => (
+        <div className="flex flex-row" key={i}>
+          {[...Array(80)].map((_, j) => (
+            <div key={j} className="p-[1.5px]">
+              <Cell key={i * 128 + j} color="#222630" />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className=" text-center flex flex-row items-center justify-center -rotate-[10px]">
+  
+        <h2 className="text-[#D2D3D4] text-center text whitespace-nowrap">Block   <span className={`z-50 text-lg text-[#3CBBF9] text-opacity-70`}><a href={`https://avail-turing.subscan.io/block/${props.blockNumber}`}>#{props.blockNumber}</a></span> has no DA submissions</h2>
       </div>
-      <h2 className="text-[#D2D3D4] text-center ">{`(Scroll to see the cells getting sampled in realtime)`}</h2>
+    </div>
+  </div>
+)}
+      <h2 className="text-[#D2D3D4] text-center ">{props.hasDaSubmissions ? `(Scroll to see the cells getting sampled in realtime)` : ``}</h2>
     </div>
   );
 }
