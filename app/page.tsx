@@ -71,10 +71,10 @@ export default function Home() {
         let cell = cells[i];
 
         try {
-          console.log('Checking cell:', cell);
-          console.log('Proof:', proofs[i]);
-          console.log('Commitment:', commitments[cell.row]);
-          console.log('Matrix maxCol:', matrix.maxCol);
+          // console.log('Checking cell:', cell);
+          // console.log('Proof:', proofs[i]);
+          // console.log('Commitment:', commitments[cell.row]);
+          // console.log('Matrix maxCol:', matrix.maxCol);
 
           const res = check(
             proofs[i],
@@ -200,10 +200,7 @@ export default function Home() {
             <div className="lg:w-[40%] flex items-start lg:mt-20">
               <BlockData
                 latestBlock={latestBlock}
-                run={run}
                 running={running}
-                stop={stop}
-                setRunning={setRunning}
               />
             </div>
           </div>

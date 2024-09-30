@@ -4,10 +4,7 @@ import Image from "next/image";
 
 type Props = {
     latestBlock: Block | null,
-    run: Function,
     running: Boolean,
-    stop: any,
-    setRunning: any
 }
 export default function BlockData(props: Props) {
     const latestBlock = props.latestBlock

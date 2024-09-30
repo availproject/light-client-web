@@ -9,7 +9,6 @@ export type Block = {
     totalCellCount: number;
     confidence: number;
     sampleCount: number;
-    timestamp: number;
     hasDaSubmissions: boolean;
 };
 
