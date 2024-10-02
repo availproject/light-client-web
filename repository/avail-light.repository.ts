@@ -37,7 +37,7 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
                 }
                 const randomCells = generateRandomCells(r, c, sampleCount)
 
-
+                //@ts-ignore TODO: need to fix types
                 const kateProof = await api.rpc.kate.queryProof(randomCells, blockHash);
 
                 //console.log(kateProof)
