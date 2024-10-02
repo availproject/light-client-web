@@ -1,5 +1,14 @@
 import { Cell } from "@/types/light-client";
 
+export const getNetworkUrl = (network: string) => {
+    switch (network) {
+        case "Mainnet":
+            return "wss://mainnet.avail-rpc.com/"
+        default:
+            return "wss://turing-rpc.avail.so/ws"
+    }
+}
+
 export const generateRandomCells = (r: number, c: number, count: number) => {
     const extendedRowCount = r * 2
     const maxCellCount = extendedRowCount * c;

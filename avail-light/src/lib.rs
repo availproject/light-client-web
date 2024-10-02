@@ -19,12 +19,7 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn check(proof: Vec<u8>, commitment: Vec<u8>, width: usize, row: u32, col: u16) -> bool {
-    //let commitments = from_slice(&commitment).unwrap();
-    // log("running");
-    // log_vec(commitment.clone());
-    // log_vec(proof.clone());
-    // log("running");
+pub fn verify_cell(proof: Vec<u8>, commitment: Vec<u8>, width: usize, row: u32, col: u16) -> bool {
     let cell = Cell {
         position: Position { row, col },
         content: proof.try_into().unwrap(),

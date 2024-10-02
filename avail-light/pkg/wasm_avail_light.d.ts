@@ -8,13 +8,13 @@
 * @param {number} col
 * @returns {boolean}
 */
-export function check(proof: Uint8Array, commitment: Uint8Array, width: number, row: number, col: number): boolean;
+export function verify_cell(proof: Uint8Array, commitment: Uint8Array, width: number, row: number, col: number): boolean;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly check: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => number;
+  readonly verify_cell: (a: number, b: number, c: number, d: number, e: number, f: number, g: number) => number;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
 }
 

@@ -29,7 +29,7 @@ export type BlockHeader = {
 export type BlockToProcess = {
     block: Block,
     matrix: Matrix,
-    randomCells: Cell[],
+    verifiedCells: Cell[],
     proofs: Uint8Array[],
     commitments: Uint8Array[]
 }

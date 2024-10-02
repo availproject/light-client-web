@@ -6,7 +6,7 @@ import DsMatrix from "@/components/dsmatrix";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/header";
 import { useState, useEffect } from "react";
-import init, { check } from "@/avail-light/pkg/wasm_avail_light";
+import init, { verify_cell } from "@/avail-light/pkg/wasm_avail_light";
 import config from "../utils/config";
 import { sleep } from "@/utils/helper";
 import { Block, Matrix, Cell, BlockToProcess } from "@/types/light-client";
@@ -14,8 +14,9 @@ import { runLC } from "@/repository/avail-light.repository";
 import Link from "next/link";
 
 export default function Home() {
+  const [network, setNetwork] = useState("Turing")
   const [blocksToProcess, setblocksToProcess] = useState<Array<BlockToProcess>>([])
-  const [latestBlock, setLatestBlock] = useState<Block | null>(null);
+  const [currentBlock, setCurrentBlock] = useState<Block | null>(null);
   const [blockList, setBlockList] = useState<Array<Block>>([]);
   const [matrix, setMatrix] = useState<Matrix>({
     maxRow: 0,
@@ -35,7 +36,7 @@ export default function Home() {
     setRunning(true);
     setBlockList([]);
     setMatrix({ maxRow: 0, maxCol: 0, verifiedCells: [], totalCellCount: 0 });
-    setLatestBlock(null);
+    setCurrentBlock(null);
   };
 
 
@@ -43,7 +44,7 @@ export default function Home() {
   useEffect(() => {
     if (!processingBlock && blocksToProcess.length > 0) {
       const blockToProcess: BlockToProcess = blocksToProcess[0]
-      processBlock(blockToProcess.block, blockToProcess.matrix, blockToProcess.randomCells, blockToProcess.proofs, blockToProcess.commitments)
+      processBlock(blockToProcess.block, blockToProcess.matrix, blockToProcess.verifiedCells, blockToProcess.proofs, blockToProcess.commitments)
       setblocksToProcess((list: BlockToProcess[]) => list.slice(1, list.length))
     }
   }, [blocksToProcess, processingBlock])
@@ -65,18 +66,10 @@ export default function Home() {
       let verifiedCells: Cell[] = [];
 
       for (let i = 0; i < cells.length; i++) {
-        if (block.number < (latestBlock?.number || 0)) {
-          return;
-        }
         let cell = cells[i];
 
         try {
-          // console.log('Checking cell:', cell);
-          // console.log('Proof:', proofs[i]);
-          // console.log('Commitment:', commitments[cell.row]);
-          // console.log('Matrix maxCol:', matrix.maxCol);
-
-          const res = check(
+          const res = verify_cell(
             proofs[i],
             commitments[cell.row],
             matrix.maxCol,
@@ -84,14 +77,14 @@ export default function Home() {
             cell.col
           );
 
-          console.log('Check result:', res);
+          console.log('verify_cell result:', res);
 
           if (res) {
             verifiedCount++;
             const confidence = 100 * (1 - 1 / Math.pow(2, verifiedCount));
             verifiedCells.push(cell);
 
-            setLatestBlock({
+            setCurrentBlock({
               ...block,
               confidence: confidence,
             });
@@ -106,10 +99,10 @@ export default function Home() {
             await sleep(100);
           }
         } catch (error) {
-          console.error('Error in check function:', error);
+          console.error('Error in verifying cell', error);
           console.error('Error details:', {
-            proofLength: proofs[i].length,
-            commitmentLength: commitments[cell.row].length,
+            proof: proofs[i],
+            commitment: commitments[cell.row],
             maxCol: matrix.maxCol,
             row: cell.row,
             col: cell.col
@@ -123,7 +116,7 @@ export default function Home() {
 
   const run = async () => {
     refreshApp();
-    runLC(setblocksToProcess, setStop);
+    runLC(setblocksToProcess, setStop, network);
   };
 
   const scrollToBlocks = () => {
@@ -134,7 +127,7 @@ export default function Home() {
   }
 
   const addNewBlock = (newBlock: Block, matrix: Matrix | null) => {
-    setLatestBlock(newBlock);
+    setCurrentBlock(newBlock);
     if (matrix) {
       setMatrix({
         maxRow: matrix.maxRow,
@@ -187,7 +180,7 @@ export default function Home() {
         <div className="md:hidden flex flex-col items-center justify-center py-8">
           <Button onClick={() => { running ? (stop?.(), setRunning(false)) : (run(), scrollToBlocks()) }} variant={'outline'} className='text-white rounded-full border-opacity-70 bg-opacity-50 px-8 py-6  font-thicccboibold'>{running ? 'Stop Running the LC' : 'Start Running the LC'}</Button>
         </div>
-        {running && (latestBlock != null) ? (
+        {running && (currentBlock != null) ? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
             <div className="lg:w-[60%] flex flex-col " id="blocks-section">
               {running ? (
@@ -195,11 +188,11 @@ export default function Home() {
                   <AvailChain blockList={blockList} />
                 </div>
               ) : ("")}
-              <DsMatrix matrix={matrix} processing={processingBlock} hasDaSubmissions={latestBlock.hasDaSubmissions} blockNumber={latestBlock.number} />
+              <DsMatrix matrix={matrix} processing={processingBlock} hasDaSubmissions={currentBlock.hasDaSubmissions} blockNumber={currentBlock.number} />
             </div>
             <div className="lg:w-[40%] flex items-start lg:mt-20">
               <BlockData
-                latestBlock={latestBlock}
+                currentBlock={currentBlock}
                 running={running}
               />
             </div>

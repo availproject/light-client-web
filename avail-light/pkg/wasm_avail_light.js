@@ -34,12 +34,12 @@ function passArray8ToWasm0(arg, malloc) {
 * @param {number} col
 * @returns {boolean}
 */
-export function check(proof, commitment, width, row, col) {
+export function verify_cell(proof, commitment, width, row, col) {
     const ptr0 = passArray8ToWasm0(proof, wasm.__wbindgen_malloc);
     const len0 = WASM_VECTOR_LEN;
     const ptr1 = passArray8ToWasm0(commitment, wasm.__wbindgen_malloc);
     const len1 = WASM_VECTOR_LEN;
-    const ret = wasm.check(ptr0, len0, ptr1, len1, width, row, col);
+    const ret = wasm.verify_cell(ptr0, len0, ptr1, len1, width, row, col);
     return ret !== 0;
 }
 

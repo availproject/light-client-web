@@ -1,13 +1,11 @@
 import { Block } from "@/types/light-client";
-import { Button } from "./ui/button";
-import Image from "next/image";
 
 type Props = {
-    latestBlock: Block | null,
+    currentBlock: Block | null,
     running: Boolean,
 }
 export default function BlockData(props: Props) {
-    const latestBlock = props.latestBlock
+    const currentBlock = props.currentBlock
     const running = props.running;
     return <>
         <div className="flex flex-col w-full space-y-6 mx-6">
@@ -19,33 +17,33 @@ export default function BlockData(props: Props) {
             <div className="flex flex-row justify-between lg:mr-4 items-start ">
                 <div className="flex flex-col items-start">
                     <h3 className="text-[#F5F5F5] font-thicccboisemibold text-xl lg:text-2xl 2xl:text-4xl 2xl:mt-4">Confidence Factor</h3>
-                    {latestBlock?.hasDaSubmissions ? (
-                        latestBlock.confidence && latestBlock.confidence > 90 ?
-                            <p className={`font-thicccboibold text-6xl xl:text-7xl 2xl:text-8xl 2xl:mt-2 ${parseInt(latestBlock.confidence.toString().slice(0, 2)) > 85 ? 'text-green-500' : parseInt(latestBlock.confidence.toString().slice(0, 2)) > 50 ? 'text-yellow-500' : 'text-red-500'}`}>{latestBlock?.confidence?.toString().slice(0, 4) || '0'}%</p> :
+                    {currentBlock?.hasDaSubmissions ? (
+                        currentBlock.confidence && currentBlock.confidence > 90 ?
+                            <p className={`font-thicccboibold text-6xl xl:text-7xl 2xl:text-8xl 2xl:mt-2 ${parseInt(currentBlock.confidence.toString().slice(0, 2)) > 85 ? 'text-green-500' : parseInt(currentBlock.confidence.toString().slice(0, 2)) > 50 ? 'text-yellow-500' : 'text-red-500'}`}>{currentBlock?.confidence?.toString().slice(0, 4) || '0'}%</p> :
                             <p className="font-thicccboibold text-6xl xl:text-7xl 2xl:text-8xl 2xl:mt-2 text-green-500">...</p>
                     ) : (
-                        <p className="font-thicccboibold text-3xl xl:text-4xl 2xl:text-5xl 2xl:mt-2 text-yellow-500">No DA submissions</p>
+                        <p className="font-thicccboibold text-2xl xl:text-3xl 2xl:text-4xl 2xl:mt-2 text-yellow-500">No DA submissions</p>
                     )}
                 </div>
                 <div>
                     <div className="flex flex-col items-end space-y-4">
                         <div className="flex flex-col ">
                             <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">Block Hash</h3>
-                            <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">{latestBlock?.hash?.toString().slice(0, 6) || ''}...</p>
+                            <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">{currentBlock?.hash?.toString().slice(0, 10) || ''}..</p>
                         </div>
                         <div className="flex flex-col ">
                             <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">Block Number</h3>
-                            <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">#{latestBlock?.number || '0000'}</p>
+                            <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">#{currentBlock?.number || '0000'}</p>
                         </div>
-                        {latestBlock?.hasDaSubmissions && (
+                        {currentBlock?.hasDaSubmissions && (
                             <>
                                 <div className="flex flex-col ">
                                     <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">Total Cell Count</h3>
-                                    <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">{latestBlock?.totalCellCount || '000'}</p>
+                                    <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">{currentBlock?.totalCellCount || '000'}</p>
                                 </div>
                                 <div className="md:flex flex-col hidden">
                                     <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">Sample Cell Count</h3>
-                                    <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">{latestBlock?.sampleCount?.toString() || '0'}</p>
+                                    <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">{currentBlock?.sampleCount?.toString() || '0'}</p>
                                 </div>
                             </>
                         )}

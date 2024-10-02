@@ -1,13 +1,13 @@
-import { Block, Matrix } from '@/types/light-client';
+import { Block, Matrix, BlockToProcess } from '@/types/light-client';
 import config from "../utils/config"
-import { generateRandomCells } from '@/utils/helper';
-import { BlockToProcess } from '@/types/light-client';
+import { generateRandomCells, getNetworkUrl } from '@/utils/helper';
+
+
 import { ApiPromise, initialize } from 'avail-js-sdk'
-import { Cell } from "@/types/light-client";
 import { bnToU8a } from '@polkadot/util';
 
-export async function runLC(onNewBlock: Function, registerUnsubscribe: Function): Promise<() => void> {
-    const api: ApiPromise = await initialize('wss://turing-rpc.avail.so/ws');
+export async function runLC(onNewBlock: Function, registerUnsubscribe: Function, network: string): Promise<() => void> {
+    const api: ApiPromise = await initialize(getNetworkUrl(network));
     const unsubscribe = await api.rpc.chain.subscribeFinalizedHeads(async (header: any) => {
         try {
 
@@ -37,9 +37,6 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function)
                 }
                 const randomCells = generateRandomCells(r, c, sampleCount)
 
-                //For debugging
-                let cellList: Array<Cell> = []
-                cellList.push({ row: 0, col: 0 })
 
                 const kateProof = await api.rpc.kate.queryProof(randomCells, blockHash);
 
@@ -57,11 +54,10 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function)
 
                 const block: Block = { number: blockNumber, hash: blockHash, totalCellCount, confidence: 0, sampleCount, hasDaSubmissions: true }
                 const matrix: Matrix = { maxRow: r, maxCol: c, verifiedCells: [], totalCellCount }
-                //onNewBlock((list: BlockToProcess[]) => [...list, { block, matrix: null, randomCells: [], proofs: [], commitments: [] }])
-                onNewBlock((list: BlockToProcess[]) => [...list, { block, matrix, randomCells: randomCells, proofs, commitments }])
+                onNewBlock((list: BlockToProcess[]) => [...list, { block, matrix, verifiedCells: randomCells, proofs, commitments }])
             } else {
                 const block: Block = { number: blockNumber, hash: blockHash, totalCellCount: 0, confidence: 0, sampleCount: 0, hasDaSubmissions: false }
-                onNewBlock((list: BlockToProcess[]) => [...list, { block, matrix: null, randomCells: [], proofs: [], commitments: [] }])
+                onNewBlock((list: BlockToProcess[]) => [...list, { block, matrix: null, verifiedCells: [], proofs: [], commitments: [] }])
             }
         } catch (error) {
             console.log(error)
