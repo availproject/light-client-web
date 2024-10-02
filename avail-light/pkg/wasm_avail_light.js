@@ -34,12 +34,12 @@ function passArray8ToWasm0(arg, malloc) {
 * @param {number} col
 * @returns {boolean}
 */
-export function check(proof, commitment, width, row, col) {
+export function verify_cell(proof, commitment, width, row, col) {
     const ptr0 = passArray8ToWasm0(proof, wasm.__wbindgen_malloc);
     const len0 = WASM_VECTOR_LEN;
     const ptr1 = passArray8ToWasm0(commitment, wasm.__wbindgen_malloc);
     const len1 = WASM_VECTOR_LEN;
-    const ret = wasm.check(ptr0, len0, ptr1, len1, width, row, col);
+    const ret = wasm.verify_cell(ptr0, len0, ptr1, len1, width, row, col);
     return ret !== 0;
 }
 
@@ -77,6 +77,9 @@ async function __wbg_load(module, imports) {
 function __wbg_get_imports() {
     const imports = {};
     imports.wbg = {};
+    imports.wbg.__wbg_log_d2b6a5f607016e3f = function(arg0, arg1) {
+        console.log(getStringFromWasm0(arg0, arg1));
+    };
     imports.wbg.__wbindgen_throw = function(arg0, arg1) {
         throw new Error(getStringFromWasm0(arg0, arg1));
     };

@@ -9,7 +9,6 @@ export type Block = {
     totalCellCount: number;
     confidence: number;
     sampleCount: number;
-    timestamp: number;
     hasDaSubmissions: boolean;
 };
 
@@ -30,7 +29,7 @@ export type BlockHeader = {
 export type BlockToProcess = {
     block: Block,
     matrix: Matrix,
-    randomCells: Cell[],
+    verifiedCells: Cell[],
     proofs: Uint8Array[],
     commitments: Uint8Array[]
 }
