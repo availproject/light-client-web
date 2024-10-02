@@ -1,8 +1,6 @@
 import { Block, Matrix, BlockToProcess } from '@/types/light-client';
 import config from "../utils/config"
 import { generateRandomCells, getNetworkUrl } from '@/utils/helper';
-
-
 import { ApiPromise, initialize } from 'avail-js-sdk'
 import { bnToU8a } from '@polkadot/util';
 
