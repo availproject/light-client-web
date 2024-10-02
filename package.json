@@ -11,6 +11,7 @@
   "dependencies": {
     "@nextui-org/react": "^2.2.8",
     "@polkadot/api": "^10.10.1",
+    "@polkadot/types": "^13.2.1",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-progress": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
@@ -20,6 +21,7 @@
     "autoprefixer": "10.4.16",
     "avail-js": "^0.1.0",
     "avail-js-sdk": "^0.2.12",
+    "bn.js": "^5.2.1",
     "cal-heatmap": "^4.2.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
