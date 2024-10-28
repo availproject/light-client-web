@@ -4,6 +4,7 @@ export type Cell = {
 }
 
 export type Block = {
+    network: string;
     number: string;
     hash: string;
     totalCellCount: number;
@@ -32,6 +33,7 @@ export type BlockToProcess = {
     verifiedCells: Cell[],
     proofs: Uint8Array[],
     commitments: Uint8Array[]
+    network: string
 }
 
 

@@ -8,7 +8,6 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
     const api: ApiPromise = await initialize(getNetworkUrl(network));
     const unsubscribe = await api.rpc.chain.subscribeFinalizedHeads(async (header: any) => {
         try {
-
             const blockNumber = header.number.toString()
             const blockHash = (await api.rpc.chain.getBlockHash(header.number)).toString();
             const extension = JSON.parse(header.extension)
@@ -50,11 +49,19 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
                     proofs.push(byte80Array)
                 }
 
-                const block: Block = { number: blockNumber, hash: blockHash, totalCellCount, confidence: 0, sampleCount, hasDaSubmissions: true }
+                const block: Block = {
+                    number: blockNumber, hash: blockHash, totalCellCount, confidence: 0, sampleCount, hasDaSubmissions: true,
+                    network: network
+                }
                 const matrix: Matrix = { maxRow: r, maxCol: c, verifiedCells: [], totalCellCount }
                 onNewBlock((list: BlockToProcess[]) => [...list, { block, matrix, verifiedCells: randomCells, proofs, commitments }])
             } else {
-                const block: Block = { number: blockNumber, hash: blockHash, totalCellCount: 0, confidence: 0, sampleCount: 0, hasDaSubmissions: false }
+               
+                const block: Block = {
+                    number: blockNumber, hash: blockHash, totalCellCount: 0, confidence: 0, sampleCount: 0, hasDaSubmissions: false,
+                    network: network
+                }
+                
                 onNewBlock((list: BlockToProcess[]) => [...list, { block, matrix: null, verifiedCells: [], proofs: [], commitments: [] }])
             }
         } catch (error) {
