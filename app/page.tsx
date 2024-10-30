@@ -59,8 +59,6 @@ export default function Home() {
     }
   }, [blocksToProcess, processingBlock]);
 
-
-
   const processBlock = async (
     block: Block,
     matrix: Matrix | null,
@@ -256,67 +254,68 @@ export default function Home() {
               />
             </div>
             <div className="lg:w-[40%] flex items-start lg:mt-20">
-              <BlockData currentBlock={currentBlock} running={running} />
-              
+              <BlockData currentBlock={currentBlock} running={running} network={network} />
             </div>
           </div>
-        ) : (<>
-           {running && currentBlock === null ? (
- <div className="flex items-center justify-center md:h-[80vh] h-[60vh]">
- <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-</div>
-        ) : ( <div className="flex flex-col lg:p-16 p-6 2xl:p-20 space-y-10 2xl:space-y-14 ">
-          <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight text-white !text-left lg:block ">
-            Avail Light Client (Web)
-          </h2>
-          <p className="text-xl font-ppmori  text-white !text-left lg:block text-opacity-80 ">
-            This is an experimental light client for Avail. It runs{" "}
-            <i>entirely in your browser</i> to verify that block data is
-            available, by verifying Avail&#39;s KZG commitment proofs locally.
-            Click the button above to see it in action!
-          </p>
-          <p className="text-xl  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
-            Check out the{" "}
-            <Link
-              href={"https://github.com/availproject/light-client-web"}
-              className="text-[#3CBBF9] underline"
-              target={"_blank"}
-            >
-              source code
-            </Link>
-            , and learn more about Avail at{" "}
-            <Link
-              href={"https://availproject.org/"}
-              className="text-[#3CBBF9] underline"
-              target={"_blank"}
-            >
-              availproject.org
-            </Link>
-          </p>
-          <p className="text-xl  2xl:text-4xl  font-ppmori text-white !text-left lg:block text-opacity-80 ">
-            P.S. Do you want to share the awesomeness?{" "}
-            <Link
-              href={
-                "https://twitter.com/intent/tweet?text=Check out @AvailProject's new Web Light Client at https://light.avail.tools/ !"
-              }
-              className="text-[#3CBBF9] underline"
-              target={"_blank"}
-            >
-              Tweet about it
-            </Link>{" "}
-            and be sure to tag{" "}
-            <Link
-              href={"https://twitter.com/AvailProject"}
-              className="text-[#3CBBF9]"
-              target={"_blank"}
-            >
-              @AvailProject!
-            </Link>
-          </p>
-        </div>)}</>
-         
+        ) : (
+          <>
+            {running && currentBlock === null ? (
+              <div className="flex items-center justify-center md:h-[80vh] h-[60vh]">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
+              </div>
+            ) : (
+              <div className="flex flex-col lg:p-16 p-6 2xl:p-20 space-y-10 2xl:space-y-14 ">
+                <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight text-white !text-left lg:block ">
+                  Avail Light Client
+                </h2>
+                <p className="text-xl font-ppmori  text-white !text-left lg:block text-opacity-80 ">
+                  This is an experimental light client for Avail. It runs{" "}
+                  <i>entirely in your browser</i> to verify that block data is
+                  available, by verifying Avail&#39;s KZG commitment proofs
+                  locally. Click the button above to see it in action!
+                </p>
+                <p className="text-xl  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
+                  Check out the{" "}
+                  <Link
+                    href={"https://github.com/availproject/light-client-web"}
+                    className="text-[#3CBBF9] underline"
+                    target={"_blank"}
+                  >
+                    source code
+                  </Link>
+                  , and learn more about Avail at{" "}
+                  <Link
+                    href={"https://availproject.org/"}
+                    className="text-[#3CBBF9] underline"
+                    target={"_blank"}
+                  >
+                    availproject.org
+                  </Link>
+                </p>
+                <p className="text-xl  2xl:text-4xl  font-ppmori text-white !text-left lg:block text-opacity-80 ">
+                  P.S. Do you want to share the awesomeness?{" "}
+                  <Link
+                    href={
+                      "https://twitter.com/intent/tweet?text=Check out @AvailProject's new Web Light Client at https://light.avail.tools/ !"
+                    }
+                    className="text-[#3CBBF9] underline"
+                    target={"_blank"}
+                  >
+                    Tweet about it
+                  </Link>{" "}
+                  and be sure to tag{" "}
+                  <Link
+                    href={"https://twitter.com/AvailProject"}
+                    className="text-[#3CBBF9]"
+                    target={"_blank"}
+                  >
+                    @AvailProject!
+                  </Link>
+                </p>
+              </div>
+            )}
+          </>
         )}
-
       </main>
     </>
   );

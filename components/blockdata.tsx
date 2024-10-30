@@ -3,6 +3,7 @@ import { Block } from "@/types/light-client";
 type Props = {
     currentBlock: Block | null,
     running: Boolean,
+    network: string
 }
 export default function BlockData(props: Props) {
     const currentBlock = props.currentBlock
@@ -28,12 +29,12 @@ export default function BlockData(props: Props) {
                 <div>
                     <div className="flex flex-col items-end space-y-4">
                         <div className="flex flex-col ">
-                            <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">Block Hash</h3>
-                            <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">{currentBlock?.hash?.toString().slice(0, 10) || ''}..</p>
+                            <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">Blockhash</h3>
+                            <a className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right" href={props.network === "Mainnet" ? `https://avail.subscan.io/block/${currentBlock?.number}` : `https://avail-turing.subscan.io/block/${currentBlock?.number}`}>{currentBlock?.hash?.toString().slice(0, 5) || ''}...{currentBlock?.hash?.toString().slice(-3)}</a>
                         </div>
                         <div className="flex flex-col ">
                             <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">Block Number</h3>
-                            <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">#{currentBlock?.number || '0000'}</p>
+                            <a className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right" href={props.network === "Mainnet" ? `https://avail.subscan.io/block/${currentBlock?.number}` : `https://avail-turing.subscan.io/block/${currentBlock?.number}`}>#{currentBlock?.number || '0000'}</a>
                         </div>
                         {currentBlock?.hasDaSubmissions && (
                             <>
