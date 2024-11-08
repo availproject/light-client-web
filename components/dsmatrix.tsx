@@ -52,13 +52,13 @@ export default function DsMatrix(props: Props) {
     <div className="flex flex-col p-10 space-y-4">
       <div className="flex flex-col space-y-2">
       <HoverCard open={isHoverCardOpen} onOpenChange={setIsHoverCardOpen}>
-              <HoverCardTrigger onClick={() => setIsHoverCardOpen(true)} className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1 flex flex-row space-x-1">
+              <HoverCardTrigger className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1 flex flex-row space-x-1">
                 <span> Data Sampling Matrix{" "} {props.hasDaSubmissions &&  <span className={`!text-opacity-70 text-opacity !text-md text-[#22C55F]`}>
           {`(${_r} X ${c})`}
         </span>}</span>
-                <InfoIcon className="w-5 h-5" />
+                <InfoIcon  onClick={() => setIsHoverCardOpen(true)}  className="w-5 h-5" />
               </HoverCardTrigger>
-              <HoverCardContent align="center" side="top"  className="bg-[#141414] mb-4 text-white border-[#121212] !text-sm ">
+              <HoverCardContent align="center" side="top" className="bg-[#141414] mb-4 text-white border-[#121212] !text-sm ">
               Shows the cells being sampled by the LC.
               </HoverCardContent>
             </HoverCard>
