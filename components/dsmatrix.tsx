@@ -4,6 +4,9 @@ import Cell from "./cell";
 import { Cell as CellType } from "@/types/light-client";
 import { Matrix } from "@/types/light-client";
 import config from "../utils/config";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import { InfoIcon } from "lucide-react";
+import { useState } from "react";
 
 type Props = {
   matrix: Matrix;
@@ -14,6 +17,8 @@ type Props = {
 };
 
 export default function DsMatrix(props: Props) {
+
+  const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
 
   let matrix: Matrix = props.matrix;
   let cells = matrix.verifiedCells;
@@ -46,12 +51,17 @@ export default function DsMatrix(props: Props) {
   return (
     <div className="flex flex-col p-10 space-y-4">
       <div className="flex flex-col space-y-2">
-      <h1 className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1">
-        Data Sampling Matrix{" "}
-     {props.hasDaSubmissions &&  <span className={`!text-opacity-70 text-opacity !text-md text-[#22C55F]`}>
+      <HoverCard open={isHoverCardOpen} onOpenChange={setIsHoverCardOpen}>
+              <HoverCardTrigger onClick={() => setIsHoverCardOpen(true)} className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1 flex flex-row space-x-1">
+                <span> Data Sampling Matrix{" "} {props.hasDaSubmissions &&  <span className={`!text-opacity-70 text-opacity !text-md text-[#22C55F]`}>
           {`(${_r} X ${c})`}
-        </span>}   
-      </h1>
+        </span>}</span>
+                <InfoIcon className="w-5 h-5" />
+              </HoverCardTrigger>
+              <HoverCardContent align="center" side="top"  className="bg-[#141414] mb-4 text-white border-[#121212] !text-sm ">
+              Shows the cells being sampled by the LC.
+              </HoverCardContent>
+            </HoverCard>
       </div>
       {props.hasDaSubmissions ? (
   <div className="rounded-xl self-start p-4 bg-[#292E3A] max-h-[300px] lg:max-h-[600px] max-w-full">
