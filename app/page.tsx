@@ -269,14 +269,14 @@ export default function Home() {
                 Trustlessly Verify Avail
                 </h2>
                 <p className="text-xl font-ppmori  text-white !text-left lg:block text-opacity-80 ">
-                Quickly and efficiently verify proofs from the <Link href={`https://www.availproject.org/`} className="text-[#3CBBF9] underline">Avail data availability layer</Link> give end users guarantees with cryptographic certainty that published data is both available and in its original form.
+                Quickly and efficiently verify proofs from the <Link href={`https://www.availproject.org/`} className="text-[#3CBBF9] underline">Avail data availability layer</Link> right inside your browser. Give end users guarantees with cryptographic certainty that published data is both available and in its original form.
                 </p>
                 <p className="text-lg  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
-                While most users cannot, or do not wish to run full nodes on their own devices, light clients are small enough to download and run on smartphones without relying on a centralized RPC provider or someone else’s full node. This can put <i>decentralized verification</i> into the palms of every user’s hand.
+                While most users cannot, or do not wish to run full nodes on their own devices, light clients are small enough to download and run on smartphones and in this case even a browser without relying on a centralized RPC provider or someone else’s full node. This can put <i>decentralized verification</i> into the palms of every user’s hand.
 
                 </p>
                 <p className="text-xl  2xl:text-4xl  font-ppmori text-white !text-left lg:block text-opacity-80 ">
-                  Check us on Twitter{" "}
+                  Check us out on Twitter{" "}
                   <Link
                     href={"https://twitter.com/AvailProject"}
                     className="text-[#3CBBF9]"
