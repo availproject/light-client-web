@@ -1,6 +1,17 @@
-export default function Cell(props: any) {
-    const color = props.color
+type Props = {
+    color: string;
+    size?: number;
+};
+
+export default function Cell({ color, size = 6 }: Props) {
     return (
-        <div style={{ backgroundColor: color }} className="w-3 h-3 rounded-[3px]"></div>
-    )
+        <div
+            style={{
+                backgroundColor: color,
+                width: `${size}px`,
+                height: `${size}px`,
+                borderRadius: '1px'
+            }}
+        />
+    );
 }
