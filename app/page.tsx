@@ -66,59 +66,65 @@ export default function Home() {
     proofs: Uint8Array[],
     commitments: Uint8Array[]
   ) => {
+    console.debug('Processing block:', {
+        blockNumber: block.number,
+        hasDaSubmissions: block.hasDaSubmissions,
+        totalCells: cells.length,
+        matrixDimensions: matrix ? `${matrix.maxRow}x${matrix.maxCol}` : 'null',
+        verifiedCells: cells
+    });
+
+    if (block.hasDaSubmissions && matrix) {
+        setMatrix({
+            maxRow: matrix.maxRow,
+            maxCol: matrix.maxCol,
+            verifiedCells: [],
+            totalCellCount: matrix.totalCellCount,
+        });
+    }
+
     addNewBlock(block, matrix);
     setProcessingBlock(true);
 
     if (matrix && cells.length > 0) {
-      let verifiedCount = 0;
-      let verifiedCells: Cell[] = [];
+        let verifiedCount = 0;
+        let verifiedCells: Cell[] = [];
 
-      for (let i = 0; i < cells.length; i++) {
-        let cell = cells[i];
+        for (let i = 0; i < cells.length; i++) {
+            const cell = cells[i];
+            try {
+                const res = await verify_cell(
+                    proofs[i],
+                    commitments[cell.row],
+                    matrix.maxCol,
+                    cell.row,
+                    cell.col
+                );
 
-        try {
-          const res = verify_cell(
-            proofs[i],
-            commitments[cell.row],
-            matrix.maxCol,
-            cell.row,
-            cell.col
-          );
+                if (res) {
+                    verifiedCount++;
+                    verifiedCells.push(cell);
+                    
+                    setCurrentBlock(prev => ({
+                        ...prev,
+                        confidence: 100 * (1 - 1 / Math.pow(2, verifiedCount))
+                    }));
 
-          console.log("verify_cell result:", res);
+                    setMatrix(prev => ({
+                        ...prev,
+                        verifiedCells: [...verifiedCells]
+                    }));
+                }
 
-          if (res) {
-            verifiedCount++;
-            const confidence = 100 * (1 - 1 / Math.pow(2, verifiedCount));
-            verifiedCells.push(cell);
-
-            setCurrentBlock({
-              ...block,
-              confidence: confidence,
-            });
-
-            setMatrix({
-              maxRow: matrix.maxRow,
-              maxCol: matrix.maxCol,
-              verifiedCells,
-              totalCellCount: matrix.totalCellCount,
-            });
-
-            await sleep(100);
-          }
-        } catch (error) {
-          console.error("Error in verifying cell", error);
-          console.error("Error details:", {
-            proof: proofs[i],
-            commitment: commitments[cell.row],
-            maxCol: matrix.maxCol,
-            row: cell.row,
-            col: cell.col,
-          });
+                await sleep(100);
+                
+            } catch (error) {
+                console.error('Verification error:', error);
+            }
         }
-      }
     }
 
+    await sleep(500);
     setProcessingBlock(false);
   };
 
