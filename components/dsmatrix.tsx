@@ -50,8 +50,36 @@ export default function DsMatrix(props: Props) {
     }, [matrix, processing, rows]);
 
     return (
-        <div className="flex flex-col p-6 space-y-4">
-            <div className="flex flex-col space-y-2">
+        <div className="flex flex-col items-center justify-center p-6 space-y-4">
+            <div className="rounded-xl flex items-center justify-center flex-col p-4 bg-[#292E3A]">
+                <div 
+                    className="matrix w-[350px] md:w-[500px] h-[350px] md:h-[500px]"
+                    style={{
+                        display: 'grid',
+                        gridTemplateRows: `repeat(${rows}, 1fr)`,
+                        gridTemplateColumns: `repeat(${cols}, 1fr)`,
+                        gap: '1px',
+                        backgroundColor: '#1a1d25',
+                        padding: '1px',
+                       
+                    }} 
+                >
+                    {rowArray.map((_, i) => (
+                        colArray.map((_, j) => (
+                            <div
+                                key={`${i}-${j}`}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    backgroundColor: colorCheck(i, j),
+                                    transition: 'background-color 0.3s'
+                                }}
+                            />
+                        ))
+                    ))}
+                </div>
+            </div>
+            <div className="flex flex-col items-center justify-center space-y-2 pt-6">
                 <HoverCard open={isHoverCardOpen} onOpenChange={setIsHoverCardOpen}>
                     <HoverCardTrigger className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1 flex flex-row space-x-1">
                         <span>
@@ -68,35 +96,6 @@ export default function DsMatrix(props: Props) {
                         Shows the cells being sampled by the LC. Total cells: {matrix.totalCellCount}
                     </HoverCardContent>
                 </HoverCard>
-            </div>
-            <div className="rounded-xl self-start p-4 bg-[#292E3A]">
-                <div 
-                    className="matrix"
-                    style={{
-                        display: 'grid',
-                        gridTemplateRows: `repeat(${rows}, 1fr)`,
-                        gridTemplateColumns: `repeat(${cols}, 1fr)`,
-                        gap: '1px',
-                        backgroundColor: '#1a1d25',
-                        padding: '1px',
-                        width: '384px',
-                        height: '384px',
-                    }}
-                >
-                    {rowArray.map((_, i) => (
-                        colArray.map((_, j) => (
-                            <div
-                                key={`${i}-${j}`}
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    backgroundColor: colorCheck(i, j),
-                                    transition: 'background-color 0.3s'
-                                }}
-                            />
-                        ))
-                    ))}
-                </div>
             </div>
         </div>
     );

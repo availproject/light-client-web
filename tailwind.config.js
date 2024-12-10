@@ -1,21 +1,28 @@
 /** @type {import('tailwindcss').Config} */
+import fluid, { extract, screens, fontSize } from 'fluid-tailwind'
+
 module.exports = {
   darkMode: ["class"],
-  content: [
+  content: {
+    files: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
+  extract
+},
   theme: {
+    screens,
+    fontSize,
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
     },
     extend: {
+      screens: {
+        xs: '20rem'
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -86,5 +93,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), fluid],
 }
