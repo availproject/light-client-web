@@ -256,13 +256,9 @@ export default function Home() {
         {running && currentBlock != null ? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
             <div className="lg:w-[60%] flex flex-col " id="blocks-section">
-              {running ? (
                 <div className="lg:h-[35%] 2xl:h-[40%] min-h-[100px] flex flex-col items-start justify-center mt-10">
                   <AvailChain blockList={blockList} network={network} />
                 </div>
-              ) : (
-                ""
-              )}
               <DsMatrix
                 matrix={matrix}
                 processing={processingBlock}

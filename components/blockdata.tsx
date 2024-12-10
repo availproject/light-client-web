@@ -78,6 +78,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
                 </h3>
                 <a
                   className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right"
+                  target="_blank" 
                   href={
                     props.network === "Mainnet"
                       ? `https://avail.subscan.io/block/${currentBlock?.number}`
@@ -94,6 +95,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
                 </h3>
                 <a
                   className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right"
+                  target="_blank" 
                   href={
                     props.network === "Mainnet"
                       ? `https://avail.subscan.io/block/${currentBlock?.number}`
