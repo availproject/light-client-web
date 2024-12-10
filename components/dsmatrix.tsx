@@ -53,7 +53,7 @@ export default function DsMatrix(props: Props) {
         <div className="flex flex-col items-center justify-center p-6 space-y-4">
             <div className="rounded-xl flex items-center justify-center flex-col p-4 bg-[#292E3A]">
                 <div 
-                    className="matrix"
+                    className="matrix w-[350px] md:w-[500px] h-[350px] md:h-[500px]"
                     style={{
                         display: 'grid',
                         gridTemplateRows: `repeat(${rows}, 1fr)`,
@@ -61,9 +61,8 @@ export default function DsMatrix(props: Props) {
                         gap: '1px',
                         backgroundColor: '#1a1d25',
                         padding: '1px',
-                        width: '500px',
-                        height: '500px',
-                    }}
+                       
+                    }} 
                 >
                     {rowArray.map((_, i) => (
                         colArray.map((_, j) => (
