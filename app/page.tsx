@@ -40,7 +40,7 @@ export default function Home() {
 
   useEffect(() => {
     setLogs(["Initiating script for " + network]);
-}, [network]);
+  }, [network]);
 
   const refreshApp = () => {
     setRunning(true);
@@ -74,70 +74,69 @@ export default function Home() {
     proofs: Uint8Array[],
     commitments: Uint8Array[]
   ) => {
-    console.debug('Processing block:', {
-        blockNumber: block.number,
-        hasDaSubmissions: block.hasDaSubmissions,
-        totalCells: cells.length,
-        matrixDimensions: matrix ? `${matrix.maxRow}x${matrix.maxCol}` : 'null',
-        verifiedCells: cells
+    console.debug("Processing block:", {
+      blockNumber: block.number,
+      hasDaSubmissions: block.hasDaSubmissions,
+      totalCells: cells.length,
+      matrixDimensions: matrix ? `${matrix.maxRow}x${matrix.maxCol}` : "null",
+      verifiedCells: cells,
     });
 
     if (block.hasDaSubmissions && matrix) {
-        setMatrix({
-            maxRow: matrix.maxRow,
-            maxCol: matrix.maxCol,
-            verifiedCells: [],
-            totalCellCount: matrix.totalCellCount,
-        });
+      setMatrix({
+        maxRow: matrix.maxRow,
+        maxCol: matrix.maxCol,
+        verifiedCells: [],
+        totalCellCount: matrix.totalCellCount,
+      });
     }
 
     addNewBlock(block, matrix);
     setProcessingBlock(true);
 
     if (matrix && cells.length > 0) {
-        let verifiedCount = 0;
-        let verifiedCells: Cell[] = [];
+      let verifiedCount = 0;
+      let verifiedCells: Cell[] = [];
 
-        for (let i = 0; i < cells.length; i++) {
-            const cell = cells[i];
-            try {
-                const res = await verify_cell(
-                    proofs[i],
-                    commitments[cell.row],
-                    matrix.maxCol,
-                    cell.row,
-                    cell.col
-                );
+      for (let i = 0; i < cells.length; i++) {
+        const cell = cells[i];
+        try {
+          const res = await verify_cell(
+            proofs[i],
+            commitments[cell.row],
+            matrix.maxCol,
+            cell.row,
+            cell.col
+          );
 
-                if (res) {
-                    verifiedCount++;
-                    verifiedCells.push(cell);
-                    
-                    setCurrentBlock(prev => {
-                      if (!prev) return null;
-                      return {
-                          network: prev.network,
-                          number: prev.number,
-                          hash: prev.hash,
-                          totalCellCount: prev.totalCellCount,
-                          sampleCount: prev.sampleCount,
-                          hasDaSubmissions: prev.hasDaSubmissions,
-                          confidence: 100 * (1 - 1 / Math.pow(2, verifiedCount))
-                      };
-                  });
+          if (res) {
+            verifiedCount++;
+            verifiedCells.push(cell);
 
-                    setMatrix(prev => ({
-                        ...prev,
-                        verifiedCells: [...verifiedCells]
-                    }));
-                }
+            setCurrentBlock((prev) => {
+              if (!prev) return null;
+              return {
+                network: prev.network,
+                number: prev.number,
+                hash: prev.hash,
+                totalCellCount: prev.totalCellCount,
+                sampleCount: prev.sampleCount,
+                hasDaSubmissions: prev.hasDaSubmissions,
+                confidence: 100 * (1 - 1 / Math.pow(2, verifiedCount)),
+              };
+            });
 
-                await sleep(100);
-                
-            } catch (error) {
-                console.error('Verification error:', error);
-            }
+            setMatrix((prev) => ({
+              ...prev,
+              verifiedCells: [...verifiedCells],
+            }));
+          }
+
+          await sleep(100);
+        } catch (error) {
+          console.error("Verification error:", error);
         }
+      }
     }
 
     await sleep(500);
@@ -263,10 +262,7 @@ export default function Home() {
         {/** core components */}
         {running && currentBlock != null ? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
-            <div className="lg:w-[60%] flex flex-col " id="blocks-section">
-                <div className="lg:h-[35%] 2xl:h-[40%] min-h-[100px] flex flex-col items-start justify-center mt-10">
-                  <AvailChain blockList={blockList} network={network} />
-                </div>
+            <div className="lg:w-[50%] flex flex-col pt-10" id="blocks-section">
               <DsMatrix
                 matrix={matrix}
                 processing={processingBlock}
@@ -274,15 +270,19 @@ export default function Home() {
                 blockNumber={currentBlock.number}
                 network={network}
               />
-             
             </div>
-            <div className="lg:w-[40%] flex items-start lg:mt-20">
-              <div className="flex flex-col w-[90%] space-y-10">
-              <LogDisplay logs={logs} />
-              <BlockData currentBlock={currentBlock} running={running} network={network} />
-              
+            <div className="lg:w-[50%] flex items-start lg:mt-10">
+              <div className="flex flex-col w-[90%] space-y-10 items-start justify-start">
+                <div className="lg:h-[20%] 2xl:h-[25%] min-h-[50px] flex flex-col items-start justify-start mt-10">
+                  <AvailChain blockList={blockList} network={network} />
+                </div>
+                <LogDisplay logs={logs} />
+                <BlockData
+                  currentBlock={currentBlock}
+                  running={running}
+                  network={network}
+                />
               </div>
-           
             </div>
           </div>
         ) : (

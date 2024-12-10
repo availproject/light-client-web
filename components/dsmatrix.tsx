@@ -50,26 +50,8 @@ export default function DsMatrix(props: Props) {
     }, [matrix, processing, rows]);
 
     return (
-        <div className="flex flex-col p-6 space-y-4">
-            <div className="flex flex-col space-y-2">
-                <HoverCard open={isHoverCardOpen} onOpenChange={setIsHoverCardOpen}>
-                    <HoverCardTrigger className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1 flex flex-row space-x-1">
-                        <span>
-                            Data Sampling Matrix{" "}
-                            {props.hasDaSubmissions && (
-                                <span className="!text-opacity-70 text-opacity !text-md text-[#22C55F]">
-                                    {`(${rows} × ${cols})`}
-                                </span>
-                            )}
-                        </span>
-                        <InfoIcon onClick={() => setIsHoverCardOpen(true)} className="w-5 h-5" />
-                    </HoverCardTrigger>
-                    <HoverCardContent align="center" side="top" className="bg-[#141414] mb-4 text-white border-[#121212] !text-sm">
-                        Shows the cells being sampled by the LC. Total cells: {matrix.totalCellCount}
-                    </HoverCardContent>
-                </HoverCard>
-            </div>
-            <div className="rounded-xl self-start p-4 bg-[#292E3A]">
+        <div className="flex flex-col items-center justify-center p-6 space-y-4">
+            <div className="rounded-xl flex items-center justify-center flex-col p-4 bg-[#292E3A]">
                 <div 
                     className="matrix"
                     style={{
@@ -79,8 +61,8 @@ export default function DsMatrix(props: Props) {
                         gap: '1px',
                         backgroundColor: '#1a1d25',
                         padding: '1px',
-                        width: '384px',
-                        height: '384px',
+                        width: '500px',
+                        height: '500px',
                     }}
                 >
                     {rowArray.map((_, i) => (
@@ -97,6 +79,24 @@ export default function DsMatrix(props: Props) {
                         ))
                     ))}
                 </div>
+            </div>
+            <div className="flex flex-col items-center justify-center space-y-2 pt-6">
+                <HoverCard open={isHoverCardOpen} onOpenChange={setIsHoverCardOpen}>
+                    <HoverCardTrigger className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1 flex flex-row space-x-1">
+                        <span>
+                            Data Sampling Matrix{" "}
+                            {props.hasDaSubmissions && (
+                                <span className="!text-opacity-70 text-opacity !text-md text-[#22C55F]">
+                                    {`(${rows} × ${cols})`}
+                                </span>
+                            )}
+                        </span>
+                        <InfoIcon onClick={() => setIsHoverCardOpen(true)} className="w-5 h-5" />
+                    </HoverCardTrigger>
+                    <HoverCardContent align="center" side="top" className="bg-[#141414] mb-4 text-white border-[#121212] !text-sm">
+                        Shows the cells being sampled by the LC. Total cells: {matrix.totalCellCount}
+                    </HoverCardContent>
+                </HoverCard>
             </div>
         </div>
     );

@@ -117,6 +117,8 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
             }
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            appendLog(`process.exit(0)`);
         }
     });
 
