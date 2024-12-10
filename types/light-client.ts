@@ -18,8 +18,8 @@ export type Matrix = {
     maxCol: number,
     verifiedCells: Cell[],
     totalCellCount: number,
-    originalRows: number,
-    originalCols: number,
+    originalRows?: number,
+    originalCols?: number,
 }
 
 export type BlockHeader = {

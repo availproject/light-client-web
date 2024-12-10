@@ -105,10 +105,18 @@ export default function Home() {
                     verifiedCount++;
                     verifiedCells.push(cell);
                     
-                    setCurrentBlock(prev => ({
-                        ...prev,
-                        confidence: 100 * (1 - 1 / Math.pow(2, verifiedCount))
-                    }));
+                    setCurrentBlock(prev => {
+                      if (!prev) return null;
+                      return {
+                          network: prev.network,
+                          number: prev.number,
+                          hash: prev.hash,
+                          totalCellCount: prev.totalCellCount,
+                          sampleCount: prev.sampleCount,
+                          hasDaSubmissions: prev.hasDaSubmissions,
+                          confidence: 100 * (1 - 1 / Math.pow(2, verifiedCount))
+                      };
+                  });
 
                     setMatrix(prev => ({
                         ...prev,
