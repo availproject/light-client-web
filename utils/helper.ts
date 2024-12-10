@@ -42,3 +42,7 @@ const randomUniqueNum = (range: number, outputCount: number) => {
     }
     return result;
 }
+
+export const formatCells = (cells: Cell[]): string => {
+    return cells.map(cell => `(${cell.row},${cell.col})`).join(', ');
+  };

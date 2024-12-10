@@ -21,7 +21,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
   const running = props.running;
   return (
     <>
-      <div className="flex flex-col w-full space-y-6 mx-6">
+      <div className="flex flex-col w-full space-y-6 ml-6">
         <div className="flex flex-col space-y-2">
           {running && (
             <h2 className="text-white text-3xl font-thicccboisemibold 2xl:text-6xl pt-6 lg:pt-0 2xl:pt-4 ">
@@ -69,6 +69,18 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
                 No DA submissions
               </p>
             )}
+             {currentBlock?.hasDaSubmissions && (
+                <>
+                  <div className="md:flex flex-col hidden mt-8">
+                    <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">
+                      Sample Cell Count
+                    </h3>
+                    <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-left">
+                      {currentBlock?.sampleCount?.toString() || "0"}
+                    </p>
+                  </div>
+                </>
+              )}
           </div>
           <div>
             <div className="flex flex-col items-end space-y-4">

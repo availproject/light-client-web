@@ -13,9 +13,11 @@ import { Block, Matrix, Cell, BlockToProcess } from "@/types/light-client";
 import { runLC } from "@/repository/avail-light.repository";
 import Link from "next/link";
 import React from "react";
+import LogDisplay from "@/components/logs";
 
 export default function Home() {
   const [network, setNetwork] = useState("Turing");
+  const [logs, setLogs] = useState<string[]>(["Initiating script"]);
   const [blocksToProcess, setblocksToProcess] = useState<Array<BlockToProcess>>(
     []
   );
@@ -35,8 +37,13 @@ export default function Home() {
     init();
   }, []);
 
+  useEffect(() => {
+    setLogs(["Initiating script for " + network]);
+}, [network]);
+
   const refreshApp = () => {
     setRunning(true);
+    setLogs(["Initiating script"]);
     setBlockList([]);
     setMatrix({ maxRow: 0, maxCol: 0, verifiedCells: [], totalCellCount: 0 });
     setCurrentBlock(null);
@@ -124,7 +131,7 @@ export default function Home() {
 
   const run = async (network: string) => {
     refreshApp();
-    runLC(setblocksToProcess, setStop, network);
+    runLC(setblocksToProcess, setStop, network, logs, setLogs);
   };
 
   const scrollToBlocks = () => {
@@ -140,6 +147,7 @@ export default function Home() {
 
   const handleNetworkSwitch = async (newNetwork: string) => {
     setNetwork(newNetwork);
+    setLogs([...logs, `Switching to ${newNetwork} network`]);
     if (running) {
       await stop?.();
       run(newNetwork);
@@ -252,9 +260,15 @@ export default function Home() {
                 blockNumber={currentBlock.number}
                 network={network}
               />
+             
             </div>
             <div className="lg:w-[40%] flex items-start lg:mt-20">
+              <div className="flex flex-col w-[90%] space-y-10">
+              <LogDisplay logs={logs} />
               <BlockData currentBlock={currentBlock} running={running} network={network} />
+              
+              </div>
+           
             </div>
           </div>
         ) : (
@@ -266,14 +280,26 @@ export default function Home() {
             ) : (
               <div className="flex flex-col lg:p-16 p-6 2xl:p-20 space-y-10 2xl:space-y-14 ">
                 <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight text-white !text-left lg:block ">
-                Trustlessly Verify Avail
+                  Trustlessly Verify Avail
                 </h2>
                 <p className="text-xl font-ppmori  text-white !text-left lg:block text-opacity-80 ">
-                Quickly and efficiently verify proofs from the <Link href={`https://www.availproject.org/`} className="text-[#3CBBF9] underline">Avail data availability layer</Link> give end users guarantees with cryptographic certainty that published data is both available and in its original form.
+                  Quickly and efficiently verify proofs from the{" "}
+                  <Link
+                    href={`https://www.availproject.org/`}
+                    className="text-[#3CBBF9] underline"
+                  >
+                    Avail data availability layer
+                  </Link>{" "}
+                  give end users guarantees with cryptographic certainty that
+                  published data is both available and in its original form.
                 </p>
                 <p className="text-lg  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
-                While most users cannot, or do not wish to run full nodes on their own devices, light clients are small enough to download and run on smartphones without relying on a centralized RPC provider or someone else’s full node. This can put <i>decentralized verification</i> into the palms of every user’s hand.
-
+                  While most users cannot, or do not wish to run full nodes on
+                  their own devices, light clients are small enough to download
+                  and run on smartphones without relying on a centralized RPC
+                  provider or someone else’s full node. This can put{" "}
+                  <i>decentralized verification</i> into the palms of every
+                  user’s hand.
                 </p>
                 <p className="text-xl  2xl:text-4xl  font-ppmori text-white !text-left lg:block text-opacity-80 ">
                   Check us on Twitter{" "}
