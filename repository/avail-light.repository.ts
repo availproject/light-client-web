@@ -1,21 +1,29 @@
 import { Block, Matrix, BlockToProcess } from '@/types/light-client';
 import config from "../utils/config"
-import { generateRandomCells, getNetworkUrl } from '@/utils/helper';
+import { formatCells, generateRandomCells, getNetworkUrl } from '@/utils/helper';
 import { ApiPromise, initialize } from 'avail-js-sdk'
 import { bnToU8a } from '@polkadot/util';
 
-export async function runLC(onNewBlock: Function, registerUnsubscribe: Function, network: string): Promise<() => void> {
+export async function runLC(onNewBlock: Function, registerUnsubscribe: Function, network: string, logs: Array<string>, 
+    setLogs: React.Dispatch<React.SetStateAction<string[]>>): Promise<() => void> {
     const api: ApiPromise = await initialize(getNetworkUrl(network));
+    const appendLog = (newLog: string) => {
+        setLogs((prevLogs: Array<string>) => [...prevLogs, newLog]);
+    };
+
+    setLogs(["Initiating sampling on " + network]);
+
     const unsubscribe = await api.rpc.chain.subscribeFinalizedHeads(async (header: any) => {
         try {
             const blockNumber = header.number.toString()
+            setLogs([`Started processing new block #${blockNumber}`]);
             const blockHash = (await api.rpc.chain.getBlockHash(header.number)).toString();
             const extension = JSON.parse(header.extension)
             const commitment = extension.v3.commitment
             const kateCommitment = commitment.commitment.split('0x')[1]
-
             // Check if block is with empty commitment
             if (kateCommitment !== '') {
+            appendLog(`Block #${blockNumber} has DA submissions`);
                 const r = commitment.rows * config.EXTENSION_FACTOR;
                 const c = commitment.cols;
 
@@ -23,6 +31,8 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
                 const kate_commitment = Uint8Array.from(
                     kateCommitment.match(/.{1,2}/g).map((byte: string) => parseInt(byte, 16))
                 );
+
+                appendLog(`Commitment Array fetched: ${kate_commitment.length}`);
                 
                 let commitments: Uint8Array[] = [];
                 for (let i = 0; i < r; i++) {
@@ -30,7 +40,7 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
                         kate_commitment.slice(i * config.COMMITMENT_SIZE, (i + 1) * config.COMMITMENT_SIZE)
                     );
                 }
-
+                appendLog(`Commitment Array Length: ${kate_commitment.length}`);
                 const totalCellCount = r * c;
                 let sampleCount = config.SAMPLE_SIZE;
                 if (sampleCount >= totalCellCount) {
@@ -38,8 +48,11 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
                 }
 
                 const randomCells = generateRandomCells(r, c, sampleCount);
+                appendLog(`Generated ${sampleCount} random cells for sampling ${formatCells(randomCells)}`);
+
 
                 try {
+                    appendLog(`Querying proof from the RPC....`);
                     //@ts-ignore TODO: need to fix types
                     const kateProof = await api.rpc.kate.queryProof(randomCells, blockHash);
                     
@@ -51,6 +64,8 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
                         byte80Array.set(byte32Array, 48);
                         proofs.push(byte80Array);
                     }
+
+                    appendLog(`Block sampled and confidence generated ✅`);
 
                     const block: Block = {
                         number: blockNumber,
@@ -81,10 +96,13 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
                             commitments
                         }
                     ]);
-                } catch (error) {
+                } catch (error: any) {
+                    appendLog(`Error: ${error.message} ❌`);
                     console.error('Error processing block:', error);
                 }
             } else {
+
+                appendLog(`No DA submissions found in block ‼️`);
                 const block: Block = {
                     number: blockNumber,
                     hash: blockHash,
