@@ -13,10 +13,12 @@ import { Block, Matrix, Cell, BlockToProcess } from "@/types/light-client";
 import { runLC } from "@/repository/avail-light.repository";
 import Link from "next/link";
 import React from "react";
+import LogDisplay from "@/components/logs";
 import Hero from "@/components/sections/hero";
 
 export default function Home() {
   const [network, setNetwork] = useState("Turing");
+  const [logs, setLogs] = useState<string[]>(["Initiating script"]);
   const [blocksToProcess, setblocksToProcess] = useState<Array<BlockToProcess>>(
     []
   );
@@ -36,8 +38,13 @@ export default function Home() {
     init();
   }, []);
 
+  useEffect(() => {
+    setLogs(["Initiating script for " + network]);
+}, [network]);
+
   const refreshApp = () => {
     setRunning(true);
+    setLogs(["Initiating script"]);
     setBlockList([]);
     setMatrix({ maxRow: 0, maxCol: 0, verifiedCells: [], totalCellCount: 0 });
     setCurrentBlock(null);
@@ -139,7 +146,7 @@ export default function Home() {
 
   const run = async (network: string) => {
     refreshApp();
-    runLC(setblocksToProcess, setStop, network);
+    runLC(setblocksToProcess, setStop, network, logs, setLogs);
   };
 
   const scrollToBlocks = () => {
@@ -155,6 +162,7 @@ export default function Home() {
 
   const handleNetworkSwitch = async (newNetwork: string) => {
     setNetwork(newNetwork);
+    setLogs([...logs, `Switching to ${newNetwork} network`]);
     if (running) {
       await stop?.();
       run(newNetwork);
@@ -266,9 +274,15 @@ export default function Home() {
                 blockNumber={currentBlock.number}
                 network={network}
               />
+             
             </div>
             <div className="lg:w-[40%] flex items-start lg:mt-20">
+              <div className="flex flex-col w-[90%] space-y-10">
+              <LogDisplay logs={logs} />
               <BlockData currentBlock={currentBlock} running={running} network={network} />
+              
+              </div>
+           
             </div>
           </div>
         ) : (

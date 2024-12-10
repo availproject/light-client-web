@@ -50,6 +50,12 @@ export const calculateGridDimensions = (matrix: Matrix) => {
     };
 };
 
+export const formatCells = (cells: Cell[]): string => {
+    return cells.map(cell => `(${cell.row},${cell.col})`).join(', ');
+  };
+
+
+
 export const mapCellToDisplayGrid = (
     cell: { row: number, col: number },
     matrix: Matrix,
@@ -98,3 +104,4 @@ export const logGridMapping = (matrix: Matrix, displaySize: number): void => {
         verifiedCells: mappedCells
     });
 }
+
