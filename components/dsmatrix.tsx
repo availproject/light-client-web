@@ -1,12 +1,11 @@
 "use client";
 
-import Cell from "./cell";
-import { Cell as CellType } from "@/types/light-client";
 import { Matrix } from "@/types/light-client";
 import config from "../utils/config";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { InfoIcon } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { calculateGridDimensions, mapCellToDisplayGrid, logGridMapping } from "../utils/helper";
 
 type Props = {
   matrix: Matrix;
@@ -17,89 +16,87 @@ type Props = {
 };
 
 export default function DsMatrix(props: Props) {
+    const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
+    const matrix = props.matrix;
+    const processing = props.processing;
 
-  const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
+    // Calculate grid dimensions based on matrix size
+    const { rows, cols } = calculateGridDimensions(matrix);
 
-  let matrix: Matrix = props.matrix;
-  let cells = matrix.verifiedCells;
+    // Create arrays for grid rendering
+    const rowArray = new Array(rows).fill(0);
+    const colArray = new Array(cols).fill(0);
 
-  let processing = props.processing;
-  let r = matrix.maxRow;
-  let c = matrix.maxCol;
+    const checkForSampleCell = (displayRow: number, displayCol: number) => {
+        if (!matrix.verifiedCells || matrix.verifiedCells.length === 0) return false;
 
-  let _r = r*config.EXTENSION_FACTOR
+        return matrix.verifiedCells.some(cell => {
+            const mapped = mapCellToDisplayGrid(cell, matrix, rows);
+            return mapped.displayRow === displayRow && mapped.displayCol === displayCol;
+        });
+    };
 
-  let row = new Array(r * config.EXTENSION_FACTOR).fill(1);
-  let col = new Array(c).fill(1);
+    const colorCheck = (row: number, col: number): string => {
+        const isSampleCell = checkForSampleCell(row, col);
+        // Default background for non-sampled cells
+        return isSampleCell ? (processing ? "#FFFF00" : "#3CBBF9") : "#222630";
+    };
 
-  const checkForSampleCell = (row: any, col: any) => {
-    return cells?.some((cell: { row: any; col: any }) => {
-      return cell.row == row && cell.col == col;
-    });
-  };
+    useEffect(() => {
+        if (matrix && matrix.verifiedCells.length > 0 && !processing) {
+            // Only log grid mapping when processing is complete
+            logGridMapping(matrix, rows);
+        }
+    }, [matrix, processing, rows]);
 
-  const colorCheck = (r: any, c: any) => {
-    let row = r;
-    let col = c;
-    if (checkForSampleCell(row, col)) {
-      return processing ? "#FFFF00" : "#3CBBF9";
-    }
-
-    return "#222630";
-  };
-
-  return (
-    <div className="flex flex-col p-10 space-y-4">
-      <div className="flex flex-col space-y-2">
-      <HoverCard open={isHoverCardOpen} onOpenChange={setIsHoverCardOpen}>
-              <HoverCardTrigger className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1 flex flex-row space-x-1">
-                <span> Data Sampling Matrix{" "} {props.hasDaSubmissions &&  <span className={`!text-opacity-70 text-opacity !text-md text-[#22C55F]`}>
-          {`(${_r} X ${c})`}
-        </span>}</span>
-                <InfoIcon  onClick={() => setIsHoverCardOpen(true)}  className="w-5 h-5" />
-              </HoverCardTrigger>
-              <HoverCardContent align="center" side="top" className="bg-[#141414] mb-4 text-white border-[#121212] !text-sm ">
-              Shows the cells being sampled by the LC.
-              </HoverCardContent>
-            </HoverCard>
-      </div>
-      {props.hasDaSubmissions ? (
-  <div className="rounded-xl self-start p-4 bg-[#292E3A] max-h-[300px] lg:max-h-[600px] max-w-full">
-    <div className="matrix flex flex-wrap self-start max-h-[268px] overflow-auto">
-      {row.map((ele, i) => (
-        <div className="flex flex-row" key={i}>
-          {col.map((ele, j) => (
-            <div key={j} className="p-[1.5px]">
-              <Cell key={i * c + j} color={colorCheck(i, j)} />
+    return (
+        <div className="flex flex-col items-center justify-center p-6 space-y-4">
+            <div className="rounded-xl flex items-center justify-center flex-col p-4 bg-[#292E3A]">
+                <div 
+                    className="matrix w-[350px] md:w-[500px] h-[350px] md:h-[500px]"
+                    style={{
+                        display: 'grid',
+                        gridTemplateRows: `repeat(${rows}, 1fr)`,
+                        gridTemplateColumns: `repeat(${cols}, 1fr)`,
+                        gap: '1px',
+                        backgroundColor: '#1a1d25',
+                        padding: '1px',
+                       
+                    }} 
+                >
+                    {rowArray.map((_, i) => (
+                        colArray.map((_, j) => (
+                            <div
+                                key={`${i}-${j}`}
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    backgroundColor: colorCheck(i, j),
+                                    transition: 'background-color 0.3s'
+                                }}
+                            />
+                        ))
+                    ))}
+                </div>
             </div>
-          ))}
-        </div>
-      ))}
-      {/* <h2 className="">Loading...</h2> */}
-    </div>
-  </div>
-) : (
-  <div className="rounded-xl self-start p-4 bg-[#292E3A] max-h-[200px] lg:max-h-[300px] max-w-full relative">
-    <div className="matrix flex flex-wrap self-start max-h-[268px] overflow-auto">
-      {[...Array(10)].map((_, i) => (
-        <div className="flex flex-row" key={i}>
-          {[...Array(80)].map((_, j) => (
-            <div key={j} className="p-[1.5px]">
-              <Cell key={i * 128 + j} color="#222630" />
+            <div className="flex flex-col items-center justify-center space-y-2 pt-6">
+                <HoverCard open={isHoverCardOpen} onOpenChange={setIsHoverCardOpen}>
+                    <HoverCardTrigger className="heading lg:!text-3xl lg:!text-left !w-full 2xl:pb-2 pb-1 flex flex-row space-x-1">
+                        <span>
+                            Data Sampling Matrix{" "}
+                            {props.hasDaSubmissions && (
+                                <span className="!text-opacity-70 text-opacity !text-md text-[#22C55F]">
+                                    {`(${rows} × ${cols})`}
+                                </span>
+                            )}
+                        </span>
+                        <InfoIcon onClick={() => setIsHoverCardOpen(true)} className="w-3 h-3" />
+                    </HoverCardTrigger>
+                    <HoverCardContent align="center" side="top" className="bg-[#141414] mb-4 text-white border-[#121212] !text-sm">
+                        Shows the cells being sampled by the LC. Total cells: {matrix.totalCellCount}
+                    </HoverCardContent>
+                </HoverCard>
             </div>
-          ))}
         </div>
-      ))}
-    </div>
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className=" text-center flex flex-row items-center justify-center -rotate-[10px]">
-  
-        <h2 className="text-[#D2D3D4] text-center text whitespace-nowrap">Block <span className={`z-50 text-lg text-[#3CBBF9] text-opacity-70`}><a href={props.network === "Mainnet" ? `https://avail.subscan.io/block/${props.blockNumber}` : `https://avail-turing.subscan.io/block/${props.blockNumber}}`}>#{props.blockNumber}</a></span> has no DA submissions</h2>
-      </div>
-    </div>
-  </div>
-)}
-      <h2 className="text-[#D2D3D4] text-center ">{props.hasDaSubmissions ? `(Scroll to see the cells getting sampled in realtime)` : ``}</h2>
-    </div>
-  );
+    );
 }

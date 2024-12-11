@@ -28,7 +28,7 @@ export default function Block(props: Props) {
                 <img
                     src="/images/block.png"
                     alt="block"
-                    className="2xl:max-h-[350px] lg:max-h-[250px] max-h-[120px] aspect-auto overflow-scroll overflow-y-auto"
+                    className="2xl:max-h-[250px] lg:max-h-[150px] max-h-[110px] aspect-auto overflow-scroll overflow-y-auto"
                 />
                 <div className="">
                     <Progress className="bg-[#20232B]" aria-label="finalizing..." value={value} />

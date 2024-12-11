@@ -21,7 +21,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
   const running = props.running;
   return (
     <>
-      <div className="flex flex-col w-full space-y-6 mx-6">
+      <div className="flex flex-col w-full space-y-6 ml-6">
         <div className="flex flex-col space-y-2">
           {running && (
             <h2 className="text-white text-3xl font-thicccboisemibold 2xl:text-6xl pt-6 lg:pt-0 2xl:pt-4 ">
@@ -37,7 +37,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
             <HoverCard open={isHoverCardOpen} onOpenChange={setIsHoverCardOpen}>
               <HoverCardTrigger onClick={() => setIsHoverCardOpen(true)} className="text-[#F5F5F5] font-thicccboisemibold text-xl lg:text-2xl 2xl:text-4xl 2xl:mt-4 flex flex-row space-x-1">
                 <span>Confidence Factor </span>
-                <InfoIcon className="w-5 h-5" />
+                <InfoIcon className="w-3 h-3" />
               </HoverCardTrigger>
               <HoverCardContent className="bg-[#141414] text-white border-[#121212] !text-sm ">
                 How confident the LC is that all data is available.
@@ -46,7 +46,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
             {currentBlock?.hasDaSubmissions ? (
               currentBlock.confidence && currentBlock.confidence > 90 ? (
                 <p
-                  className={`font-thicccboibold text-6xl xl:text-7xl 2xl:text-8xl 2xl:mt-2 ${
+                  className={`font-thicccboibold text-6xl xl:text-7xl 2xl:text-7xl 2xl:mt-2 ${
                     parseInt(currentBlock.confidence.toString().slice(0, 2)) >
                     85
                       ? "text-green-500"
@@ -60,7 +60,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
                   {currentBlock?.confidence?.toString().slice(0, 4) || "0"}%
                 </p>
               ) : (
-                <p className="font-thicccboibold text-6xl xl:text-7xl 2xl:text-8xl 2xl:mt-2 text-green-500">
+                <p className="font-thicccboibold text-6xl xl:text-7xl 2xl:text-7xl 2xl:mt-2 text-green-500">
                   ...
                 </p>
               )
@@ -69,6 +69,18 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
                 No DA submissions
               </p>
             )}
+             {currentBlock?.hasDaSubmissions && (
+                <>
+                  <div className="md:flex flex-col hidden mt-8">
+                    <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">
+                      Sample Cell Count
+                    </h3>
+                    <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-left">
+                      {currentBlock?.sampleCount?.toString() || "0"}
+                    </p>
+                  </div>
+                </>
+              )}
           </div>
           <div>
             <div className="flex flex-col items-end space-y-4">
@@ -78,6 +90,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
                 </h3>
                 <a
                   className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right"
+                  target="_blank" 
                   href={
                     props.network === "Mainnet"
                       ? `https://avail.subscan.io/block/${currentBlock?.number}`
@@ -94,6 +107,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
                 </h3>
                 <a
                   className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right"
+                  target="_blank" 
                   href={
                     props.network === "Mainnet"
                       ? `https://avail.subscan.io/block/${currentBlock?.number}`
@@ -111,14 +125,6 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
                     </h3>
                     <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">
                       {currentBlock?.totalCellCount || "000"}
-                    </p>
-                  </div>
-                  <div className="md:flex flex-col hidden">
-                    <h3 className="text-[#F5F5F5] text-opacity-80 font-thicccboisemibold text-xl lg:text-2xl text-right 2xl:text-4xl 2xl:mt-4">
-                      Sample Cell Count
-                    </h3>
-                    <p className="text-green-500 font-thicccboibold text-3xl 2xl:text-5xl text-right">
-                      {currentBlock?.sampleCount?.toString() || "0"}
                     </p>
                   </div>
                 </>

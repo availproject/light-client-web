@@ -13,9 +13,12 @@ import { Block, Matrix, Cell, BlockToProcess } from "@/types/light-client";
 import { runLC } from "@/repository/avail-light.repository";
 import Link from "next/link";
 import React from "react";
+import LogDisplay from "@/components/logs";
+import Hero from "@/components/sections/hero";
 
 export default function Home() {
   const [network, setNetwork] = useState("Turing");
+  const [logs, setLogs] = useState<string[]>(["Initiating script"]);
   const [blocksToProcess, setblocksToProcess] = useState<Array<BlockToProcess>>(
     []
   );
@@ -35,8 +38,13 @@ export default function Home() {
     init();
   }, []);
 
+  useEffect(() => {
+    setLogs(["Initiating script for " + network]);
+  }, [network]);
+
   const refreshApp = () => {
     setRunning(true);
+    setLogs(["Initiating script"]);
     setBlockList([]);
     setMatrix({ maxRow: 0, maxCol: 0, verifiedCells: [], totalCellCount: 0 });
     setCurrentBlock(null);
@@ -66,6 +74,23 @@ export default function Home() {
     proofs: Uint8Array[],
     commitments: Uint8Array[]
   ) => {
+    console.debug("Processing block:", {
+      blockNumber: block.number,
+      hasDaSubmissions: block.hasDaSubmissions,
+      totalCells: cells.length,
+      matrixDimensions: matrix ? `${matrix.maxRow}x${matrix.maxCol}` : "null",
+      verifiedCells: cells,
+    });
+
+    if (block.hasDaSubmissions && matrix) {
+      setMatrix({
+        maxRow: matrix.maxRow,
+        maxCol: matrix.maxCol,
+        verifiedCells: [],
+        totalCellCount: matrix.totalCellCount,
+      });
+    }
+
     addNewBlock(block, matrix);
     setProcessingBlock(true);
 
@@ -74,10 +99,9 @@ export default function Home() {
       let verifiedCells: Cell[] = [];
 
       for (let i = 0; i < cells.length; i++) {
-        let cell = cells[i];
-
+        const cell = cells[i];
         try {
-          const res = verify_cell(
+          const res = await verify_cell(
             proofs[i],
             commitments[cell.row],
             matrix.maxCol,
@@ -85,46 +109,43 @@ export default function Home() {
             cell.col
           );
 
-          console.log("verify_cell result:", res);
-
           if (res) {
             verifiedCount++;
-            const confidence = 100 * (1 - 1 / Math.pow(2, verifiedCount));
             verifiedCells.push(cell);
 
-            setCurrentBlock({
-              ...block,
-              confidence: confidence,
+            setCurrentBlock((prev) => {
+              if (!prev) return null;
+              return {
+                network: prev.network,
+                number: prev.number,
+                hash: prev.hash,
+                totalCellCount: prev.totalCellCount,
+                sampleCount: prev.sampleCount,
+                hasDaSubmissions: prev.hasDaSubmissions,
+                confidence: 100 * (1 - 1 / Math.pow(2, verifiedCount)),
+              };
             });
 
-            setMatrix({
-              maxRow: matrix.maxRow,
-              maxCol: matrix.maxCol,
-              verifiedCells,
-              totalCellCount: matrix.totalCellCount,
-            });
-
-            await sleep(100);
+            setMatrix((prev) => ({
+              ...prev,
+              verifiedCells: [...verifiedCells],
+            }));
           }
+
+          await sleep(100);
         } catch (error) {
-          console.error("Error in verifying cell", error);
-          console.error("Error details:", {
-            proof: proofs[i],
-            commitment: commitments[cell.row],
-            maxCol: matrix.maxCol,
-            row: cell.row,
-            col: cell.col,
-          });
+          console.error("Verification error:", error);
         }
       }
     }
 
+    await sleep(500);
     setProcessingBlock(false);
   };
 
   const run = async (network: string) => {
     refreshApp();
-    runLC(setblocksToProcess, setStop, network);
+    runLC(setblocksToProcess, setStop, network, logs, setLogs);
   };
 
   const scrollToBlocks = () => {
@@ -140,6 +161,7 @@ export default function Home() {
 
   const handleNetworkSwitch = async (newNetwork: string) => {
     setNetwork(newNetwork);
+    setLogs([...logs, `Switching to ${newNetwork} network`]);
     if (running) {
       await stop?.();
       run(newNetwork);
@@ -181,6 +203,7 @@ export default function Home() {
 
   return (
     <>
+      {/** Navbar with buttons and switcher */}
       <Navbar
         showButton
         button={
@@ -222,6 +245,7 @@ export default function Home() {
         }
       />
       <main className="">
+        {/** start lc button for mobile only */}
         <div className="md:hidden flex flex-col items-center justify-center py-8">
           <Button
             onClick={() => {
@@ -235,16 +259,10 @@ export default function Home() {
             {running ? "Stop Running the LC" : "Start Running the LC"}
           </Button>
         </div>
+        {/** core components */}
         {running && currentBlock != null ? (
           <div className="flex lg:flex-row flex-col-reverse lg:h-screen w-screen">
-            <div className="lg:w-[60%] flex flex-col " id="blocks-section">
-              {running ? (
-                <div className="lg:h-[35%] 2xl:h-[40%] min-h-[100px] flex flex-col items-start justify-center mt-10">
-                  <AvailChain blockList={blockList} network={network} />
-                </div>
-              ) : (
-                ""
-              )}
+            <div className="lg:w-[50%] flex flex-col pt-10" id="blocks-section">
               <DsMatrix
                 matrix={matrix}
                 processing={processingBlock}
@@ -253,41 +271,22 @@ export default function Home() {
                 network={network}
               />
             </div>
-            <div className="lg:w-[40%] flex items-start lg:mt-20">
-              <BlockData currentBlock={currentBlock} running={running} network={network} />
+            <div className="lg:w-[50%] flex items-start lg:mt-10">
+              <div className="flex flex-col w-[90%] space-y-10 items-start justify-start">
+                <div className="lg:h-[20%] 2xl:h-[25%] min-h-[50px] flex flex-col items-start justify-start mt-10">
+                  <AvailChain blockList={blockList} network={network} />
+                </div>
+                <LogDisplay logs={logs} />
+                <BlockData
+                  currentBlock={currentBlock}
+                  running={running}
+                  network={network}
+                />
+              </div>
             </div>
           </div>
         ) : (
-          <>
-            {running && currentBlock === null ? (
-              <div className="flex items-center justify-center md:h-[80vh] h-[60vh]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-              </div>
-            ) : (
-              <div className="flex flex-col lg:p-16 p-6 2xl:p-20 space-y-10 2xl:space-y-14 ">
-                <h2 className="text-5xl 2xl:text-7xl font-thicccboibold leading-tight text-white !text-left lg:block ">
-                Trustlessly Verify Avail
-                </h2>
-                <p className="text-xl font-ppmori  text-white !text-left lg:block text-opacity-80 ">
-                Quickly and efficiently verify proofs from the <Link href={`https://www.availproject.org/`} className="text-[#3CBBF9] underline">Avail data availability layer</Link> give end users guarantees with cryptographic certainty that published data is both available and in its original form.
-                </p>
-                <p className="text-lg  font-ppmori  text-white !text-left lg:block text-opacity-80 ">
-                While most users cannot, or do not wish to run full nodes on their own devices, light clients are small enough to download and run on smartphones without relying on a centralized RPC provider or someone else’s full node. This can put <i>decentralized verification</i> into the palms of every user’s hand.
-
-                </p>
-                <p className="text-xl  2xl:text-4xl  font-ppmori text-white !text-left lg:block text-opacity-80 ">
-                  Check us on Twitter{" "}
-                  <Link
-                    href={"https://twitter.com/AvailProject"}
-                    className="text-[#3CBBF9]"
-                    target={"_blank"}
-                  >
-                    @AvailProject!
-                  </Link>
-                </p>
-              </div>
-            )}
-          </>
+          <Hero running={running} currentBlock={currentBlock} />
         )}
       </main>
     </>

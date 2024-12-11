@@ -42,5 +42,8 @@
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
     "wasm-avail-light": "file:avail-light/pkg"
+  },
+  "devDependencies": {
+    "fluid-tailwind": "^1.0.4"
   }
 }
