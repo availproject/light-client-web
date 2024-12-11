@@ -90,7 +90,7 @@ export default function DsMatrix(props: Props) {
                                 </span>
                             )}
                         </span>
-                        <InfoIcon onClick={() => setIsHoverCardOpen(true)} className="w-5 h-5" />
+                        <InfoIcon onClick={() => setIsHoverCardOpen(true)} className="w-3 h-3" />
                     </HoverCardTrigger>
                     <HoverCardContent align="center" side="top" className="bg-[#141414] mb-4 text-white border-[#121212] !text-sm">
                         Shows the cells being sampled by the LC. Total cells: {matrix.totalCellCount}

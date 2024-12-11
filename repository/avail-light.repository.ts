@@ -32,7 +32,7 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
                     kateCommitment.match(/.{1,2}/g).map((byte: string) => parseInt(byte, 16))
                 );
 
-                appendLog(`Commitment Array fetched: ${kate_commitment.length}`);
+                appendLog(`Commitment Array fetched`);
                 
                 let commitments: Uint8Array[] = [];
                 for (let i = 0; i < r; i++) {
@@ -40,7 +40,6 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
                         kate_commitment.slice(i * config.COMMITMENT_SIZE, (i + 1) * config.COMMITMENT_SIZE)
                     );
                 }
-                appendLog(`Commitment Array Length: ${kate_commitment.length}`);
                 const totalCellCount = r * c;
                 let sampleCount = config.SAMPLE_SIZE;
                 if (sampleCount >= totalCellCount) {
@@ -55,7 +54,7 @@ export async function runLC(onNewBlock: Function, registerUnsubscribe: Function,
                     appendLog(`Querying proof from the RPC....`);
                     //@ts-ignore TODO: need to fix types
                     const kateProof = await api.rpc.kate.queryProof(randomCells, blockHash);
-                    
+                    appendLog(`Verifying cells and generating confidence....`);
                     let proofs: Uint8Array[] = [];
                     for (let i = 0; i < sampleCount; i++) {
                         const byte32Array = bnToU8a(kateProof[i][0], { isLe: false });
