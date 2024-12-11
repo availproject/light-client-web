@@ -37,7 +37,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
             <HoverCard open={isHoverCardOpen} onOpenChange={setIsHoverCardOpen}>
               <HoverCardTrigger onClick={() => setIsHoverCardOpen(true)} className="text-[#F5F5F5] font-thicccboisemibold text-xl lg:text-2xl 2xl:text-4xl 2xl:mt-4 flex flex-row space-x-1">
                 <span>Confidence Factor </span>
-                <InfoIcon className="w-5 h-5" />
+                <InfoIcon className="w-3 h-3" />
               </HoverCardTrigger>
               <HoverCardContent className="bg-[#141414] text-white border-[#121212] !text-sm ">
                 How confident the LC is that all data is available.
