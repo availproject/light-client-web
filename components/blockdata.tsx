@@ -46,7 +46,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
             {currentBlock?.hasDaSubmissions ? (
               currentBlock.confidence && currentBlock.confidence > 90 ? (
                 <p
-                  className={`font-thicccboibold text-6xl xl:text-7xl 2xl:text-8xl 2xl:mt-2 ${
+                  className={`font-thicccboibold text-6xl xl:text-7xl 2xl:text-7xl 2xl:mt-2 ${
                     parseInt(currentBlock.confidence.toString().slice(0, 2)) >
                     85
                       ? "text-green-500"
@@ -60,7 +60,7 @@ const [isHoverCardOpen, setIsHoverCardOpen] = useState(false);
                   {currentBlock?.confidence?.toString().slice(0, 4) || "0"}%
                 </p>
               ) : (
-                <p className="font-thicccboibold text-6xl xl:text-7xl 2xl:text-8xl 2xl:mt-2 text-green-500">
+                <p className="font-thicccboibold text-6xl xl:text-7xl 2xl:text-7xl 2xl:mt-2 text-green-500">
                   ...
                 </p>
               )
