@@ -3,8 +3,7 @@
 
 This is an experimental light client for Avail. It runs entirely in your browser to verify that block data is available, by verifying Avail's KZG commitment proofs locally. Learn more about Avail at availproject.org
 
-P.S. Do you want to share the awesomeness? Tweet about it and be sure to tag @AvailProject!
-
+P.S. Do you want to share the awesomeness? Tweet about it and be sure to tag [@AvailProject!](https://x.com/AvailProject)
 
 ## Contribution Guidelines
 
@@ -18,7 +17,7 @@ Avail welcomes contributors from anywhere and from any kind of education or skil
 
 3. When you ask to be assigned to an issue, it means that you are ready to work on it. When you get assigned, take the lock and then you disappear, you are not respecting the other contributors who could be able to work on that. So, after having been assigned, you have a week of time to deliver your first draft PR or reach out with any issues regrading the issue. After that time has passed without any notice, you will be unassigned.
 
-4. If you have a new feature idea or you spot a bug you would like to fix, feel free to open up an issue with the tag [New Feature] or [Bug], someone from the team would review it and you'll get assigned to work on it.
+4. If you have a new feature idea or you spot a bug you would like to fix, feel free to open up an issue with the tag (New Feature) or (Bug), someone from the team would review it and you'll get assigned to work on it.
 
 5. Once you started working on an issue and you have some work to share and discuss with us, please raise a draft PR early with incomplete changes. This way you can continue working on the same and we can track your progress and actively review and help.
 
